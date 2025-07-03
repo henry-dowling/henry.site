@@ -22,19 +22,20 @@
   <header>
     <h1>Henry Dowling</h1>
     <nav>
+      <a href="/blog.html">Home</a>
       <a href="/blog.html">Blog</a>
       <a href="/reading-list.html">Reading List</a>
     </nav>
   </header>
   <main>
     <h2>No code got the problem right and the solution wrong</h2>
-    <h3>No code didn't quite work</h3>
     <p><strong>TLDR:</strong></p>
     <ol>
       <li>No-code nailed the problem and bet on the wrong solution</li>
       <li>There's an irreducible amount of complexity inherent in the development of any reasonably useful piece of software</li>
       <li>Apps = boilerplate + context</li>
     </ol>
+    <br>
     <p>"No-code" was a very fashionable term in the early 2020s that referred to software that allowed other people to write software without needing to code.</p>
     <p>The basic idea of "no-code" is to allow anyone (read: non-technical people) to write software by abstracting away the boilerplate parts of coding—setting up a db, hosting a server, building email integrations—until only the "business logic" part remains.</p>
     <p>For a sense of the overall zeitgeist of the movement, read <a href="https://bubble.io/blog/no-code-manifesto/">this</a> piece.</p>
@@ -42,9 +43,8 @@
     <p>I was an early believer in the no-code movement. In 2020, I dropped out of school to become a founding engineer at <a href="https://bubble.io/">Bubble</a>, a company that would go on to become the strongest player in the "no-code" vertical. I got the job by cold-emailing the CEO. I ended up staying there through 2024. I watched us raise $100m and saw ARR skyrocket. We thought we were riding a rocketship.</p>
     <p>Unfortunately, although people are still talking about this idea, the phrase that they're using to describe it is "vibe coding" rather than "no code". No-code isn't a fashionable term any more.</p>
     <p>In this post, I'm gonna talk about why this happened.</p>
-    <h3>Why is no code not fashionable any more?</h3>
-    <h4>Building an application requires engineering, if not coding.</h4>
-    <h4>Applications are complex</h4>
+    <h3>Why did no-code not work?</h3>
+    <u>Applications are complex</u>
     <ul>
       <li>There's an irreducible amount of complexity inherent to any reasonably useful piece of software.</li>
       <li>Types of complexity:
@@ -60,7 +60,7 @@
       <li>The amount of irreducible complexity in an app is equal to the amount of <strong>context</strong> specific to that app.</li>
       <li>Anything in an app that's not context-dependent is <strong>boilerplate</strong>, and can be implemented by the no-code framework.</li>
     </ul>
-    <h4>Every no-code app requires custom code</h4>
+    <u>Every no-code app requires custom code</u>
     <ul>
       <li>Inevitably, any app built by no-code requires some bit of logic that isn't supported out of the box by a no-code framework. Some examples:
         <ul>
@@ -72,12 +72,12 @@
       <li>Related: every no-code app inevitably requires an integration with a third-party vendor that isn't supported out-of-the box by no-code.</li>
       <li>AI can mostly fix this problem.</li>
     </ul>
-    <h4>There's a steep learning curve</h4>
+    <u>There's a steep learning curve</u>
     <ul>
       <li>Learning how to code is hard; learning how to no-code is easier but not easier. As we saw above, some complexity is inherent to software. Any software builder needs to learn concepts like relational databases, responsiveness, interfaces and APIs to have a reasonable shot at success. This takes a while.</li>
       <li>The value prop of learning a no-code framework is made less appealing by the perception that the knowledge won't transfer off-platform, unlike coding.</li>
     </ul>
-    <h4>Vibe-coding is a much better experience</h4>
+    <u>Vibe-coding is a much better experience</u>
     <ul>
       <li>AI can be a great engineer. It can take information about an application and make reasonable design decisions. It can write custom code for logic not covered by no-code frameworks. And it delivers results instantly.</li>
     </ul>
