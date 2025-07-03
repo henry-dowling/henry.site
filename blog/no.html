@@ -36,8 +36,8 @@
       <li>No-code hid too much complexity, vibe coding doesn't hide enough</li>
     </ol>
     <br>
-    <p>The basic premise of no-code is to allow anyone to write software by abstracting away the boilerplate parts—setting up a db, hosting a server, building email integrations—and allowing a user to define behavior through simple UI rather than coding. <a href="https://bubble.io/blog/no-code-manifesto/">Here's</a> a piece that sums it up well.</p>
-    <p>I was an early believer in this project. In 2020, I took a leave of absence from college to become a founding engineer at <a href="https://bubble.io/">Bubble</a><sup id="fnref1"><a href="#fn1">1</a></sup>. I helped to build the most powerful no-code framework in the world, used by millions of entrepreneurs.</p> 
+    <p>The basic premise of no-code is to allow anyone to write software by abstracting away the boilerplate parts—setting up a db, hosting a server, wiring up email—and letting users define behaviour through a simple UI rather than code. (See  <a href="https://bubble.io/blog/no-code-manifesto/">here</a>)</p>
+    <p>I was an early believer. In 2020, I took a leave of absence from college to become a founding engineer at <a href="https://bubble.io/">Bubble</a><sup id="fnref1"><a href="#fn1">1</a></sup>. I helped to build the most powerful no-code framework on the planet, used by millions of entrepreneurs.</p> 
     <p>Unfortunately, no-code hasn't really lived up to its promise. In this post I'll share some thoughts about why, and make some recommendations on how vibe-coding platforms should take inspiration from no-code.</p>
     <h3>Why did no-code not work?</h3>
     <u>Applications are complex</u>
@@ -45,14 +45,14 @@
       <li>There's an irreducible amount of complexity inherent to any reasonably useful piece of software.</li>
       <li>Types of complexity:
         <ul>
-          <li>Product surface area (e.g. what happens when a user quits midway through onboarding after making a profile?)</li>
-          <li>Real-world messiness (e.g. we need to write a separate flow for the visa application for each country)</li>
-          <li>Architectural decisions (e.g. do we expect this data type to have a &gt;100 read:write ratio?)</li>
-          <li>Design decisions (e.g. should this piece of UI disappear on page width &lt;1080 to make room for the rest of the page?)</li>
+          <li><b>Product surface area </b>e.g. what happens when a user quits midway through onboarding after making a profile?</li>
+          <li> <b>Real-world messiness</b> e.g. we need to write a separate flow for the visa application for each country</li>
+          <li> <b>Architectural decisions</b> e.g. do we expect this data type to have a &gt;100 read:write ratio?</li>
+          <li> <b>Design decisions</b> e.g. should this piece of UI disappear on page width &lt;1080 to make room for the rest of the page?</li>
         </ul>
       </li>
-      <li>Good <strong>abstraction design</strong> can reduce complexity. But of course, abstraction design sounds a lot like <em>coding</em>.</li>
-      <li>The best way to <strong>represent</strong> a complex piece of application logic is code, not a no-code app builder UI. It's easy to ctrl-f, and it's simple to repeat bits of logic.</li>
+      <li>Good <strong>abstraction design</strong> reduces complexity. But abstraction design is basically <em>coding</em>.</li>
+      <li>The best way to <strong>represent</strong> a complex piece of application logic is code, not a no-code app builder UI. It's easy to ctrl-f, repeat logic, and source-control.</li>
       <li>The amount of irreducible complexity in an app is equal to the amount of <strong>context</strong> specific to that app.</li>
       <ul>
         <li>Anything in an app that's not context-dependent is <strong>boilerplate</strong>, and can be implemented by a no-code framework.</li>
@@ -67,7 +67,7 @@
           <li>Trigger for when the app goes offline</li>
         </ul>
       </li>
-      <li>Related: every no-code app inevitably requires an integration with a third-party vendor that isn't supported out-of-the box by no-code.</li>
+      <li>Related: every no-code app inevitably requires an <b>integration</b> with a third-party vendor that isn't supported out-of-the box by no-code.</li>
       <li>AI can mostly fix this problem.</li>
     </ul>
     <u>There's a steep learning curve</u>
@@ -85,10 +85,10 @@
       <li>Abstracting away the true boilerplate complexity of building software.
         <ol type="a">
           <li>Software is context + boilerplate. There's a <em>lot</em> of boilerplate inherent to software development still— e.g. package management, secrets management, hosting, security.</li>
-          <li>Current SOTA "vibe coding" tools are substantially behind on achieving this goal compared to the best no-code tools.</li>
+          <li>Current SOTA "vibe coding" tools lag behind no-code frameworks on this dimension.</li>
         </ol>
       </li>
-      <li>Visual WISYWIG editing
+      <li>Visual WYSIWYG editing
         <ol type="a">
           <li>It's easier to create pixel perfect designs with a figma-like editor than by prompting a chat window.</li>
           <li>The highest-throughput communication medium for visuals is visuals, not descriptions of designs.</li>
@@ -104,8 +104,7 @@
       </li>
       <li>New frameworks and languages
         <ol type="a">
-          <li>AI has ensured that the most popular web frameworks (Node/React) will increase in popularity.</li>
-          <li>AI is able to build Node/React apps more effectively than other stacks due to the abundance of training data. This ensures that in the future, a higher proportion of apps will be built with Node/React, which will further improve AI's differential effectiveness on this stack.</li>
+          <li>AI builds Node/React apps better because the training data is abundant; popularity begets more data, which begets better AI performance and greater usage. </li>
         </ol>
       </li>
     </ol>
