@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>No code got the problem right and the solution wrong – Henry Dowling</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      line-height: 1.4;
+      font-size: 16px;
+      padding: 0 10px;
+      margin: 50px auto;
+      max-width: 650px;
+    }
+    #maincontent {
+      max-width: 42em;
+      margin: 15 auto;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Henry Dowling</h1>
+    <nav>
+      <a href="/blog.html">Blog</a>
+      <a href="/reading-list.html">Reading List</a>
+    </nav>
+  </header>
+  <main>
+    <h2>No code got the problem right and the solution wrong</h2>
+    <h3>No code didn't quite work</h3>
+    <p><strong>TLDR:</strong></p>
+    <ol>
+      <li>No-code nailed the problem and bet on the wrong solution</li>
+      <li>There's an irreducible amount of complexity inherent in the development of any reasonably useful piece of software</li>
+      <li>Apps = boilerplate + context</li>
+    </ol>
+    <p>"No-code" was a very fashionable term in the early 2020s that referred to software that allowed other people to write software without needing to code.</p>
+    <p>The basic idea of "no-code" is to allow anyone (read: non-technical people) to write software by abstracting away the boilerplate parts of coding—setting up a db, hosting a server, building email integrations—until only the "business logic" part remains.</p>
+    <p>For a sense of the overall zeitgeist of the movement, read <a href="https://bubble.io/blog/no-code-manifesto/">this</a> piece.</p>
+    <p>It made a lot of sense on paper. There are so many smart people in the world and only a tiny fraction of them, the ones who happened to grow up in the bay area or who went to an elite school and studied CS, were able to engage in the creation of software. If someone could build a way to allow those nontechnical but smart people to build software, then it would unleash trillions of dollars of productivity into the world.</p>
+    <p>I was an early believer in the no-code movement. In 2020, I dropped out of school to become a founding engineer at <a href="https://bubble.io/">Bubble</a>, a company that would go on to become the strongest player in the "no-code" vertical. I got the job by cold-emailing the CEO. I ended up staying there through 2024. I watched us raise $100m and saw ARR skyrocket. We thought we were riding a rocketship.</p>
+    <p>Unfortunately, although people are still talking about this idea, the phrase that they're using to describe it is "vibe coding" rather than "no code". No-code isn't a fashionable term any more.</p>
+    <p>In this post, I'm gonna talk about why this happened.</p>
+    <h3>Why is no code not fashionable any more?</h3>
+    <h4>Building an application requires engineering, if not coding.</h4>
+    <h4>Applications are complex</h4>
+    <ul>
+      <li>There's an irreducible amount of complexity inherent to any reasonably useful piece of software.</li>
+      <li>Types of complexity:
+        <ul>
+          <li>Product surface area (what happens when a user quits midway through onboarding after making a profile? How close together should we let patients schedule two appointments?)</li>
+          <li>Real-world messiness (we need to write a separate flow for the visa application for every country)</li>
+          <li>Architectural decisions (do we expect this data type to have a &gt;100 read:write ratio?)</li>
+          <li>Design decisions (should this piece of UI disappear on page width &lt;1080 to make room for the rest of the page?)</li>
+        </ul>
+      </li>
+      <li>Good <strong>abstraction design</strong> can reduce complexity. But then we're forced to conclude that you can't write good applications without writing good abstractions; this implies that you <em>do</em> need to be technical in order to build software.</li>
+      <li>The best way to <strong>represent</strong> a complex piece of application logic is code, not a no-code app builder UI. It's easy to ctrl-f, and it makes it easy to repeat bits of logic.</li>
+      <li>The amount of irreducible complexity in an app is equal to the amount of <strong>context</strong> specific to that app.</li>
+      <li>Anything in an app that's not context-dependent is <strong>boilerplate</strong>, and can be implemented by the no-code framework.</li>
+    </ul>
+    <h4>Every no-code app requires custom code</h4>
+    <ul>
+      <li>Inevitably, any app built by no-code requires some bit of logic that isn't supported out of the box by a no-code framework. Some examples:
+        <ul>
+          <li>how many weekdays are there in between these two dates</li>
+          <li>read from the user's clipboard</li>
+          <li>trigger for when the app goes offline</li>
+        </ul>
+      </li>
+      <li>Related: every no-code app inevitably requires an integration with a third-party vendor that isn't supported out-of-the box by no-code.</li>
+      <li>AI can mostly fix this problem.</li>
+    </ul>
+    <h4>There's a steep learning curve</h4>
+    <ul>
+      <li>Learning how to code is hard; learning how to no-code is easier but not easier. As we saw above, some complexity is inherent to software. Any software builder needs to learn concepts like relational databases, responsiveness, interfaces and APIs to have a reasonable shot at success. This takes a while.</li>
+      <li>The value prop of learning a no-code framework is made less appealing by the perception that the knowledge won't transfer off-platform, unlike coding.</li>
+    </ul>
+    <h4>Vibe-coding is a much better experience</h4>
+    <ul>
+      <li>AI can be a great engineer. It can take information about an application and make reasonable design decisions. It can write custom code for logic not covered by no-code frameworks. And it delivers results instantly.</li>
+    </ul>
+    <h3>Postmortem: what should we take away from no-code and what should we leave behind?</h3>
+    <h4>Keep</h4>
+    <ol>
+      <li>Getting rid of code
+        <ol type="a">
+          <li>Getting rid of <em>writing</em> code was actually a great idea. It's just that we shouldn't have also gotten rid of interface/abstraction design, architectural decision making, and code as a source of truth.</li>
+        </ol>
+      </li>
+      <li>Abstracting away the true boilerplate + infrastructural complexity of building
+        <ol type="a">
+          <li>Lovable, etc have a long way to go before they automate hosting, keeping your code up-to-date, security, etc</li>
+        </ol>
+      </li>
+      <li>Visual WISYWIG editing
+        <ol type="a">
+          <li>Vibe coding hasn't figured this one out yet, but it's a much cleaner / more beautiful UX and necessary to design something actually world-class. Lovable needs to implement Figma-style WISYWIG.</li>
+          <li>The highest-throughput communication medium of design is designs, not descriptions of designs.</li>
+        </ol>
+      </li>
+    </ol>
+    <h4>Leave behind</h4>
+    <ol>
+      <li>Providing a framework to do everything
+        <ol type="a">
+          <li>Implementations are free right now</li>
+        </ol>
+      </li>
+      <li>Proprietary languages and intermediate representations
+        <ol type="a">
+          <li>This is Bubble-specific</li>
+        </ol>
+      </li>
+    </ol>
+  </main>
+  <footer>
+    © <script>document.write(new Date().getFullYear());</script> Henry Dowling
+  </footer>
+</body>
+</html> 
