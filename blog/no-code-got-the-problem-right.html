@@ -36,8 +36,8 @@
       <li>??</li>
     </ol>
     <br>
-    <p>The basic premise of no-code is to allow anyone to write software by abstracting away the boilerplate parts of writing software—setting up a db, hosting a server, building email integrations—and allowing a user to define the business logic through simple UI rather than coding. <a href="https://bubble.io/blog/no-code-manifesto/">Here's</a> a piece that describes the movement really well.</p>
-    <p>I was an early believer in this project. In 2020, I dropped out of college<sup id="fnref1"><a href="#fn1">1</a></sup> to become a founding engineer at <a href="https://bubble.io/">Bubble</a>, where we went on to build the strongest and best-loved no-code framework in the world, currently used by millions.</p>
+    <p>The basic premise of no-code is to allow anyone to write software by abstracting away the boilerplate parts—setting up a db, hosting a server, building email integrations—and allowing a user to define behavior through simple UI rather than coding. <a href="https://bubble.io/blog/no-code-manifesto/">Here's</a> a good piece about the movement.</p>
+    <p>I was an early believer in this project. In 2020, I took a leave of absence from college to become a founding engineer at <a href="https://bubble.io/">Bubble</a><sup id="fnref1"><a href="#fn1">1</a></sup>. I helped to build the strongest and best-loved no-code framework in the world, used by millions of entrepreneurs.</p>
     <p>Unfortunately, no-code hasn't lived up to its promise. In this post I'll explain why, and make a prediction about what the tech that actually does fulfill this promise might look like.</p>
     <h3>Why did no-code not work?</h3>
     <u>Applications are complex</u>
@@ -45,13 +45,13 @@
       <li>There's an irreducible amount of complexity inherent to any reasonably useful piece of software.</li>
       <li>Types of complexity:
         <ul>
-          <li>Product surface area (what happens when a user quits midway through onboarding after making a profile? How close together should we let patients schedule two appointments?)</li>
-          <li>Real-world messiness (we need to write a separate flow for the visa application for every country)</li>
-          <li>Architectural decisions (do we expect this data type to have a &gt;100 read:write ratio?)</li>
-          <li>Design decisions (should this piece of UI disappear on page width &lt;1080 to make room for the rest of the page?)</li>
+          <li>Product surface area (e.g. what happens when a user quits midway through onboarding after making a profile?)</li>
+          <li>Real-world messiness (e.g. we need to write a separate flow for the visa application for each country)</li>
+          <li>Architectural decisions (e.g. do we expect this data type to have a &gt;100 read:write ratio?)</li>
+          <li>Design decisions (e.g. should this piece of UI disappear on page width &lt;1080 to make room for the rest of the page?)</li>
         </ul>
       </li>
-      <li>Good <strong>abstraction design</strong> can reduce complexity. But then we're forced to conclude that you can't write good applications without writing good abstractions; this implies that you <em>do</em> need to be technical in order to build software.</li>
+      <li>Good <strong>abstraction design</strong> can reduce complexity. But of course, abstraction design is a part of <em>coding</em>.</li>
       <li>The best way to <strong>represent</strong> a complex piece of application logic is code, not a no-code app builder UI. It's easy to ctrl-f, and it makes it easy to repeat bits of logic.</li>
       <li>The amount of irreducible complexity in an app is equal to the amount of <strong>context</strong> specific to that app.</li>
       <li>Anything in an app that's not context-dependent is <strong>boilerplate</strong>, and can be implemented by the no-code framework.</li>
@@ -114,7 +114,7 @@
   <footer>
     <hr>
     <ol style="font-size: 0.9em;">
-      <li id="fn1">I eventually went back finished my degree. I graduated in 2022. <a href="#fnref1">↩</a></li>
+      <li id="fn1">I got the job by cold-emailing the CEO. <a href="#fnref1">↩</a></li>
     </ol>
     © <script>document.write(new Date().getFullYear());</script> Henry Dowling
   </footer>
