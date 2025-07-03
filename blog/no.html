@@ -33,12 +33,12 @@
     <ol>
       <li>There's an irreducible amount of complexity inherent in the development of any reasonably useful piece of software</li>
       <li>Apps = boilerplate + context</li>
-      <li>??</li>
+      <li>No-code hid too much complexity, vibe coding doesn't hide enough</li>
     </ol>
     <br>
-    <p>The basic premise of no-code is to allow anyone to write software by abstracting away the boilerplate parts—setting up a db, hosting a server, building email integrations—and allowing a user to define behavior through simple UI rather than coding. <a href="https://bubble.io/blog/no-code-manifesto/">Here's</a> a good piece about the movement.</p>
-    <p>I was an early believer in this project. In 2020, I took a leave of absence from college to become a founding engineer at <a href="https://bubble.io/">Bubble</a><sup id="fnref1"><a href="#fn1">1</a></sup>. I helped to build the strongest and best-loved no-code framework in the world, used by millions of entrepreneurs.</p>
-    <p>Unfortunately, no-code hasn't lived up to its promise. In this post I'll explain why, and make a prediction about what the tech that actually does fulfill this promise might look like.</p>
+    <p>The basic premise of no-code is to allow anyone to write software by abstracting away the boilerplate parts—setting up a db, hosting a server, building email integrations—and allowing a user to define behavior through simple UI rather than coding. <a href="https://bubble.io/blog/no-code-manifesto/">Here's</a> a piece that sums it up well.</p>
+    <p>I was an early believer in this project. In 2020, I took a leave of absence from college to become a founding engineer at <a href="https://bubble.io/">Bubble</a><sup id="fnref1"><a href="#fn1">1</a></sup>. I helped to build the most powerful no-code framework in the world, used by millions of entrepreneurs.</p> 
+    <p>Unfortunately, no-code hasn't really lived up to its promise. In this post I'll share some thoughts about why, and make some recommendations on how vibe-coding platforms should take inspiration from no-code.</p>
     <h3>Why did no-code not work?</h3>
     <u>Applications are complex</u>
     <ul>
@@ -52,7 +52,7 @@
         </ul>
       </li>
       <li>Good <strong>abstraction design</strong> can reduce complexity. But of course, abstraction design sounds a lot like <em>coding</em>.</li>
-      <li>The best way to <strong>represent</strong> a complex piece of application logic is code, not a no-code app builder UI. It's easy to ctrl-f, and it makes it easy to repeat bits of logic.</li>
+      <li>The best way to <strong>represent</strong> a complex piece of application logic is code, not a no-code app builder UI. It's easy to ctrl-f, and it's simple to repeat bits of logic.</li>
       <li>The amount of irreducible complexity in an app is equal to the amount of <strong>context</strong> specific to that app.</li>
       <ul>
         <li>Anything in an app that's not context-dependent is <strong>boilerplate</strong>, and can be implemented by a no-code framework.</li>
@@ -79,36 +79,33 @@
     <ul>
       <li>AI solves many of the above problems. It be fed information about an application and make reasonable design decisions to handle the context-specific complexity. It can write custom code for logic not covered by no-code frameworks. And it delivers results instantly.</li>
     </ul>
-    <h3>Postmortem: what should we take away from no-code and what should we leave behind?</h3>
+    <h3>What can we learn from no-code?</h3>
     <h4>Keep</h4>
     <ol>
-      <li>Getting rid of code
+      <li>Abstracting away the true boilerplate complexity of building software.
         <ol type="a">
-          <li>Getting rid of <em>writing</em> code was actually a great idea. It's just that we shouldn't have also gotten rid of interface/abstraction design, architectural decision making, and code as a source of truth.</li>
-        </ol>
-      </li>
-      <li>Abstracting away the true boilerplate + infrastructural complexity of building
-        <ol type="a">
-          <li>Lovable, etc have a long way to go before they automate hosting, keeping your code up-to-date, security, etc</li>
+          <li>Software is context + boilerplate. There's a <em>lot</em> of boilerplate inherent to software development still— e.g. package management, secrets management, hosting, security.</li>
+          <li>Current SOTA "vibe coding" tools are substantially behind on achieving this goal compared to the best no-code tools.</li>
         </ol>
       </li>
       <li>Visual WISYWIG editing
         <ol type="a">
-          <li>Vibe coding hasn't figured this one out yet, but it's a much cleaner / more beautiful UX and necessary to design something actually world-class. Lovable needs to implement Figma-style WISYWIG.</li>
-          <li>The highest-throughput communication medium of design is designs, not descriptions of designs.</li>
+          <li>It's easier to create pixel perfect designs with a figma-like editor than by prompting a chat window.</li>
+          <li>The highest-throughput communication medium for visuals is visuals, not descriptions of designs.</li>
         </ol>
       </li>
     </ol>
     <h4>Leave behind</h4>
     <ol>
-      <li>Providing a framework to do everything
+      <li>Hiding implementations
         <ol type="a">
-          <li>Implementations are free right now</li>
+          <li>It was a bad idea to hide implementations of things like "send email". This was done in the name of simplicity, but in fact inevitably causes hidden undefined behavior.</li>
         </ol>
       </li>
-      <li>Proprietary languages and intermediate representations
+      <li>New frameworks and languages
         <ol type="a">
-          <li>This is Bubble-specific</li>
+          <li>AI has ensured that the most popular web frameworks (Node/React) will increase in popularity.</li>
+          <li>AI is able to build Node/React apps more effectively than other stacks due to the abundance of training data. This ensures that in the future, a higher proportion of apps will be built with Node/React, which will further improve AI's differential effectiveness on this stack.</li>
         </ol>
       </li>
     </ol>
@@ -116,7 +113,7 @@
   <footer>
     <hr>
     <ol style="font-size: 0.9em;">
-      <li id="fn1">I got the job by cold-emailing the CEO. <a href="#fnref1">↩</a></li>
+      <li id="fn1">I got the job by cold-emailing the <a href="http://blog.joshhaas.com/" target="_blank" rel="noopener noreferrer">CEO</a>. <a href="#fnref1">↩</a></li>
     </ol>
     © <script>document.write(new Date().getFullYear());</script> Henry Dowling
   </footer>
