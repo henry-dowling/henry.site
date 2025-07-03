@@ -51,18 +51,20 @@
           <li>Design decisions (e.g. should this piece of UI disappear on page width &lt;1080 to make room for the rest of the page?)</li>
         </ul>
       </li>
-      <li>Good <strong>abstraction design</strong> can reduce complexity. But of course, abstraction design is a part of <em>coding</em>.</li>
+      <li>Good <strong>abstraction design</strong> can reduce complexity. But of course, abstraction design sounds a lot like <em>coding</em>.</li>
       <li>The best way to <strong>represent</strong> a complex piece of application logic is code, not a no-code app builder UI. It's easy to ctrl-f, and it makes it easy to repeat bits of logic.</li>
       <li>The amount of irreducible complexity in an app is equal to the amount of <strong>context</strong> specific to that app.</li>
-      <li>Anything in an app that's not context-dependent is <strong>boilerplate</strong>, and can be implemented by the no-code framework.</li>
+      <ul>
+        <li>Anything in an app that's not context-dependent is <strong>boilerplate</strong>, and can be implemented by a no-code framework.</li>
+      </ul>
     </ul>
     <u>Every no-code app requires custom code</u>
     <ul>
       <li>Inevitably, any app built by no-code requires some bit of logic that isn't supported out of the box by a no-code framework. Some examples:
         <ul>
-          <li>how many weekdays are there in between these two dates</li>
-          <li>read from the user's clipboard</li>
-          <li>trigger for when the app goes offline</li>
+          <li>How many weekdays are there in between these two dates</li>
+          <li>Read from the user's clipboard</li>
+          <li>Trigger for when the app goes offline</li>
         </ul>
       </li>
       <li>Related: every no-code app inevitably requires an integration with a third-party vendor that isn't supported out-of-the box by no-code.</li>
@@ -70,12 +72,12 @@
     </ul>
     <u>There's a steep learning curve</u>
     <ul>
-      <li>Learning how to code is hard; learning how to no-code is easier but not easier. As we saw above, some complexity is inherent to software. Any software builder needs to learn concepts like relational databases, responsiveness, interfaces and APIs to have a reasonable shot at success. This takes a while.</li>
+      <li>Learning how to code is hard; learning how to no-code is easier but not <em>that much </em> easier. As we saw above, some complexity is inherent to software. Any software builder needs to learn concepts like relational databases, responsiveness, interfaces and APIs to have a reasonable shot at success. This takes a while.</li>
       <li>The value prop of learning a no-code framework is made less appealing by the perception that the knowledge won't transfer off-platform, unlike coding.</li>
     </ul>
     <u>Vibe-coding is a much better experience</u>
     <ul>
-      <li>AI can be a great engineer. It can take information about an application and make reasonable design decisions. It can write custom code for logic not covered by no-code frameworks. And it delivers results instantly.</li>
+      <li>AI solves many of the above problems. It be fed information about an application and make reasonable design decisions to handle the context-specific complexity. It can write custom code for logic not covered by no-code frameworks. And it delivers results instantly.</li>
     </ul>
     <h3>Postmortem: what should we take away from no-code and what should we leave behind?</h3>
     <h4>Keep</h4>
