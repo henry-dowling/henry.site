@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>No Code Got the Problem Right and the Solution Wrong – Henry Dowling</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      line-height: 1.4;
+      font-size: 16px;
+      padding: 0 10px;
+      margin: 50px auto;
+      max-width: 650px;
+    }
+    #maincontent {
+      max-width: 42em;
+      margin: 15 auto;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2><a href="blog.html" style="color: inherit; text-decoration: none;">Henry Dowling</a>'s Blog</h2>
+  </header>
+  <main>
+    <h2>PM 101 (for Isaac)</h2>
+    <p>Engineers solve problems. PMs decide what problem to solve.</p>
+    <h3> When to hire</h3>
+    <p>1:10 PM:eng ratio is great. &lt;1:8 is questionable. Hiring engineers with good product sense &gt; hiring PMs.</p>
+    <p>Hire your first PM once you start to re-invent the PM from first principles</p>
+    <p>“wow we need to seriously sit down and do some thinking about ‘who exactly are we building for’ but we’re all so busy coding, would be great if there was someone whos fulltime job was to do that...”</p>
+    <p>Velocity is the most important determinant of product success.</p>
+    <p>Moving fast &gt;&gt; making good product decisions. If you’re wrong, you can just change it quickly.</p>
+    <p>Moving fast &gt;&gt; shipping features without bugs. Counterintuitively, a fast-moving eng team ships a more bug-free product than a careful team since the fast-moving team can fix bugs so quickly.</p>
+    <p>A “good PM” is usually just a PM on a team that moves fast.</p>
+    <p>Engineers feel good and move fast when they know they’re building something valuable. Burnout is caused by feeling like you’re building something useless (eg “let’s add AI to Strava”).</p>
+    <p>Be an expert on the user and the product. That’s your main value add. Engineers will respect you if you can authoritatively say things about the userbase. (e.g. “Our users are primarily using our product to make CRMs”).</p>
+    <p>Come with receipts (e.g. “here’s a survey I did”).</p>
+    <p>You should be a “power user” of your product.</p>
+    <h3>Product decisions</h3>
+    <p>Most product decisions should be made by an engineer without any PM involvement.</p>
+    <p>Eg: “should users be able to see this when they’re logged out?” “idk, use your brain”</p>
+    <p>If you discover you made the wrong decision, just fix it.</p>
+    <p>One-way / high-risk decisions: PM should be involved for high-risk / one-way decisions (Eg: Should this be a paid feature? Should we depreciate this feature? Should we make this breaking change to our api?)</p>
+    <p>Write down decisions. For each project, keep a doc listing all the decisions you can for the project, even small ones, + your reasoning. That way, no time is wasted re-making decisions.</p>
+    <p>Eg: users will be rate-limited at 5/week. Reasoning: this caps our spend at $5/user/week, which keeps us within budget.</p>
+    <h3>Aligning a team on the specs for a project</h3>
+    <p>Hold a one-hour meeting with all team members. Come with a goal and a list of “open questions” that can only be answered with input from team members (e.g. how do we give users a preview of their app before generating).</p>
+    <p>By the end of the meeting, the team will “mind-meld” on what the feature should accomplish.</p>
+    <h3>Talking to customers</h3>
+    <p>Read the mom test. Talk to &gt;= 1 user/wk. When necessary, do “research sprints” where you talk to a bunch of users in a week. Decide what type of user you want feedback from. Email power users and they’ll be happy to chat for free. Pay new users $25/30 min call (you can up to $50 if nobody’s interested). Source non-users from network.</p>
+    <h3>Metrics</h3>
+    <p>For an early startup, metrics are usually misleading. User convos are more valuable than metrics. Most metrics just say “higher users are higher intent” (e.g. users that used this feature are more likely to convert -&gt; this does not necessarily mean the feature is good). Some comments on specific metrics:</p>
+    <ul>
+      <li><b>NRR.</b> Very important metric for a growing startup. “Do users grow on my platform”. &gt;100% is good. If &lt;100%, you should investigate.</li>
+      <li><b>Activation.</b> Important for consumer products. Users are activated when they have an “aha” moment and realize how great your product is. &gt;35% is good. Decreases when marketing spend increases—brings in lower-intent users.</li>
+      <li><b>NPS.</b> Not important; mostly a vanity metric.</li>
+      <li><b>User Growth.</b> This is often a marketing metric.</li>
+    </ul>
+    <h3>Break feature development into phases</h3>
+    <p>Common failure mode: product team has a vision for a feature, they spend 4 months grinding on it without showing it to anyone, when they launch, it disappoints users.</p>
+    <p>How to fix this: break up feature development into ~month-long phases and get user feedback after each phase. “Look over a user’s shoulder” while they use the incomplete product (this is called usability testing). Launch an Alpha / AB test asap—it should be incomplete + have bugs.</p>
+    <p><b>Running an Alpha:</b> Recruit ~20 users. Start a slack channel and let them drop feedback on the feature in the channel.</p>
+    <h3>Meetings</h3>
+    <p>Meetings can be a very useful tool (contrary to what some engs may think!) Recurring meetings are usually unproductive. One-off meetings are good. The best meetings are typically 15-min “can we meet real quick after standup?” type things.</p>
+    <h3>Leading the team</h3>
+    <ul>
+      <li>Your engineers should describe you as the “fearless leader” of the team.</li>
+      <li>Have short biweekly 1:1s with all team members. Ask them how things are going, let them vent, tell them about customer calls you’ve recently had.</li>
+      <li>At standup, tell the team about what’s happening on other teams (e.g. “marketing is investing more in paid acquisition for freelancers”).</li>
+      <li>Share “proof points” for why your idea is great in public slack channels to get the engineers (and the rest of the company) hyped about what they’re building. (e.g. “this guy on twitter tried our product and said its saving him $2k/month)</li>
+      <li>Do bitchwork to unblock the team so they can move faster. Eg: Sales needs us to fill out some security checklists -&gt; do this yourself.</li>
+      <li>Praise engineers publicly on slack and in team meetings.</li>
+    </ul>
+    <h3>Generating buy-in for an idea</h3>
+    <p>Bring up the idea to each person on the team in a 1:1 as “something you’re playing around with” and ask for their thoughts. Then, once you’ve met with everyone, announce it to the team.</p>
+    <h3>Communicating w/ other teams</h3>
+    <p>Share weekly async status updates in email form. Flag high-risk decisions.</p>
+    <h3>Crafting a product strategy</h3>
+    <p>Read this and copy the examples (section starting w/ Tesla). Many good strategies are very simple / 3-step (e.g. “Become the best way to build web app MVPs” -&gt; “Become the best way to build larger apps” -&gt; “Expand to mobile”)</p>
+    <h3>Most important PM skill</h3>
+    <p>Make shit happen. There’s always some bs that comes up right before you launch—that’s on you to deal with.</p>
+  </main>
+  <footer>
+    <hr>
+    <ol style="font-size: 0.9em;">
+      <li>The irony of the name was not lost on us.</li>
+    </ol>
+  </footer>
+</body>
+</html> 
