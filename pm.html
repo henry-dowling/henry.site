@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>No Code Got the Problem Right and the Solution Wrong – Henry Dowling</title>
+  <title>PM 101 – Henry Dowling</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -24,21 +24,50 @@
   </header>
   <main>
     <h2>PM 101 (for Isaac)</h2>
-    <p>Engineers solve problems. PMs decide what problem to solve.</p>
-    <h3> When to hire</h3>
-    <p>1:10 PM:eng ratio is great. &lt;1:8 is questionable. Hiring engineers with good product sense &gt; hiring PMs.</p>
-    <p>Hire your first PM once you start to re-invent the PM from first principles</p>
-    <p>“wow we need to seriously sit down and do some thinking about ‘who exactly are we building for’ but we’re all so busy coding, would be great if there was someone whos fulltime job was to do that...”</p>
-    <p>Velocity is the most important determinant of product success.</p>
-    <p>Moving fast &gt;&gt; making good product decisions. If you’re wrong, you can just change it quickly.</p>
-    <p>Moving fast &gt;&gt; shipping features without bugs. Counterintuitively, a fast-moving eng team ships a more bug-free product than a careful team since the fast-moving team can fix bugs so quickly.</p>
-    <p>A “good PM” is usually just a PM on a team that moves fast.</p>
-    <p>Engineers feel good and move fast when they know they’re building something valuable. Burnout is caused by feeling like you’re building something useless (eg “let’s add AI to Strava”).</p>
-    <p>Be an expert on the user and the product. That’s your main value add. Engineers will respect you if you can authoritatively say things about the userbase. (e.g. “Our users are primarily using our product to make CRMs”).</p>
-    <p>Come with receipts (e.g. “here’s a survey I did”).</p>
-    <p>You should be a “power user” of your product.</p>
-    <h3>Product decisions</h3>
-    <p>Most product decisions should be made by an engineer without any PM involvement.</p>
+
+    <ul>
+        <li>Engineers solve problems. PMs decide what problem to solve.</li>
+        <li> <strong> When to hire. </strong> 1:10 PM:eng ratio is great. &lt;1:8 is questionable. Hiring engineers with good product sense &gt; hiring PMs.</li>
+        <ul>
+            <li> Hire your first PM once you start to re-invent the PM from first principles </li>
+            <li> "Wow we need to seriously sit down and do some thinking about ‘who exactly are we building for’ but we’re all so busy coding; it would be great if there was someone whos fulltime job was to do that...” </li>
+        </ul>
+        <li> <strong> Velocity is the most important determinant of product success. </strong> </li>
+        <ul>
+            <li> Moving fast &gt;&gt; making good product decisions. If you’re wrong, you can just change it quickly. </li>
+            <li> Moving fast &gt;&gt; shipping features without bugs. Counterintuitively, a fast-moving eng team ships a more bug-free product than a careful team since the fast-moving team can fix bugs so quickly. </li>
+            <li> A “good PM” is usually just a PM on a team that moves fast. </li>
+            <li> Engineers feel good and move fast when they know they’re building something valuable. Burnout is caused by feeling like you’re building something useless (eg “let’s add AI to Strava”). </li>
+        </ul>
+        <li> <strong> Be an expert on the user and the product.</strong> That’s your main value add. Engineers will respect you if you can authoritatively say things about the userbase. (e.g. “Our users are primarily using our product to make CRMs”). </li>
+        <ul>
+            <li> Come with receipts (e.g. “here’s a survey I did”).</li>
+            <li> You should be a “power user” of your product.</li>
+        </ul>
+        <li> <strong> Product decisions. </strong> Most product decisions should be made by an engineer without any PM involvement. </li> 
+        <ul>
+            <li> Eg: “should users be able to see this when they’re logged out?” “idk, use your brain”</li>
+            <li> If you discover you made the wrong decision, just fix it.</li>
+            <li> <u>One-way / high-risk decisions</u>: PM should be involved for high-risk / one-way decisions (Eg: Should this be a paid feature? Should we depreciate this feature? Should we make this breaking change to our API?)</li>
+        </ul>
+        <li> <strong> Write down decisions. </strong> For each project, keep a doc listing all the decisions you can for the project, even small ones, + your reasoning. That way, no time is wasted re-making decisions.</li>
+           <ul>
+            <li> Eg: free users will be rate-limited at 5 uses/week. Reasoning: this caps our spend at $5/user/week, which keeps us within budget.</li>
+           </ul>
+        <li> <strong> Aligning a team on the specs for a project. </strong> Hold a one-hour meeting with all team members. Come with a goal and a list of “open questions” that can only be answered with input from team members (e.g. how do we give users a preview of their app before generating).</li>
+        <ul>
+            <li> By the end of the meeting, the team will “mind-meld” on what the feature should accomplish.</li>
+        </ul>
+        <li> <strong> Talking to customers. </strong> Read the mom test. Talk to &gt;= 1 user/wk. When necessary, do “research sprints” where you talk to a bunch of users in a week. Decide what type of user you want feedback from. Email power users and they’ll be happy to chat for free. Pay new users $25/30 min call (you can up to $50 if nobody’s interested). Source non-users from network.</li>
+    </li>
+        <ul>
+        </ul>
+        <li> Metrics</li>
+        <ul>
+            <li> For an early startup, metrics are usually misleading. User convos are more valuable than metrics. Most metrics just say “higher users are higher intent” (e.g. users that used this feature are more likely to convert -&gt; this does not necessarily mean the feature is good). Some comments on specific metrics:</li>
+        </ul>
+    </ul>
+    <p></p>
     <p>Eg: “should users be able to see this when they’re logged out?” “idk, use your brain”</p>
     <p>If you discover you made the wrong decision, just fix it.</p>
     <p>One-way / high-risk decisions: PM should be involved for high-risk / one-way decisions (Eg: Should this be a paid feature? Should we depreciate this feature? Should we make this breaking change to our api?)</p>
@@ -80,7 +109,8 @@
     <p>Read this and copy the examples (section starting w/ Tesla). Many good strategies are very simple / 3-step (e.g. “Become the best way to build web app MVPs” -&gt; “Become the best way to build larger apps” -&gt; “Expand to mobile”)</p>
     <h3>Most important PM skill</h3>
     <p>Make shit happen. There’s always some bs that comes up right before you launch—that’s on you to deal with.</p>
-  </main>
+    </ul>
+</main>
   <footer>
     <hr>
     <ol style="font-size: 0.9em;">
