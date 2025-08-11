@@ -26,7 +26,7 @@
     <main>
       <h2>What happens when models stop getting smarter?</h2>
 
-      <p> A General Rule for AI Products: </p>
+      <p> Here is a general rule for AI products: </p>
       <ul>
         <li> <strong>Response Quality = Intelligence + Context Quality. </strong> </li>
       </ul>
@@ -39,11 +39,10 @@
       <p>Most AI interactions today start with you explaining everything.<sup><a href="#fn1" id="fnref1">[1]</a></sup> This is annoying, especially if you've already explained everything somewhere else.</p>
       <p>This information usually isn’t a secret. What model car you drive, the link to the repo you’re working on, the names of your friends: all this info is easy to find from your search history, email, personal notes, etc. </p> 
       <p>AI interactions would be so much easier if they could come pre-loaded with context from these (easily accessible) sources. But that's not how the way things work right now.</p>
-
       
 
       <h3>Who controls the personal context?</h3>
-      <p>Who has access to the personal context dataset? It’s highly balkanized:</p>
+      <p>Who has access to the personal context dataset? Not model providers, for the most part. It’s highly balkanized:</p>
       <ul>
         <li>notes you scribble to yourself</li>
         <li>browsing and search history</li>
@@ -54,11 +53,13 @@
 
       <h3>We’ve seen this movie before</h3>
       <p>AI interactions will personalize at an industrial scale in the 2020s, similarly to content + ads in the 2010s.</p>
-      <p>The last major AI wave—personalized recommendation algorithms—was mostly about finding context on someone and using it to generate high-quality outputs.<sup><a href="#fn2" id="fnref2">[2]</a></sup></p>
-      <p>Last decade, we built out massive infrastructure to enable personalized advertising that pulls information from every corner of a user’s online footprint. We will need to execute a similar-scale infrastructure buildout in order to win the war for best context quality.</p>
+      <p>Last decade, we built out massive infrastructure to enable personalized advertising that pulls information from every corner of a user’s online footprint.<sup><a href="#fn2" id="fnref2">[2]</a></sup> We will need to execute a similar-scale infrastructure buildout in order to win the war for best context quality.</p>
+
+      <h3>A reliable way to hydrate AI interactions with high-quality context</h3>
+
 
       <h3>Beyond on-demand chat</h3>
-      <p>With enough context, AI will stop being an on-demand chat product. Right now, in order to get value out of AI, you need to prompt it. With sufficient context, AI should be able to answer your question before you even ask it:</p>
+      <p>In five years, we'll think it's crazy that we used to have to start every AI interaction by explaining everything. In ten years, we'll think it's crazy that we ever had to "prompt" AI <em>at all</em>. With high-enough-quality context, AI should be able to answer your question before you even ask it.</p> Like personalized ads today, in the future AI will be able to <u>read your mind</u>.
       <ul>
         <li>If it can see you’re stuck on a bug, it texts you what you’re missing.</li>
         <li>If you’re booking a vacation, it does deep research in the background to pre-empt your questions.</li>
@@ -80,16 +81,33 @@
       <br>
       <br>
 
-      
-      <h3>What if models <em>do</em> keep getting smarter?</h3>
-      <p>Honestly, these trends are pretty inevitable even in the world where AI does get a lot smarter. (I opted to focus on the "what if ai not smarter" for views, haha). Let's examine the priciples underlying the arguments made in this post and see if they still apply in the world where AI gets much smarter. </p>
+      <hr>
+      <h3>Postscript: What if models <em>do</em> keep getting smarter?</h3>
+      <p>These trends actually hold even in the world where AI does get a lot smarter. (I opted to focus on the "what if ai not smarter" for views, haha). Let's examine the priciples underlying the arguments made in this post and see if they still apply in the world where AI gets much smarter. </p>
       <ul>
-        <li>Response Quality = Intelligence + Context Quality. 
+        <li><strong>Response Quality = Intelligence + Context Quality.</strong> 
           <ul>
             <li>This will still hold. Incremental gains will be achievable by increasing Intelligence <em>or</em> context quality. </li>
             <li>In fact, the relationship between Intelligence and Context Quality is likely <strong>convex</strong>; i.e. the smarter a model is, the <em>more productive</em> an improvement to Context Quality is. </li>
           </ul>
-        <li></li>
+        </li>
+        <li><strong>The most important personal context lies outside of intelligence providers.</strong>
+          <ul>
+            <li> This is clearly still true; you could argue as AI intelligence improves it gives the winning player a chance at becoming the "front door to the internet", but Google already is yet hasn't devoted any serious effort to this problem since their investment has been in intelligence-maxxing.  </li>
+          </ul>
+        </li>
+        <li><strong>AI model costs will go down.</strong>
+          <ul>
+            <li>
+              This may not hold true for all applications, but I suspect it *will* for consumer AI. 
+            </li>
+            <li>
+              We need to ask ourselves: is intelligence the bottleneck for any consumer AI use cases currently?
+            </li>
+            <li>
+              For the largest consumer AI use cases (search, AI companion, cheating on homework), AI already works great. In fact, people complained when OpenAI <em>upgraded</em> ChatGPT to use more intelligent GPT-5 because it had fewer of the sycophantic qualities of 4o.
+            </li>
+          </ul>
         </li>
         
       </ul>
