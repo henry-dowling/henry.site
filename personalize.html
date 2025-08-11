@@ -17,6 +17,14 @@
       max-width: 42em;
       margin: 15 auto;
     }
+    details {
+      margin: 1em 0;
+    }
+    summary {
+      font-weight: 700;
+      font-size: 1.17em; /* similar to h3 */
+      cursor: pointer;
+    }
   </style>
   </head>
   <body>
@@ -55,19 +63,14 @@
       <p>AI interactions will personalize at an industrial scale in the 2020s, similarly to content + ads in the 2010s.</p>
       <p>Last decade, we built out massive infrastructure to enable personalized advertising that pulls information from every corner of a user’s online footprint.<sup><a href="#fn2" id="fnref2">[2]</a></sup> We will need to execute a similar-scale infrastructure buildout in order to win the war for best context quality.</p>
 
-      <h3>A reliable way to hydrate AI interactions with high-quality context</h3>
+      <h3>AI's Google Ads moment</h3>
 
+      <p>Here's what the future will look like: just like how online advertising has created massive stores of data for each person in the world, each person will have a consolidated memory store.</p>
+      <p>AI providers will pull relevant context from that memory store and hydrate prompts sent to AI with that context. This will lead to much more relevant, and ultimately magical AI interactions.</p>
 
-      <h3>Beyond on-demand chat</h3>
-      <p>In five years, we'll think it's crazy that we used to have to start every AI interaction by explaining everything. In ten years, we'll think it's crazy that we ever had to "prompt" AI <em>at all</em>. With high-enough-quality context, AI should be able to answer your question before you even ask it.</p> Like personalized ads today, in the future AI will be able to <u>read your mind</u>.
-      <ul>
-        <li>If it can see you’re stuck on a bug, it texts you what you’re missing.</li>
-        <li>If you’re booking a vacation, it does deep research in the background to pre-empt your questions.</li>
-      </ul>
-      <p>As compute costs decrease (if models can’t get more intelligent, then costs have to go down), we’ll be able to invest more in <a href= https://arxiv.org/abs/2504.13171>Sleep Time Compute</a> to create these pre-empting, magical interactions.</p>
 
       <h3>Who’s building this?</h3>
-      <p>Me and <a href= https://x.com/samzliu> Sam Liu</a>. We’re building <a href="https://allegory.to/">Allegory</a>, a notes app that lets AI take full advantage of the rich and high-quality context that you generate when you write notes to yourself to improve AI interactions. If you think this sounds cool, <a href= https://calendly.com/htdowling/coffee </a> say hi to us</a>.</p>
+      <p>Me and <a href="https://x.com/samzliu">Sam Liu</a>. We’re building <a href="https://allegory.to/">Allegory</a>, a notes app that lets AI take full advantage of the rich and high-quality context that you generate when you write notes to yourself to improve AI interactions. If you think this sounds cool, <a href="https://calendly.com/htdowling/coffee">say hi to us</a>.</p>
 
       <hr>
 
@@ -81,36 +84,47 @@
       <br>
       <br>
 
-      <hr>
-      <h3>Postscript: What if models <em>do</em> keep getting smarter?</h3>
-      <p>These trends actually hold even in the world where AI does get a lot smarter. (I opted to focus on the "what if ai not smarter" for views, haha). Let's examine the priciples underlying the arguments made in this post and see if they still apply in the world where AI gets much smarter. </p>
-      <ul>
-        <li><strong>Response Quality = Intelligence + Context Quality.</strong> 
-          <ul>
-            <li>This will still hold. Incremental gains will be achievable by increasing Intelligence <em>or</em> context quality. </li>
-            <li>In fact, the relationship between Intelligence and Context Quality is likely <strong>convex</strong>; i.e. the smarter a model is, the <em>more productive</em> an improvement to Context Quality is. </li>
-          </ul>
-        </li>
-        <li><strong>The most important personal context lies outside of intelligence providers.</strong>
-          <ul>
-            <li> This is clearly still true; you could argue as AI intelligence improves it gives the winning player a chance at becoming the "front door to the internet", but Google already is yet hasn't devoted any serious effort to this problem since their investment has been in intelligence-maxxing.  </li>
-          </ul>
-        </li>
-        <li><strong>AI model costs will go down.</strong>
-          <ul>
-            <li>
-              This may not hold true for all applications, but I suspect it *will* for consumer AI. 
-            </li>
-            <li>
-              We need to ask ourselves: is intelligence the bottleneck for any consumer AI use cases currently?
-            </li>
-            <li>
-              For the largest consumer AI use cases (search, AI companion, cheating on homework), AI already works great. In fact, people complained when OpenAI <em>upgraded</em> ChatGPT to use more intelligent GPT-5 because it had fewer of the sycophantic qualities of 4o.
-            </li>
-          </ul>
-        </li>
-        
-      </ul>
+      <details>
+        <summary>Postscript: What if models <em>do</em> keep getting smarter?</summary>
+        <p>These trends actually hold even in the world where AI does get a lot smarter. (I opted to focus on the "what if ai not smarter" for views, haha). Let's examine the priciples underlying the arguments made in this post and see if they still apply in the world where AI gets much smarter. </p>
+        <ul>
+          <li><strong>Response Quality = Intelligence + Context Quality.</strong> 
+            <ul>
+              <li>This will still hold. Incremental gains will be achievable by increasing Intelligence <em>or</em> context quality. </li>
+              <li>In fact, the relationship between Intelligence and Context Quality is likely <strong>convex</strong>; i.e. the smarter a model is, the <em>more productive</em> an improvement to Context Quality is. </li>
+            </ul>
+          </li>
+          <li><strong>The most important personal context lies outside of intelligence providers.</strong>
+            <ul>
+              <li> This is clearly still true; you could argue as AI intelligence improves it gives the winning player a chance at becoming the "front door to the internet", but Google already is yet hasn't devoted any serious effort to this problem since their investment has been in intelligence-maxxing.  </li>
+            </ul>
+          </li>
+          <li><strong>AI model costs will go down.</strong>
+            <ul>
+              <li>
+                This may not hold true for all applications, but I suspect it *will* for consumer AI. 
+              </li>
+              <li>
+                We need to ask ourselves: is intelligence the bottleneck for any consumer AI use cases currently?
+              </li>
+              <li>
+                For the largest consumer AI use cases (search, AI companion, cheating on homework), AI already works great. In fact, people complained when OpenAI <em>upgraded</em> ChatGPT to use more intelligent GPT-5 because it had fewer of the sycophantic qualities of 4o.
+              </li>
+            </ul>
+          </li>
+          
+        </ul>
+      </details>
+
+      <details>
+        <summary>Postscript: Beyond on-demand chat</summary>
+        <p>In five years, we'll think it's crazy that we used to have to start every AI interaction by explaining everything. In ten years, we'll think it's crazy that we ever had to "prompt" AI <em>at all</em>. With high-enough-quality context, AI should be able to answer your question before you even ask it. Like personalized ads today, in the future AI will be able to <u>read your mind</u>.</p>
+        <ul>
+          <li>If it can see you’re stuck on a bug, it texts you what you’re missing.</li>
+          <li>If you’re booking a vacation, it does deep research in the background to pre-empt your questions.</li>
+        </ul>
+        <p>As compute costs decrease (if models can’t get more intelligent, then costs have to go down), we’ll be able to invest more in <a href="https://arxiv.org/abs/2504.13171">Sleep Time Compute</a> to create these pre-empting, magical interactions.</p>
+      </details>
 
       
 
