@@ -34,9 +34,9 @@
     <main>
       <h2>What happens when models stop getting smarter?</h2>
 
-      <p> Here is a general rule for AI products: </p>
+      <p> Here's a general rule for AI products: </p>
       <ul>
-        <li> <strong>Response Quality = Intelligence + Context Quality. </strong> </li>
+        <li> <strong>AI Response Quality = Intelligence + Context Quality. </strong> </li>
       </ul>
       <p>So, what happens if LLMs stop getting smarter? The way to win at response quality will be to have the highest <em>context quality</em>. The current battle for the most <em>intelligent</em> LLM will evolve into a battle for the <em>highest quality</em> LLM; i.e. the LLM with the best intelligence + context quality.</p>
       <p>AI products downstream of OpenAI already know this— when everyone has the same intelligence, the battle is about who can do the best <a href="https://blog.langchain.com/the-rise-of-context-engineering/">context engineering</a>. But mainstream consumer AI companies (eg ChatGPT) have focused their investment on maxing out intelligence first.</p>
@@ -44,19 +44,18 @@
       <h3>Improving context quality would be a really good thing for consumer AI</h3>
 
 
-      <p>Most AI interactions today start with you explaining everything.<sup><a href="#fn1" id="fnref1">[1]</a></sup> This is annoying, especially if you've already explained everything somewhere else.</p>
+      <p>Most AI interactions today start with you explaining everything. This is annoying, especially if you've already explained everything somewhere else.</p>
       <p>This information usually isn’t a secret. What model car you drive, the link to the repo you’re working on, the names of your friends: all this info is easy to find from your search history, email, personal notes, etc. </p> 
-      <p>AI interactions would be so much easier if they could come pre-loaded with context from these (easily accessible) sources. But that's not how the way things work right now.</p>
+      <p>AI interactions would be so much easier if every prompt you wrote was hydrated with context from these (easily accessible) sources. But that's not how the way things work right now.</p>
 
       <h3>AI's Google Ads moment</h3>
 
-      <p>Here's what the future will look like: just like how online advertising has created massive stores of data for each person in the world, each person will have a consolidated memory store.</p>
-      <p>AI providers will pull relevant context from that memory store and hydrate prompts sent to AI with that context. This will lead to much more relevant, and ultimately magical AI interactions.</p>
+      <p>Here's what the future will look like: each person will have a consolidated memory store that consolidates facts worth remembering about the user from their online activity.</p>
+      <p>This memory store will act as context-injecting middleware, ensuring that every message sent between human and AI will have extremely high <em> context quality</em>. This will lead to much more relevant, and ultimately magical AI interactions.</p>
 
-      <p><u>This is basically exactly that happened with personalized advertising in the 2010s</u>. AI interactions will personalize at an industrial scale in the 2020s, similarly to content + ads in the 2010s.</p>
-      <p>Last decade, we built out massive infrastructure to enable personalized advertising that pulls information from every corner of a user’s online footprint.<sup><a href="#fn2" id="fnref2">[2]</a></sup> We will need to execute a similar-scale infrastructure buildout in order to win the war for best context quality.</p>
+      <p><u>This is basically exactly that happened with personalized advertising in the 2010s</u>. Last decade, we built out massive infrastructure to enable personalized advertising that pulls information from every corner of a user’s online footprint.<sup><a href="#fn2" id="fnref2">[1]</a></sup> An industrial-scale AI memory infrastructure buildout in the service of <em>context quality</em> feels inevitable.</p> 
 
-      <h3>Who controls the personal context?</h3>
+      <h3>Model providers probably won't own the memory store</h3>
       <p>Who has access to the personal context dataset? Not model providers, for the most part. It’s highly balkanized:</p>
       <ul>
         <li>notes you scribble to yourself</li>
@@ -70,12 +69,13 @@
 
       <h3>Who’s building this?</h3>
       <p>Me and <a href="https://x.com/samzliu">Sam Liu</a>. We’re building <a href="https://allegory.to/">Allegory</a>, a notes app that lets AI take full advantage of the rich and high-quality context that you generate when you write notes to yourself to improve AI interactions. If you think this sounds cool, <a href="https://calendly.com/htdowling/coffee">say hi to us</a>.</p>
+      <br>
 
       <hr>
 
+
       <section id="footnotes">
         <ol>
-          <li id="fn1">Paraphrasing <a href=https://www.anthropic.com/news/connectors-directory>Anthropic</a>, who articulated it really well. <a href="#fnref3" aria-label="Back to content">↩</a></li>
           <li id="fn2">Aside: we expected this massive consolidation of information by a few key players (we called it “Big Data”) to fundamentally change the way society functioned, but it turned out to mostly just enable better ads. <a href="#fnref1" aria-label="Back to content">↩</a></li>
         </ol>
       </section>
@@ -85,11 +85,11 @@
 
       <details>
         <summary>Postscript: What if models <em>do</em> keep getting smarter?</summary>
-        <p>These trends actually hold even in the world where AI does get a lot smarter. (I opted to focus on the "what if ai not smarter" for views, haha). Let's examine the priciples underlying the arguments made in this post and see if they still apply in the world where AI gets much smarter. </p>
+        <p>These trends actually pretty much hold even in the world where AI does get a lot smarter. (I opted to focus on the "what if ai not smarter" case for clickbait, haha). Let's examine the priciples underlying the arguments made in this post and show that they still apply in the world where AI gets much smarter. </p>
         <ul>
           <li><strong>Response Quality = Intelligence + Context Quality.</strong> 
             <ul>
-              <li>This will still hold. Incremental gains will be achievable by increasing Intelligence <em>or</em> context quality. </li>
+              <li>This will still hold— it's a fact about any AI product regardless of intelligence. Incremental gains will be achievable by increasing Intelligence <em>or</em> context quality. </li>
               <li>In fact, the relationship between Intelligence and Context Quality is likely <strong>convex</strong>; i.e. the smarter a model is, the <em>more productive</em> an improvement to Context Quality is. </li>
             </ul>
           </li>
