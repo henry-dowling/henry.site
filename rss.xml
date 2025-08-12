@@ -5,7 +5,14 @@
     <link>https://henrydowling.com/blog.html</link>
     <description>Blog posts by Henry Dowling</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Jul 2025 12:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 12 Aug 2025 12:00:00 +0000</lastBuildDate>
+    <item>
+      <title>What happens when models stop getting smarter?</title>
+      <link>https://henrydowling.com/background-context.html</link>
+      <description>On the role of background context when models stop improving; a case for a personal AI memory store.</description>
+      <pubDate>Tue, 12 Aug 2025 12:00:00 +0000</pubDate>
+      <guid>https://henrydowling.com/background-context.html</guid>
+    </item>
     <item>
       <title>No code got the problem right and the solution wrong</title>
       <link>https://henrydowling.com/no.html</link>
