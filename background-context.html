@@ -34,6 +34,8 @@
     <main>
       <h2>What happens when models stop getting smarter?</h2>
 
+      <p> If you're trying to improve an AI response, there are really only two ways to do it: use a smarter model, or write a better prompt. So, what happens if LLMs stop getting smarter? We'll have to start focusing on the prompt a lot more.</p>
+
       <p>Most AI interactions today start with you explaining everything. We can basically break down any AI prompt into:
         <ul>
           <li>
@@ -42,7 +44,8 @@
         </ul>
       </p>
 
-      <p>So, what happens if LLMs stop getting smarter? The only other way to continue to improve the quality of AI interactions is to *automatically add* the background context, to save the user the trouble of typing it all out and including context that the user may forget or be too lazy to add. </p>
+      <p>
+      One obvious way to continue to improve the quality of AI interactions is to *automatically add* the background context, to save the user the trouble of typing it all out and including context that the user may forget or be too lazy to add. </p>
       <p>AI products downstream of OpenAI already know this— when everyone has the same intelligence, the battle is about who can do the best <a href="https://blog.langchain.com/the-rise-of-context-engineering/">context engineering</a> (ie adding the right background information to AI, either via writing prompts or automatically pasting in outside information). But mainstream consumer AI companies (ChatGPT) have focused their investment on maxing out intelligence, and don't make any attempt to proactively access outside information to improve the background context.</p>
 
       <h3>Improving context quality would be a really good thing for consumer AI</h3>
@@ -69,6 +72,36 @@
 
       <p>A new company, sitting on some store of high-quality personal context data, will have to create this.</p>
 
+      <summary>But wait, what if models <em>do</em> keep getting smarter?</summary>
+        <p>These trends actually pretty much hold even in the world where AI does get a lot smarter. (I opted to focus on the "what if ai not smarter" case for clickbait, haha). Let's examine the priciples underlying the arguments made in this post and show that they still apply in the world where AI gets much smarter. </p>
+        <ul>
+          <li><strong>Response Quality = Intelligence + Context Quality.</strong> 
+            <ul>
+              <li>This will still hold— it's a fact about any AI product regardless of intelligence. Incremental gains will be achievable by increasing Intelligence <em>or</em> context quality. </li>
+              <li>In fact, the relationship between Intelligence and Context Quality is likely <strong>convex</strong>; i.e. the smarter a model is, the <em>more productive</em> an improvement to Context Quality is. </li>
+            </ul>
+          </li>
+          <li><strong>The most important personal context lies outside of intelligence providers.</strong>
+            <ul>
+              <li> This is clearly still true; you could argue as AI intelligence improves it gives the winning player a chance at becoming the "front door to the internet", but Google already is yet still lacks a lot of important context (personal notes, content consumption, text messages).  </li>
+            </ul>
+          </li>
+          <li><strong>AI model costs will go down.</strong>
+            <ul>
+              <li>
+                This may not hold true for all applications, but I suspect it *will* for consumer AI. 
+              </li>
+              <li>
+                We need to ask ourselves: is intelligence the bottleneck for any consumer AI use cases currently?
+              </li>
+              <li>
+                For the largest consumer AI use cases (search for products and services, AI companion, cheating on homework), AI already works great. In fact, people complained when OpenAI <em>upgraded</em> ChatGPT to use more intelligent GPT-5 because it had fewer of the sycophantic qualities of 4o.
+              </li>
+            </ul>
+          </li>
+          
+        </ul>
+
       <h3>Who’s building this?</h3>
       <p>Me and <a href="https://x.com/samzliu">Sam Liu</a>. Specifically, we're building <a href="https://allegory.to/">Allegory</a>, a personal AI context dump that you control. It consolidates all personal context about your life that you feed it and uses it to augment AI interactions, search, and self-organize. If you think this sounds cool, <a href="https://calendly.com/htdowling/coffee">say hi</a>.</p>
       <br>
@@ -85,38 +118,6 @@
 
       <br>
       <br>
-
-      <details>
-        <summary>Postscript: What if models <em>do</em> keep getting smarter?</summary>
-        <p>These trends actually pretty much hold even in the world where AI does get a lot smarter. (I opted to focus on the "what if ai not smarter" case for clickbait, haha). Let's examine the priciples underlying the arguments made in this post and show that they still apply in the world where AI gets much smarter. </p>
-        <ul>
-          <li><strong>Response Quality = Intelligence + Context Quality.</strong> 
-            <ul>
-              <li>This will still hold— it's a fact about any AI product regardless of intelligence. Incremental gains will be achievable by increasing Intelligence <em>or</em> context quality. </li>
-              <li>In fact, the relationship between Intelligence and Context Quality is likely <strong>convex</strong>; i.e. the smarter a model is, the <em>more productive</em> an improvement to Context Quality is. </li>
-            </ul>
-          </li>
-          <li><strong>The most important personal context lies outside of intelligence providers.</strong>
-            <ul>
-              <li> This is clearly still true; you could argue as AI intelligence improves it gives the winning player a chance at becoming the "front door to the internet", but Google already is yet hasn't devoted any serious effort to this problem since their investment has been in intelligence-maxxing.  </li>
-            </ul>
-          </li>
-          <li><strong>AI model costs will go down.</strong>
-            <ul>
-              <li>
-                This may not hold true for all applications, but I suspect it *will* for consumer AI. 
-              </li>
-              <li>
-                We need to ask ourselves: is intelligence the bottleneck for any consumer AI use cases currently?
-              </li>
-              <li>
-                For the largest consumer AI use cases (search, AI companion, cheating on homework), AI already works great. In fact, people complained when OpenAI <em>upgraded</em> ChatGPT to use more intelligent GPT-5 because it had fewer of the sycophantic qualities of 4o.
-              </li>
-            </ul>
-          </li>
-          
-        </ul>
-      </details>
 
       <details>
         <summary>Postscript: Beyond on-demand chat</summary>
