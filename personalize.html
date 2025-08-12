@@ -34,29 +34,31 @@
     <main>
       <h2>What happens when models stop getting smarter?</h2>
 
-      <p> Here's a general rule for AI products: </p>
-      <ul>
-        <li> <strong>AI Response Quality = Intelligence + Context Quality. </strong> </li>
-      </ul>
-      <p>So, what happens if LLMs stop getting smarter? The way to win at response quality will be to have the highest <em>context quality</em>. The current battle for the most <em>intelligent</em> LLM will evolve into a battle for the <em>highest quality</em> LLM; i.e. the LLM with the best intelligence + context quality.</p>
-      <p>AI products downstream of OpenAI already know this— when everyone has the same intelligence, the battle is about who can do the best <a href="https://blog.langchain.com/the-rise-of-context-engineering/">context engineering</a>. But mainstream consumer AI companies (eg ChatGPT) have focused their investment on maxing out intelligence first.</p>
+      <p>Most AI interactions today start with you explaining everything. We can basically break down any AI prompt into:
+        <ul>
+          <li>
+            <strong> Prompt = Actual Question + Explaining Background Context </strong><sup><a href="#fn1" id="fnref1">[1]</a></sup>
+          </li>
+        </ul>
+      </p>
+
+      <p>So, what happens if LLMs stop getting smarter? The only other way to continue to improve the quality of AI interactions is to *automatically add* the background context, to save the user the trouble of typing it all out and including context that the user may forget or be too lazy to add. </p>
+      <p>AI products downstream of OpenAI already know this— when everyone has the same intelligence, the battle is about who can do the best <a href="https://blog.langchain.com/the-rise-of-context-engineering/">context engineering</a> (ie adding the right background information to AI, either via writing prompts or automatically pasting in outside information). But mainstream consumer AI companies (ChatGPT) have focused their investment on maxing out intelligence, and don't make any attempt to proactively access outside information to improve the background context.</p>
 
       <h3>Improving context quality would be a really good thing for consumer AI</h3>
 
-
-      <p>Most AI interactions today start with you explaining everything. This is annoying, especially if you've already explained everything somewhere else.</p>
-      <p>This information usually isn’t a secret. What model car you drive, the link to the repo you’re working on, the names of your friends: all this info is easy to find from your search history, email, personal notes, etc. </p> 
-      <p>AI interactions would be so much easier if every prompt you wrote was hydrated with context from these (easily accessible) sources. But that's not how the way things work right now.</p>
+      <p>Explaining the relevant context before an AI interaction can get annoying, especially if you've already written it down somewhere else. This information usually isn’t a secret. What model car you drive, the link to the repo you’re working on, the names of your friends: all this info is easy to find from your search history, email, personal notes, etc. </p> 
+      <p>AI interactions would be so much easier if every prompt you wrote was hydrated with context from these (easily accessible) sources. </p>
 
       <h3>AI's Google Ads moment</h3>
 
-      <p>Here's what the future will look like: each person will have a consolidated memory store that consolidates facts worth remembering about the user from their online activity.</p>
-      <p>This memory store will act as context-injecting middleware, ensuring that every message sent between human and AI will have extremely high <em> context quality</em>. This will lead to much more relevant, and ultimately magical AI interactions.</p>
+      <p>Here's what the future will look like: each person will have a consolidated memory store that aggregates facts worth remembering about the user from their online activity.</p>
+      <p>This memory store will act as context-injecting middleware, ensuring that every message sent between human and AI will come with the perfect background context already added. This will lead to much more relevant, and ultimately magical AI interactions.</p>
 
-      <p><u>This is basically exactly that happened with personalized advertising in the 2010s</u>. Last decade, we built out massive infrastructure to enable personalized advertising that pulls information from every corner of a user’s online footprint.<sup><a href="#fn2" id="fnref2">[1]</a></sup> An industrial-scale AI memory infrastructure buildout in the service of <em>context quality</em> feels inevitable.</p> 
+      <p><u>This is basically exactly that happened with personalized advertising in the 2010s</u>. Last decade, we built out massive infrastructure that pulls information from every corner of a user’s online footprint and consolidate it to improve ad relevance.<sup><a href="#fn2" id="fnref2">[2]</a></sup> An industrial-scale AI memory infrastructure buildout in the service of <em>background context</em> feels inevitable.</p> 
 
       <h3>Model providers probably won't own the memory store</h3>
-      <p>Who has access to the personal context dataset? Not model providers, for the most part. It’s highly balkanized:</p>
+      <p>Sounds like a data moat. Who has access to the background context dataset? Not model providers, for the most part. It’s highly balkanized:</p>
       <ul>
         <li>notes you scribble to yourself</li>
         <li>browsing and search history</li>
@@ -68,7 +70,7 @@
       <p>A new company, sitting on some store of high-quality personal context data, will have to create this.</p>
 
       <h3>Who’s building this?</h3>
-      <p>Me and <a href="https://x.com/samzliu">Sam Liu</a>. We’re building <a href="https://allegory.to/">Allegory</a>, a personal AI context dump that you control. It consolidates all personal context about your life that you feed it and uses it to augment AI interactions, search, and self-organize. If you think this sounds cool, <a href="https://calendly.com/htdowling/coffee">say hi to us</a>.</p>
+      <p>Me and <a href="https://x.com/samzliu">Sam Liu</a>. Specifically, we're building <a href="https://allegory.to/">Allegory</a>, a personal AI context dump that you control. It consolidates all personal context about your life that you feed it and uses it to augment AI interactions, search, and self-organize. If you think this sounds cool, <a href="https://calendly.com/htdowling/coffee">say hi</a>.</p>
       <br>
 
       <hr>
@@ -76,7 +78,8 @@
 
       <section id="footnotes">
         <ol>
-          <li id="fn2">Aside: we expected this massive consolidation of information by a few key players (we called it “Big Data”) to fundamentally change the way society functioned, but it turned out to mostly just enable better ads. <a href="#fnref1" aria-label="Back to content">↩</a></li>
+          <li id="fn1">This framing comes from <a href=https://www.letta.com/> Letta</a>'s great <a href="https://arxiv.org/abs/2504.13171">Sleep Time Compute</a> paper. <a href="#fnref1" aria-label="Back to content">↩</a></li>
+          <li id="fn2">Aside: we expected this massive consolidation of information by a few key players (we called it “Big Data”) to fundamentally change the way society functioned, but it turned out to mostly just enable better ads. <a href="#fnref2" aria-label="Back to content">↩</a></li>
         </ol>
       </section>
 
@@ -120,6 +123,7 @@
         <p>In five years, we'll think it's crazy that we used to have to start every AI interaction by explaining everything. In ten years, we'll think it's crazy that we ever had to "prompt" AI <em>at all</em>. With high-enough-quality context, AI should be able to answer your question before you even ask it. Like personalized ads today, in the future AI will be able to <u>read your mind</u>.</p>
         <ul>
           <li>If it can see you’re stuck on a bug, it texts you what you’re missing.</li>
+          <li>When you start to get hungry, you look at your phone to see a text w/ lunch options</li>
           <li>If you’re booking a vacation, it does deep research in the background to pre-empt your questions.</li>
         </ul>
         <p>As compute costs decrease (if models can’t get more intelligent, then costs have to go down), we’ll be able to invest more in <a href="https://arxiv.org/abs/2504.13171">Sleep Time Compute</a> to create these pre-empting, magical interactions.</p>
