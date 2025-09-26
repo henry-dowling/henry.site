@@ -118,6 +118,7 @@
 
     <h2>Learnings</h2>
     <ul>
+      <li> AI autocomplete with a memory store is *really good* when you're in a mode of work that involves a lot of "copy-pasting" / sending rapidfire emails / slack messages. Here's a scenario where Codeswitch absolutely kills it: your boss asks you to move a meeting, and you need to go and send an email to 5 separate people to get their okay / buy-in.</li>
       <li> Our reverse-engineering approach really only worked because of how fast coding agents can work. With good AI coding agents, we were able to test many promising reverse-engineering approaches in parallel, which allowed us to find a winning strategy in a reasonable amount of time.</li>
       <li> We built this in Swift in order to take advantage of accessibility APIs. Swift is a nice language with some cool features but XCode is horribly outdated and slow to build in, especially in the AI coding agents era. In hindsight, we should have used <a href=https://tauri.app/>Tauri</a>. Thanks to <a href=https://charlieholtz.com/> Charlie Holtz</a> for the suggestion!</li>
     </ul>
@@ -125,6 +126,7 @@
     <p id="fn-1"><small>[1] If you're looking for an invite code and don't have one, you may be able to find one if you're clever enough ;)</small></p>
     <p id="fn-2"><small>[2] The OCR feature is currently disabled by default-- we were concerned with privacy and battery life-- but it can be enabled in app settings if you're brave enough to try it out.</small></p>
     <p id="fn-3"><small>[3] We also have additional caching in our AI memory store to limit redundancies, but that's for another blog post.</small></p>
+    <p id="fn-3"><small>[4] Related work: check out <a href=https://x.com/oshaikh13/status/1967626897837494479>Tabracadabra</a>, which launched around the same time we built this. When we saw this launch midway through work on this, we concluded that this is an idea that's in the <a href=https://garfield.library.upenn.edu/essays/v4p660y1979-80.pdf?utm_source=chatgpt.com>scientific zeitgeist</a> rn. </small></p>
   </main>
 </body>
 </html>
