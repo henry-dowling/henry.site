@@ -98,7 +98,10 @@
     <h4>Determining selected text in Google Docs</h4>
     <p>Unfortunately, Google Docs renders each line in the canvas as a monolith, so we still needed to figure out <em>what text was being selected</em>. So, given a cursor position in a line and a set of text in the line, we need to estimate which text was selected. To achieve this, we render actual text invisibly on the page, and then measure at which character the selection must start given its real position.</p>
 
-    <img src="images/gdh2.png" alt="Demonstration of Google Docs canvas rendering hack" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
+    <figure style="margin: 0;">
+      <img src="images/gdh2.png" alt="Demonstration of Google Docs canvas rendering hack" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
+      <figcaption>We determine which characters were highlighted by rendering invisible text in the document with our chrome extension and measuring its length.</figcaption>
+    </figure>
 
     <h3>Screen OCR for context when a11y APIs fail</h3>
 
@@ -117,7 +120,7 @@
     <h2>Learnings</h2>
     <ul>
       <li> AI autocomplete with a memory store is *really good* when you're in a mode of work that involves a lot of "copy-pasting" / sending rapidfire emails / slack messages. Here's a scenario where Codeswitch absolutely kills it: your boss asks you to move a meeting, and you need to go and send an email to 5 separate people to get their okay / buy-in.</li>
-      <li> Our reverse-engineering approach really only worked because of how fast coding agents can work. With good AI coding agents, we were able to test many promising reverse-engineering approaches in parallel, which allowed us to find a winning strategy in a reasonable amount of time.</li>
+      <li> Our reverse-engineering approach to Google Docs really only worked because of how fast coding agents can work. With good AI coding agents, we were able to test many promising reverse-engineering approaches in parallel, which allowed us to find a winning strategy in a reasonable amount of time.</li>
       <li> We built this in Swift to take advantage of accessibility APIs. Swift is a nice language with some cool features but XCode is horribly outdated and slow to build in, especially in the AI coding agents era. In hindsight, we should have used <a href=https://tauri.app/>Tauri</a>. Thanks to <a href=https://charlieholtz.com/> Charlie Holtz</a> for the suggestion!</li>
     </ul>
 
