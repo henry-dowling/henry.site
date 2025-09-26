@@ -34,31 +34,48 @@
   <main>
     <h2>Autocomplete everywhere that reads your mind</h2>
 
-    <p>At Fergana Labs, as one of our first experiments with what better AI memory can do, we built system-wide contextual autocomplete in every text box on your computer for MacOS. We also built a system to grab context from everywhere on your computer. We named it codeswitch, and it's shockingly good!</p>
+    <img src="images/header.png" alt="Codeswitch autocomplete system overview" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
+
+    <p>At <a href=https://ferganalabs.com/ >Fergana Labs</a>, as one of our first experiments with what better AI memory can do, we built system-wide contextual autocomplete in every text box on your computer for MacOS. We also built a system to grab context from everywhere on your computer. We named it codeswitch, and it's shockingly good!</p>
 
     <p>In order to build this so that it works well on MacOS, we had to make some interesting / nonstandard design decisions. In this blog post, I'll talk through these decisions.</p>
 
-    <h3>Using Accessibility tools to mock grey "ghost" text</h3>
+    <h3>Using Accessibility tools to mock grey "ghost" text + replace text</h3>
 
-    <p>We generate "ghost text" NSPanel by getting the element and cursor's caret position via AXUIElement Position Attributes</p>
+    <p> Most of the standard autocomplete operations (suggested text, replacing text for "rephrase feature") are not possible without MacOS a11y APIs. </p>
 
-    <p>We also get the bounds of the Panel with <code>AXSelection.capture</code>, which allows us to render a panel that matches the size of the input field that the cursor is currently in.</p>
+    <img src="images/ghosttext.png" alt="Screenshot showing ghost text appearing in a text field" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
+    
+    <ul>
+      <li>We generate "ghost text" NSPanel by getting the element and cursor's caret position via <a href=https://developer.apple.com/documentation/applicationservices/axuielement>AXUIElement</a> Position Attributes</li>
+      
+      <li>We also get the bounds of the Panel with <code>AXSelection.capture</code>, which allows us to render a panel that matches the size of the input field that the cursor is currently in.</li>
+      
+      <li>For our "rephrase" feature, in order to insert a rephrase suggestion, we actually manually highlight text and then overwrite the text by copy-pasting, which yields a surprisingly smooth UX.</li>
+
+      <li> Our abuse of a11y APIs unfortunately means that Codeswitch can never live on the app store!</li>
+    </ul>
 
     <h3>Hijacking the system clipboard in order to actually add the suggestion on "tab"</h3>
 
-    <p>In order to add text on "tab", we manually append the text to the user's system clipboard, and then mock a cmd-v event in order to paste it.</p>
+    <ul>
+      <li>In order to add text on "tab", we manually append the text to the user's system clipboard, and then mock a cmd-v event in order to paste it.</li>
+      
+      <li>In order to ensure that the user doesn't lose the text that they just copied to overwriting, we also implemented a virtual clipboard similar to the Raycast clipboard history extension.</li>
+      
+      <li>In order to handle the case where text is added to the clipboard without CMD-C (for example, a button to click to copy in a browser), we regularly poll for clipboard changes in order to catch these events and add them to the user's virtual clipboard.</li>
+      
+      <li>We handle the "tab" shortcut, as well as intercepting CMD-C and CMD-X events, with Global keyboard shortcut interception via <code>NSEvent.addGlobalMonitorForEvents(matching:handler:)</code> for a number of shortcuts, including tab.</li>
+    </ul>
 
-    <p>In order to ensure that the user doesn't lose the text that they just copied to overwriting, we also implemented a virtual clipboard similar to the Raycast clipboard history extension.</p>
-
-    <p>In order to handle the case where text is added to the clipboard without CMD-C (for example, a button to click to copy in a browser), we regularly poll for clipboard changes in order to catch these events and add them to the user's virtual clipboard.</p>
-
-    <p>We handle the "tab" shortcut, as well as intercepting CMD-C and CMD-X events, with Global keyboard shortcut interception via <code>NSEvent.addGlobalMonitorForEvents(matching:handler:)</code> for a number of shortcuts, including tab.</p>
+    <img src="images/chromeextension.png" alt="Screenshot showing autocomplete working in Chrome browser" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
 
     <h3>Reverse engineering Google Docs' canvas-based rendering</h3>
 
     <p>Google Docs uses a custom canvas-based rendering system that doesn't play nicely with standard accessibility tools. To make our autocomplete work in Google Docs, we had to reverse engineer their rendering system and build custom integration points.</p>
 
     <p>This involved understanding how Google Docs maps virtual cursor positions to actual canvas coordinates, and then positioning our autocomplete suggestions accordingly. It was one of the trickiest parts of the implementation, but the result is seamless autocomplete even in the most complex web applications.</p>
+
     <p> We found <a href=https://github.com/swoorpious/web_server_cpp/issues/1> this random guy's github discussion </a> extremely helpful</p>
 
   </main>
