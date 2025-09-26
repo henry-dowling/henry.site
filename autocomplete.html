@@ -45,7 +45,7 @@
 
     <img src="images/header-2.png" alt="Codeswitch autocomplete system overview" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
 
-    <p>As one of our explorations with AI memory at <a href=https://ferganalabs.com/>Fergana Labs</a>, we built system-wide contextual autocomplete in every text box on your computer for MacOS. To hydrate it with context, we built a system to grab text from input fields via a11y APIs and screen OCR. We named it Codeswitch, and you can try it <a href=https://www.getcodeswitch.com/>here!</a><sup id="fnref-1"><a href="#fn-1">[1]</a></sup>. For a demo of how it works, see <a href=https://x.com/henrytdowling/status/1971444339168641135>here</a>. </p>
+    <p>In order to explore uses for our personal AI memory store at <a href=https://ferganalabs.com/>Fergana Labs</a>, we built a system-wide contextual autocomplete for MacOS. To hydrate it with context, we built a tool to grab text from input fields via a11y APIs, screen OCR and in some cases a Chrome extension. We named it Codeswitch, and you can try it <a href=https://www.getcodeswitch.com/>here!</a><sup id="fnref-1"><a href="#fn-1">[1]</a></sup>. For a demo of how it works, see <a href=https://x.com/henrytdowling/status/1971444339168641135>here</a>. </p>
 
     <p>In order to build this so that it works well on MacOS, we had to make some interesting / nonstandard design decisions. In this blog post, I'll walk through these decisions.</p>
 
@@ -101,35 +101,30 @@
 
     <h3>Screen OCR for context when a11y APIs fail</h3>
 
-    <p>While accessibility APIs are great when they work, plenty of applications don't properly expose their text content through these channels. We originally built an OCR system to capture context from these stubborn apps<sup id="fnref-2"><a href="#fn-2">[2]</a></sup>.</p>
+    <p>While accessibility APIs are great when they work, plenty of applications (most notably Chrome) don't properly expose their text content through these channels. We built an OCR system to capture context from these stubborn apps<sup id="fnref-2"><a href="#fn-2">[2]</a></sup>.</p>
 
     <ul>
       <li>We used Apple's Vision framework (<code>VNRecognizeTextRequest</code>) to perform real-time OCR on screen regions around the cursor. The Vision API is surprisingly fast - we could OCR a focused region in ~50ms on an M1 Mac.</li>
 
-      <li>The tricky part was figuring out <em>what</em> to OCR. We couldn't just OCR the entire screen constantly (RIP battery life). Instead, we built a heuristic system that would:
-        <ul>
-          <li>Detect when a11y APIs returned empty or unhelpful text</li>
-          <li>Identify the active window bounds using <code>CGWindowListCopyWindowInfo</code></li>
-          <li>Create a "smart crop" around the cursor position, expanding outward until we hit visual boundaries (significant color changes, window edges, etc.)</li>
-        </ul>
-      </li>
+      <li>The tricky part was figuring out <em>when</em> to OCR, and <when> to send OCR results to our AI memory backend. We couldn't just OCR the entire screen constantly, due to battery life concerns. To avoid OCRing the same content repeatedly, we implemented a simple cache keyed on window ID + focused element. If the user hadn't moved, we'd reuse the previous OCR result.</li>
 
-      <li>To avoid OCRing the same content repeatedly, we implemented a simple cache keyed on window ID + rough cursor position. If the user hadn't moved much, we'd reuse the previous OCR result.</li>
-
-      <li>The hardest part was dealing with overlapping text from different UI layers. Terminal applications were particularly nasty - the prompt, your typing, and any autocomplete suggestions all rendered on top of each other. We ended up using some janky heuristics based on text color and position to filter out the noise.</li>
+      <li> Another costly operation was adding our OCR results to the user's AI memory store. To limit waste, we used an edit-distance based heuristic and only sent over a new OCR when text was significantly different, either because the user switched application views or they edited text manually. <sup id="fnref-3"><a href="#fn-3">[3]</a></sup>
 
       <li>Performance was... acceptable. The OCR itself was fast, but the overhead of screenshot capture + processing meant we had to be conservative about when to trigger it. We ended up disabling it by default because the context quality wasn't worth the battery drain for most users.</li>
     </ul>
 
+    <h3>Wait, so how did you implement your AI memory store?</h3>
+    <p>That's a topic for another post :) </p>
 
-    <h3>Learnings</h3>
+    <h2>Learnings</h2>
     <ul>
-      <li> Our reverse-engineering approach really only worked because of how fast coding agents can work. With good AI coding agents, we were able to test many promising reverse-engineering approaches in parallel, which allowed us to find a winning strategy in a reasonable amount of time</li>
-      <li> We built this in Swift in order to take advantage of accessibility APIs. Swift is awful and XCode is even worse. In hindsight, we should have used something like Tauri. Thanks to <a href=https://charlieholtz.com/> Charlie Holtz</a> for the suggestion!</li>
+      <li> Our reverse-engineering approach really only worked because of how fast coding agents can work. With good AI coding agents, we were able to test many promising reverse-engineering approaches in parallel, which allowed us to find a winning strategy in a reasonable amount of time.</li>
+      <li> We built this in Swift in order to take advantage of accessibility APIs. Swift is a nice language with some cool features but XCode is horribly outdated and slow to build in, especially in the AI coding agents era. In hindsight, we should have used <a href=https://tauri.app/>Tauri</a>. Thanks to <a href=https://charlieholtz.com/> Charlie Holtz</a> for the suggestion!</li>
     </ul>
     
     <p id="fn-1"><small>[1] If you're looking for an invite code and don't have one, you may be able to find one if you're clever enough ;)</small></p>
-    <p id="fn-2"><small>[2] The OCR feature is currently disabled in production builds to optimize battery life, but the code lives on in our repo for the brave souls willing to recompile with <code>ENABLE_OCR_CONTEXT=1</code></small></p>
+    <p id="fn-2"><small>[2] The OCR feature is currently disabled by default-- we were concerned with privacy and battery life-- but it can be enabled in app settings if you're brave enough to try it out.</small></p>
+    <p id="fn-3"><small>[3] We also have additional caching in our AI memory store to limit redundancies, but that's for another blog post.</small></p>
   </main>
 </body>
 </html>
