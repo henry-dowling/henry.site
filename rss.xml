@@ -5,7 +5,7 @@
     <link>https://henrydowling.com/blog.html</link>
     <description>Blog posts by Henry Dowling</description>
     <language>en-us</language>
-    <lastBuildDate>Tue, 15 Jan 2025 12:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 26 Sep 2025 12:00:00 +0000</lastBuildDate>
     <item>
       <title>Autocomplete everywhere that reads your mind</title>
       <link>https://henrydowling.com/autocomplete.html</link>
@@ -14,7 +14,7 @@
       <guid>https://henrydowling.com/autocomplete.html</guid>
     </item>
     <item>
-      <title>What happens when models stop getting smarter?</title>
+      <title>What happens to consumer AI when models stop getting smarter?</title>
       <link>https://henrydowling.com/background-context.html</link>
       <description>On the role of background context when models stop improving; a case for a personal AI memory store.</description>
       <pubDate>Tue, 12 Aug 2025 12:00:00 +0000</pubDate>
@@ -26,6 +26,13 @@
       <description>Thoughts on no-coding and vibe-coding.</description>
       <pubDate>Mon, 07 Jul 2025 12:00:00 +0000</pubDate>
       <guid>https://henrydowling.com/no.html</guid>
+    </item>
+    <item>
+      <title>How to pm</title>
+      <link>https://henrydowling.com/pm.html</link>
+      <description>Notes on startup PMing based on experience running AI product at Bubble; adapted from a note to a friend hiring their first product person.</description>
+      <pubDate>Fri, 26 Sep 2025 12:00:00 +0000</pubDate>
+      <guid>https://henrydowling.com/pm.html</guid>
     </item>
   </channel>
 </rss> 

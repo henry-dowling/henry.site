@@ -25,6 +25,15 @@
       font-size: 1.17em; /* similar to h3 */
       cursor: pointer;
     }
+    figure {
+      margin: 0;
+    }
+    figcaption {
+      color: #555;
+      font-size: 0.9em;
+      text-align: center;
+      margin-top: 4px;
+    }
   </style>
 </head>
 <body>
@@ -36,15 +45,18 @@
 
     <img src="images/header-2.png" alt="Codeswitch autocomplete system overview" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
 
-    <p>As one of our explorations with AI memory at <a href=https://ferganalabs.com/>Fergana Labs</a>, we built system-wide contextual autocomplete in every text box on your computer for MacOS. To hydrate it with context, we built a system to grab text from input fields via a11y APIs and screen OCR. We named it Codeswitch, and you can try it <a href=https://www.getcodeswitch.com/>here!</a><sup id="fnref-1"><a href="#fn-1">[1]</a></sup> </p>
+    <p>As one of our explorations with AI memory at <a href=https://ferganalabs.com/>Fergana Labs</a>, we built system-wide contextual autocomplete in every text box on your computer for MacOS. To hydrate it with context, we built a system to grab text from input fields via a11y APIs and screen OCR. We named it Codeswitch, and you can try it <a href=https://www.getcodeswitch.com/>here!</a><sup id="fnref-1"><a href="#fn-1">[1]</a></sup>. For a demo of how it works, see <a href=https://x.com/henrytdowling/status/1971444339168641135>here</a>. </p>
 
-    <p>In order to build this so that it works well on MacOS, we had to make some interesting / nonstandard design decisions. In this blog post, I'll talk through these decisions.</p>
+    <p>In order to build this so that it works well on MacOS, we had to make some interesting / nonstandard design decisions. In this blog post, I'll walk through these decisions.</p>
 
     <h3>Using Accessibility tools to mock grey "ghost" text + replace text</h3>
 
     <p> Most of the standard autocomplete operations (suggested text, replacing text for "rephrase feature") are not possible without MacOS a11y APIs. </p>
 
-    <img src="images/ghosttext.png" alt="Screenshot showing ghost text appearing in a text field" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
+    <figure style="margin: 0;">
+      <img src="images/ghosttext.png" alt="Screenshot showing ghost text appearing in a text field" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
+      <figcaption>We create ghost text <em>EVERYWHERE</em> that a user can type</figcaption>
+    </figure>
     
     <ul>
       <li>We generate "ghost text" NSPanel by getting the element and cursor's caret position via <a href=https://developer.apple.com/documentation/applicationservices/axuielement>AXUIElement</a> Position Attributes</li>
@@ -68,8 +80,6 @@
       <li>We handle the "tab" shortcut, as well as intercepting CMD-C and CMD-X events, with Global keyboard shortcut interception via <code>NSEvent.addGlobalMonitorForEvents(matching:handler:)</code> for a number of shortcuts, including tab.</li>
     </ul>
 
-    <img src="images/chromeextension.png" alt="Screenshot showing autocomplete working in Chrome browser" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
-
     <h3>Reverse engineering Google Docs' canvas-based rendering</h3>
 
     <p>It was important to us that the project works in Google Docs. However, Google Docs’ canvas-based rendering made all of our techniques for getting text (accessibility selection to get cursor position for grey text, read text, select text in order to paste over it) useless. As a workaround to get cursor positioning information, we wrote a chrome extension to help us get this information from the user. Unfortunately, that means users need to install the chrome extension for Codeswitch to work in Docs.</p>
@@ -82,19 +92,44 @@
 
     <img src="images/findingthedoc.png" alt="Reverse-engineering approach to finding text elements in Google Docs" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
 
-    <p>We found this discussion of how Google’s Canvas-based rendering extremely helpful — see <a href=https://github.com/swoorpious/web_server_cpp/issues/1>this GitHub discussion</a>.</p>
+    <p>We found <a href=<a href=https://github.com/swoorpious/web_server_cpp/issues/1>this</a> discussion of how Google’s Canvas-based rendering extremely helpful.</p>
+    
+    <h4>Determining selected text in Google Docs</h4>
     <p>Unfortunately, Google Docs renders each line in the canvas as a monolith, so we still needed to figure out <em>what text was being rendered</em>. So, given a cursor position in a line and a set of text in the line, we need to estimate which text was selected. To achieve this, we render actual text invisibly on the page, and then measure at which character the selection must start given its real position.</p>
 
     <img src="images/googledocshack.png" alt="Demonstration of Google Docs canvas rendering hack" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
 
-    
+    <h3>Screen OCR for context when a11y APIs fail</h3>
+
+    <p>While accessibility APIs are great when they work, plenty of applications don't properly expose their text content through these channels. We originally built an OCR system to capture context from these stubborn apps<sup id="fnref-2"><a href="#fn-2">[2]</a></sup>.</p>
+
+    <ul>
+      <li>We used Apple's Vision framework (<code>VNRecognizeTextRequest</code>) to perform real-time OCR on screen regions around the cursor. The Vision API is surprisingly fast - we could OCR a focused region in ~50ms on an M1 Mac.</li>
+
+      <li>The tricky part was figuring out <em>what</em> to OCR. We couldn't just OCR the entire screen constantly (RIP battery life). Instead, we built a heuristic system that would:
+        <ul>
+          <li>Detect when a11y APIs returned empty or unhelpful text</li>
+          <li>Identify the active window bounds using <code>CGWindowListCopyWindowInfo</code></li>
+          <li>Create a "smart crop" around the cursor position, expanding outward until we hit visual boundaries (significant color changes, window edges, etc.)</li>
+        </ul>
+      </li>
+
+      <li>To avoid OCRing the same content repeatedly, we implemented a simple cache keyed on window ID + rough cursor position. If the user hadn't moved much, we'd reuse the previous OCR result.</li>
+
+      <li>The hardest part was dealing with overlapping text from different UI layers. Terminal applications were particularly nasty - the prompt, your typing, and any autocomplete suggestions all rendered on top of each other. We ended up using some janky heuristics based on text color and position to filter out the noise.</li>
+
+      <li>Performance was... acceptable. The OCR itself was fast, but the overhead of screenshot capture + processing meant we had to be conservative about when to trigger it. We ended up disabling it by default because the context quality wasn't worth the battery drain for most users.</li>
+    </ul>
+
+
     <h3>Learnings</h3>
     <ul>
-      <li> Our reverse-engineering approach really only worked because of how fast coding agents can work. With claude code, we were able to test many promising reverse-engineering approaches in parallel, which allowed us to find a winning strategy in a reasonable amount of time</li>
+      <li> Our reverse-engineering approach really only worked because of how fast coding agents can work. With good AI coding agents, we were able to test many promising reverse-engineering approaches in parallel, which allowed us to find a winning strategy in a reasonable amount of time</li>
       <li> We built this in Swift in order to take advantage of accessibility APIs. Swift is awful and XCode is even worse. In hindsight, we should have used something like Tauri. Thanks to <a href=https://charlieholtz.com/> Charlie Holtz</a> for the suggestion!</li>
     </ul>
     
     <p id="fn-1"><small>[1] If you're looking for an invite code and don't have one, you may be able to find one if you're clever enough ;)</small></p>
+    <p id="fn-2"><small>[2] The OCR feature is currently disabled in production builds to optimize battery life, but the code lives on in our repo for the brave souls willing to recompile with <code>ENABLE_OCR_CONTEXT=1</code></small></p>
   </main>
 </body>
 </html>
