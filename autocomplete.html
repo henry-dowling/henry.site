@@ -46,9 +46,9 @@
 
     <img src="images/header-2.png" alt="Codeswitch autocomplete system overview" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
 
-    <p>In order to explore uses for our personal AI memory store at <a href=https://ferganalabs.com/>Fergana Labs</a>, we built a system-wide contextual autocomplete for MacOS. To hydrate it with context, we built a tool to grab text from input fields via a11y APIs, screen OCR and in some cases a Chrome extension. We named it Codeswitch, and you can try it <a href=https://www.getcodeswitch.com/>here!</a><sup id="fnref-1"><a href="#fn-1">[1]</a></sup>. For a demo of how it works, see <a href=https://x.com/henrytdowling/status/1971444339168641135>here</a>. </p>
+    <p>To explore uses for our personal AI memory store at <a href=https://ferganalabs.com/>Fergana Labs</a>, we built a system-wide contextual autocomplete for MacOS. To hydrate it with context, we built a tool to grab text from input fields via a11y APIs, screen OCR and in some cases a Chrome extension. We named it Codeswitch, and you can try it <a href=https://www.getcodeswitch.com/>here!</a><sup id="fnref-1"><a href="#fn-1">[1]</a></sup>. For a demo of how it works, see <a href=https://x.com/henrytdowling/status/1971444339168641135>here</a>. </p>
 
-    <p>In order to build this so that it works well on MacOS, we had to make some interesting / unconventional design decisions. In this blog post, I'll walk through these decisions.</p>
+    <p>To build this so that it works well on MacOS, we had to make some interesting / unconventional design decisions. In this blog post, I'll walk through these decisions.</p>
 
     <h3>Using Accessibility tools to mock grey "ghost" text + replace text</h3>
 
@@ -64,26 +64,26 @@
       
       <li>We also get the bounds of the Panel with <code>AXSelection.capture</code>, which allows us to render a panel that matches the size of the input field that the cursor is currently in.</li>
       
-      <li>For our "rephrase" feature, in order to insert a rephrase suggestion, we actually manually highlight text and then overwrite the text by copy-pasting, which yields a surprisingly smooth UX.</li>
+      <li>For our "rephrase" feature, to insert a rephrase suggestion, we actually manually highlight text and then overwrite the text by copy-pasting, which yields a surprisingly smooth UX.</li>
 
       <li> Our liberal use of a11y APIs unfortunately means that Codeswitch can never live on the app store. But that's fine, we can self-sign and put it on a <a href=https://www.getcodeswitch.com/>website</a>.</li>
     </ul>
 
-    <h3>Hijacking the system clipboard in order to actually add the suggestion on "tab"</h3>
+    <h3>Hijacking the system clipboard to actually add the suggestion on "tab"</h3>
 
     <ul>
-      <li>In order to add text on "tab", we manually append the text to the user's system clipboard, and then mock a cmd-v event in order to paste it.</li>
+      <l> To add text on "tab", we manually append the text to the user's system clipboard, and then mock a cmd-v event to paste it.</li>
       
-      <li>In order to ensure that the user doesn't lose the text that they just copied to overwriting, we also implemented a virtual clipboard similar to the Raycast clipboard history extension.</li>
+      <li>To ensure that the user doesn't lose the text that they just copied to overwriting, we also implemented a virtual clipboard similar to the Raycast clipboard history extension.</li>
       
-      <li>In order to handle the case where text is added to the clipboard without CMD-C (for example, a button to click to copy in a browser), we regularly poll for clipboard changes in order to catch these events and add them to the user's virtual clipboard.</li>
+      <li>To handle the case where text is added to the clipboard without CMD-C (for example, a button to click to copy in a browser), we regularly poll for clipboard changes to catch these events and add them to the user's virtual clipboard.</li>
       
       <li>We handle the "tab" shortcut, as well as intercepting CMD-C and CMD-X events, with Global keyboard shortcut interception via <code>NSEvent.addGlobalMonitorForEvents(matching:handler:)</code> for a number of shortcuts, including tab.</li>
     </ul>
 
     <h3>Reverse engineering Google Docs' canvas-based rendering</h3>
 
-    <p>It was important to us that the project works in Google Docs. However, Google Docs’ canvas-based rendering made all of our techniques for getting text (accessibility selection to get cursor position for grey text, read text, select text in order to paste over it) useless. As a workaround, we wrote a chrome extension to help us get this information from the user. Unfortunately, that means users need to install the chrome extension for Codeswitch to work in Docs.</p>
+    <p>It was important to us that the project works in Google Docs. However, Google Docs’ canvas-based rendering made all of our techniques for getting text (accessibility selection to get cursor position for grey text, read text, select text to paste over it) useless. As a workaround, we wrote a chrome extension to help us get this information from the user. Unfortunately, that means users need to install the chrome extension for Codeswitch to work in Docs.</p>
 
     <p>Then we had to figure out what text was selected. Since Google Docs doesn’t actually display any text elements in the browser, we reverse-engineered Google Docs’ API to grab the UI elements that store text within their custom rendering.</p>
     <ul>
@@ -96,7 +96,7 @@
     <p>We found <a href=https://github.com/swoorpious/web_server_cpp/issues/1>this</a> discussion of how Google’s Canvas-based rendering works extremely helpful.</p>
     
     <h4>Determining selected text in Google Docs</h4>
-    <p>Unfortunately, Google Docs renders each line in the canvas as a monolith, so we still needed to figure out <em>what text was being rendered</em>. So, given a cursor position in a line and a set of text in the line, we need to estimate which text was selected. To achieve this, we render actual text invisibly on the page, and then measure at which character the selection must start given its real position.</p>
+    <p>Unfortunately, Google Docs renders each line in the canvas as a monolith, so we still needed to figure out <em>what text was being selected</em>. So, given a cursor position in a line and a set of text in the line, we need to estimate which text was selected. To achieve this, we render actual text invisibly on the page, and then measure at which character the selection must start given its real position.</p>
 
     <img src="images/gdh2.png" alt="Demonstration of Google Docs canvas rendering hack" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
 
@@ -118,7 +118,7 @@
     <ul>
       <li> AI autocomplete with a memory store is *really good* when you're in a mode of work that involves a lot of "copy-pasting" / sending rapidfire emails / slack messages. Here's a scenario where Codeswitch absolutely kills it: your boss asks you to move a meeting, and you need to go and send an email to 5 separate people to get their okay / buy-in.</li>
       <li> Our reverse-engineering approach really only worked because of how fast coding agents can work. With good AI coding agents, we were able to test many promising reverse-engineering approaches in parallel, which allowed us to find a winning strategy in a reasonable amount of time.</li>
-      <li> We built this in Swift in order to take advantage of accessibility APIs. Swift is a nice language with some cool features but XCode is horribly outdated and slow to build in, especially in the AI coding agents era. In hindsight, we should have used <a href=https://tauri.app/>Tauri</a>. Thanks to <a href=https://charlieholtz.com/> Charlie Holtz</a> for the suggestion!</li>
+      <li> We built this in Swift to take advantage of accessibility APIs. Swift is a nice language with some cool features but XCode is horribly outdated and slow to build in, especially in the AI coding agents era. In hindsight, we should have used <a href=https://tauri.app/>Tauri</a>. Thanks to <a href=https://charlieholtz.com/> Charlie Holtz</a> for the suggestion!</li>
     </ul>
 
     <br>
