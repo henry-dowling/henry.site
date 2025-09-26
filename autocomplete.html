@@ -104,7 +104,7 @@
     <p>While accessibility APIs are great when they work, plenty of applications (most notably Chrome) don't properly expose their text content through these channels. We built an OCR system to capture context from these stubborn apps<sup id="fnref-2"><a href="#fn-2">[2]</a></sup>.</p>
 
     <ul>
-      <li>We used Apple's Vision framework (<code>VNRecognizeTextRequest</code>) to perform real-time OCR on screen regions around the cursor. The Vision API is surprisingly fast - we could OCR a focused region in ~50ms on an M1 Mac.</li>
+      <li>We used Apple's Vision framework (<code>VNRecognizeTextRequest</code>) to perform real-time OCR on screen regions around the cursor. The Vision API is surprisingly fast - we could OCR a focused region in ~50ms on an M3 Mac.</li>
 
       <li>The tricky part was figuring out <em>when</em> to OCR, and <when> to send OCR results to our AI memory backend. We couldn't just OCR the entire screen constantly, due to battery life concerns. To avoid OCRing the same content repeatedly, we implemented a simple cache keyed on window ID + focused element. If the user hadn't moved, we'd reuse the previous OCR result.</li>
 
@@ -119,7 +119,11 @@
       <li> Our reverse-engineering approach really only worked because of how fast coding agents can work. With good AI coding agents, we were able to test many promising reverse-engineering approaches in parallel, which allowed us to find a winning strategy in a reasonable amount of time.</li>
       <li> We built this in Swift in order to take advantage of accessibility APIs. Swift is a nice language with some cool features but XCode is horribly outdated and slow to build in, especially in the AI coding agents era. In hindsight, we should have used <a href=https://tauri.app/>Tauri</a>. Thanks to <a href=https://charlieholtz.com/> Charlie Holtz</a> for the suggestion!</li>
     </ul>
-    
+
+    <br>
+
+    <em> Shameless plug: If you think this kind of thing is cool, come work with us at <a href=https://ferganalabs.com/>Fergana Labs</a>.</em>
+  
     <p id="fn-1"><small>[1] If you're looking for an invite code and don't have one, you may be able to find one if you're clever enough ;)</small></p>
     <p id="fn-2"><small>[2] The OCR feature is currently disabled by default-- we were concerned with privacy and battery life-- but it can be enabled in app settings if you're brave enough to try it out.</small></p>
     <p id="fn-3"><small>[3] We also have additional caching in our AI memory store to limit redundancies, but that's for another blog post.</small></p>
