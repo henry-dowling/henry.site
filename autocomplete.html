@@ -34,9 +34,9 @@
   <main>
     <h2>Autocomplete everywhere that reads your mind</h2>
 
-    <img src="images/header.png" alt="Codeswitch autocomplete system overview" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
+    <img src="images/header-2.png" alt="Codeswitch autocomplete system overview" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
 
-    <p>At <a href=https://ferganalabs.com/ >Fergana Labs</a>, as one of our first experiments with what better AI memory can do, we built system-wide contextual autocomplete in every text box on your computer for MacOS. We also built a system to grab context from everywhere on your computer. We named it codeswitch, and it's shockingly good!</p>
+    <p>As one of our explorations with AI memory at <a href=https://ferganalabs.com/>Fergana Labs</a>, we built system-wide contextual autocomplete in every text box on your computer for MacOS. To hydrate it with context, we built a system to grab text from input fields via a11y APIs and screen OCR. We named it Codeswitch, and you can try it <a href=https://www.getcodeswitch.com/>here!</a><sup id="fnref-1"><a href="#fn-1">[1]</a></sup> </p>
 
     <p>In order to build this so that it works well on MacOS, we had to make some interesting / nonstandard design decisions. In this blog post, I'll talk through these decisions.</p>
 
@@ -72,12 +72,29 @@
 
     <h3>Reverse engineering Google Docs' canvas-based rendering</h3>
 
-    <p>Google Docs uses a custom canvas-based rendering system that doesn't play nicely with standard accessibility tools. To make our autocomplete work in Google Docs, we had to reverse engineer their rendering system and build custom integration points.</p>
+    <p>It was important to us that the project works in Google Docs. However, Google Docs’ canvas-based rendering made all of our techniques for getting text (accessibility selection to get cursor position for grey text, read text, select text in order to paste over it) useless. As a workaround to get cursor positioning information, we wrote a chrome extension to help us get this information from the user. Unfortunately, that means users need to install the chrome extension for Codeswitch to work in Docs.</p>
 
-    <p>This involved understanding how Google Docs maps virtual cursor positions to actual canvas coordinates, and then positioning our autocomplete suggestions accordingly. It was one of the trickiest parts of the implementation, but the result is seamless autocomplete even in the most complex web applications.</p>
+    <p>Then we had to figure out what text was selected. Since Google Docs doesn’t actually display any text elements in the browser, we reverse-engineered Google Docs’ API to grab the UI elements that store text within their custom rendering.</p>
+    <ul>
+      <li>To get cursor, we select for <code>.kix-cursor-karet</code> in the DOM</li>
+      <li>To get text, we select <code>.kix-canvas-tile-selection &gt; svg &gt; rect</code></li>
+    </ul>
 
-    <p> We found <a href=https://github.com/swoorpious/web_server_cpp/issues/1> this random guy's github discussion </a> extremely helpful</p>
+    <img src="images/findingthedoc.png" alt="Reverse-engineering approach to finding text elements in Google Docs" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
 
+    <p>We found this discussion of how Google’s Canvas-based rendering extremely helpful — see <a href=https://github.com/swoorpious/web_server_cpp/issues/1>this GitHub discussion</a>.</p>
+    <p>Unfortunately, Google Docs renders each line in the canvas as a monolith, so we still needed to figure out <em>what text was being rendered</em>. So, given a cursor position in a line and a set of text in the line, we need to estimate which text was selected. To achieve this, we render actual text invisibly on the page, and then measure at which character the selection must start given its real position.</p>
+
+    <img src="images/googledocshack.png" alt="Demonstration of Google Docs canvas rendering hack" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
+
+    
+    <h3>Learnings</h3>
+    <ul>
+      <li> Our reverse-engineering approach really only worked because of how fast coding agents can work. With claude code, we were able to test many promising reverse-engineering approaches in parallel, which allowed us to find a winning strategy in a reasonable amount of time</li>
+      <li> We built this in Swift in order to take advantage of accessibility APIs. Swift is awful and XCode is even worse. In hindsight, we should have used something like Tauri. Thanks to <a href=https://charlieholtz.com/> Charlie Holtz</a> for the suggestion!</li>
+    </ul>
+    
+    <p id="fn-1"><small>[1] If you're looking for an invite code and don't have one, you may be able to find one if you're clever enough ;)</small></p>
   </main>
 </body>
 </html>
