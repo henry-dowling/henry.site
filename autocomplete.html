@@ -62,7 +62,7 @@
     <ul>
       <li>We generate "ghost text" NSPanel by getting the element and cursor's caret position via <a href=https://developer.apple.com/documentation/applicationservices/axuielement>AXUIElement</a> Position Attributes</li>
       
-      <li>We also get the bounds of the Panel with <code>AXSelection.capture</code>, which allows us to render a panel that matches the size of the input field that the cursor is currently in.</li>
+      <li>We also get the bounds of the Panel with <code>AXUIElementCopyParameterizedAttributeValue</code>, which allows us to render a panel that matches the size of the input field that the cursor is currently in.</li>
       
       <li>For our "rephrase" feature, to insert a rephrase suggestion, we actually manually highlight text and then overwrite the text by copy-pasting, which yields a surprisingly smooth UX.</li>
 
