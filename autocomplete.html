@@ -65,7 +65,7 @@
       
       <li>For our "rephrase" feature, in order to insert a rephrase suggestion, we actually manually highlight text and then overwrite the text by copy-pasting, which yields a surprisingly smooth UX.</li>
 
-      <li> Our abuse of a11y APIs unfortunately means that Codeswitch can never live on the app store!</li>
+      <li> Our liberal use of a11y APIs unfortunately means that Codeswitch can never live on the app store. But that's fine, we can self-sign and put it on a <a href=https://www.getcodeswitch.com/>website</a>.</li>
     </ul>
 
     <h3>Hijacking the system clipboard in order to actually add the suggestion on "tab"</h3>
@@ -82,7 +82,7 @@
 
     <h3>Reverse engineering Google Docs' canvas-based rendering</h3>
 
-    <p>It was important to us that the project works in Google Docs. However, Google Docs’ canvas-based rendering made all of our techniques for getting text (accessibility selection to get cursor position for grey text, read text, select text in order to paste over it) useless. As a workaround to get cursor positioning information, we wrote a chrome extension to help us get this information from the user. Unfortunately, that means users need to install the chrome extension for Codeswitch to work in Docs.</p>
+    <p>It was important to us that the project works in Google Docs. However, Google Docs’ canvas-based rendering made all of our techniques for getting text (accessibility selection to get cursor position for grey text, read text, select text in order to paste over it) useless. As a workaround, we wrote a chrome extension to help us get this information from the user. Unfortunately, that means users need to install the chrome extension for Codeswitch to work in Docs.</p>
 
     <p>Then we had to figure out what text was selected. Since Google Docs doesn’t actually display any text elements in the browser, we reverse-engineered Google Docs’ API to grab the UI elements that store text within their custom rendering.</p>
     <ul>
@@ -92,12 +92,12 @@
 
     <img src="images/findingthedoc.png" alt="Reverse-engineering approach to finding text elements in Google Docs" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
 
-    <p>We found <a href=<a href=https://github.com/swoorpious/web_server_cpp/issues/1>this</a> discussion of how Google’s Canvas-based rendering extremely helpful.</p>
+    <p>We found <a href=https://github.com/swoorpious/web_server_cpp/issues/1>this</a> discussion of how Google’s Canvas-based rendering works extremely helpful.</p>
     
     <h4>Determining selected text in Google Docs</h4>
     <p>Unfortunately, Google Docs renders each line in the canvas as a monolith, so we still needed to figure out <em>what text was being rendered</em>. So, given a cursor position in a line and a set of text in the line, we need to estimate which text was selected. To achieve this, we render actual text invisibly on the page, and then measure at which character the selection must start given its real position.</p>
 
-    <img src="images/googledocshack.png" alt="Demonstration of Google Docs canvas rendering hack" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
+    <img src="images/gdh2.png" alt="Demonstration of Google Docs canvas rendering hack" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
 
     <h3>Screen OCR for context when a11y APIs fail</h3>
 
@@ -110,11 +110,8 @@
 
       <li> Another costly operation was adding our OCR results to the user's AI memory store. To limit waste, we used an edit-distance based heuristic and only sent over a new OCR when text was significantly different, either because the user switched application views or they edited text manually. <sup id="fnref-3"><a href="#fn-3">[3]</a></sup>
 
-      <li>Performance was... acceptable. The OCR itself was fast, but the overhead of screenshot capture + processing meant we had to be conservative about when to trigger it. We ended up disabling it by default because the context quality wasn't worth the battery drain for most users.</li>
+      <li>Performance was... acceptable. The OCR itself was fast, but the overhead of screenshot capture + processing meant we had to be conservative about when to trigger it. We ended up disabling it by default because the context quality wasn't worth the battery drain for most users-- not to mention privacy concerns.</li>
     </ul>
-
-    <h3>Wait, so how did you implement your AI memory store?</h3>
-    <p>That's a topic for another post :) </p>
 
     <h2>Learnings</h2>
     <ul>
