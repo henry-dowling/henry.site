@@ -110,7 +110,7 @@
     <ul>
       <li>We used Apple's Vision framework (<code>VNRecognizeTextRequest</code>) to perform real-time OCR on screen regions around the cursor. The Vision API is surprisingly fast - we could OCR a focused region in ~50ms on an M3 Mac.</li>
 
-      <li>The tricky part was figuring out <em>when</em> to OCR, and <when> to send OCR results to our AI memory backend. We couldn't just OCR the entire screen constantly, due to battery life concerns. To avoid OCRing the same content repeatedly, we implemented a simple cache keyed on window ID + focused element. If the user hadn't moved, we'd reuse the previous OCR result.</li>
+      <li>The tricky part was figuring out <em>when</em> to OCR, and <when> to send OCR results to our AI memory backend. We couldn't just OCR the entire screen constantly, due to battery life concerns. To avoid OCRing the same content repeatedly, we implemented a simple cache keyed on window ID + focused element. If the user hadn't switched focus, we'd reuse the previous OCR result.</li>
 
       <li> Another costly operation was adding our OCR results to the user's AI memory store. To limit waste, we used an edit-distance based heuristic and only sent over a new OCR when text was significantly different, either because the user switched application views or they edited text manually. <sup id="fnref-3"><a href="#fn-3">[3]</a></sup>
 
