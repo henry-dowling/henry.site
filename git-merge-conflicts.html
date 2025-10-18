@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>How Git decides when there's a merge conflict – Henry Dowling</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/jpeg" href="favicon.jpg">
+  <style>
+    body {
+      line-height: 1.4;
+      font-size: 16px;
+      padding: 0 10px;
+      margin: 50px auto;
+      max-width: 650px;
+    }
+    #maincontent {
+      max-width: 42em;
+      margin: 15 auto;
+    }
+    pre {
+      background: #f7f7f7;
+      padding: 10px;
+      overflow: auto;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+    }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  </style>
+</head>
+<body>
+  <header>
+    <h2><a href="index.html" style="color: inherit; text-decoration: none;">Henry Dowling</a>'s <a href="blog.html">Blog</a></h2>
+  </header>
+  <main>
+    <h2>How Git decides when there's a merge conflict</h2>
+    <p style="color:#666; margin-top:-10px;">October 18, 2025</p>
+
+    <p>After working through a merge conflict, Sam asked me “how does Git decide when there’s a merge conflict versus just automerging anyway?” I was annoyed that I couldn’t give a simple answer, so I looked it up and here it is.</p>
+
+    <h3>The basics</h3>
+    <p>When you merge two branches, Git performs a three-way merge. It constructs a new merge-specific working tree by walking three trees in parallel: branch A, branch B, and their common ancestor (the base). Whenever it reaches a file where the blob hashes differ between any of the three trees, it applies this rule of thumb:</p>
+    <ul>
+      <li><strong>If exclusively A or B changes a line relative to the base</strong>, keep that side’s change (no conflict).</li>
+      <li><strong>If both A and B change the same line relative to the base</strong>, declare a merge conflict.</li>
+    </ul>
+
+    <p>Example where we keep A’s change:</p>
+    <pre><code># Base
+print("hello world")
+print("A")
+print("B")
+print("C")
+
+# A
+print("hello world")
+print("DOG")
+print("B")
+print("C")
+
+# B
+print("hello world")
+print("A")
+print("B")
+print("C")
+</code></pre>
+
+    <p>Example where Git declares a conflict (both sides edit the same line):</p>
+    <pre><code># Base
+print("hello world")
+print("A")
+print("B")
+print("C")
+
+# A
+print("hello world")
+print("DOG")
+print("B")
+print("C")
+
+# B
+print("hello world")
+print("CAT")
+print("B")
+print("C")
+</code></pre>
+
+    <p>And that's it! Pretty simple. </p>
+
+    <b> But wait, what about adding new lines? Deleting lines? Moving blocks?</b>
+    <p> Okay, I’ve been slightly lying to you so far. The actual thing that git checks isn’t whether two edits are made to the <em>same line</em>, but whether the patches A and B have any <em>overlapping hunks</em>. </p>
+
+    <h3>Hunks</h3>
+    <p>Now we need to introduce the concept of <em>hunks</em>. Hunks are actually a concept from diff algorithms, not Git itself. Git doesn't implement its own diff algorithm, and and if you’re a nerd you can manually choose which diff algorithm git uses in .gitattributes. By default git uses the <a href=https://blog.jcoglan.com/2017/02/12/the-myers-diff-algorithm-part-1/>Myers’ diff algorithm</a>.</p> 
+    <p>See <a href=https://www.gnu.org/software/diffutils/manual/html_node/Hunks.html>here</a> for a great explanation of what a hunk is. A <em>hunk</em> is a contiguous group of changed lines in a diff, optinally surrounded by some context lines for human readability.</p>
+
+    <p>When comparing the diff between two files, we can write their diff as.
+        
+        
+        
+        Each of the discrete continuous groups of lines where the files differ are known as hunks. Here’s an example: </p>
+
+    <p>For example:</p>
+    <pre><code>File A:
+print("A")
+print("DOG")
+print("C")
+
+File B:
+print("A")
+print("CAT")
+print("C")
+
+Diff (conceptually):
+print("A")
+Hunk: { print("DOG") ↔ print("CAT") }
+print("C")
+</code></pre>
+
+    <p>Different diff algorithms can produce different hunks for the same pair of files. For a classic example from the GNU diffutils manual, consider files with lines <code>a, b, c</code> versus <code>c, b, a</code>. Depending on which common line is chosen, the hunk layout (and therefore the patch) changes. See the discussion in <a href="https://www.gnu.org/software/diffutils/manual/html_node/Hunks.html" target="_blank" rel="noopener noreferrer">the diffutils manual on hunks</a>.</p>
+
+    <h3>Hunks in Git’s merge algorithm</h3>
+    <p>Now we can state Git’s real decision procedure more precisely:</p>
+    <ol>
+      <li>Compute patches <code>base → A</code> and <code>base → B</code>.</li>
+      <li>If any hunks from those two patches overlap, Git marks a merge conflict for those regions; otherwise it applies both.</li>
+    </ol>
+
+    <p>Example:</p>
+    <pre><code># Base
+print("hello world")
+print("A")
+print("B")
+print("C")
+
+# Commit A
+print("hello world")
+print("DOG")
+print("B")
+print("C")
+
+diff A (e.g. `git diff base..A`):
+@@ -1,4 +1,5 @@
+ print("hello world")
+ print("A")
++print("DOG")
+ print("B")
+ print("C")
+ \ No newline at end of file
+
+# Commit B
+print("hello world")
+print("CAT")
+print("B")
+print("C")
+
+diff B:
+@@ -1,4 +1,5 @@
+ print("hello world")
+ print("A")
++print("CAT")
+ print("B")
+ print("C")
+ \ No newline at end of file
+</code></pre>
+
+    <p>Here the hunks overlap, so Git reports a conflict.</p>
+
+    <h4>Aside: How do we tell if hunks overlap?</h4>
+    <p>Each hunk can be represented as <code>(old_start, old_length, new_start, new_length)</code> — this is the <code>@@ -a,b +c,d @@</code> header you see in unified diffs. To compare A and B, use their coordinates relative to the <em>base</em> (the “old” ranges), since the base is a common reference. Two hunks overlap if their old-range intervals intersect.</p>
+
+    <p>One subtlety: the printed hunk windows include a couple lines of <em>context</em> for human readability (configurable in Git). Even if two printed hunk windows visually touch or overlap due to context, the <em>actual change ranges</em> may not, in which case Git can still auto-merge.</p>
+
+    <p>Concrete illustration (non-overlapping actual changes even though context suggests proximity):</p>
+    <pre><code>@@ -1,4 +1,5 @@
+print("hello world")
+print("A")
++print("DOG")
+print("B")
+print("C")
+\ No newline at end of file
+
+@@ -1,4 +1,5 @@
+print("hello world")
+print("A")
+print("B")
++print("CAT")
+print("C")
+\ No newline at end of file
+
+Base:
+print("hello world")
+print("A")
+print("B")
+print("C")
+</code></pre>
+
+    <p>Here, the true change ranges don’t intersect (one inserts between A and B; the other between B and C), so Git can merge automatically even though the displayed context might make them look adjacent.</p>
+
+    <h3>Special cases</h3>
+    <ul>
+      <li>File rename conflicts</li>
+      <li>Deleting + editing a file</li>
+    </ul>
+    <p>These follow additional rules and are less interesting for the basic overlapping-hunks intuition.</p>
+
+  </main>
+</body>
+</html>
+
