@@ -158,7 +158,7 @@ print("D")</code></pre>
     </div>
     
     <div class="code-block">
-      <div class="code-caption">Diff (conceptually)</div>
+      <div class="code-caption">Diff</div>
       <pre><code class="language-plaintext">Same: print("A")
 Hunk 1: { <mark>print("DOG")</mark> ↔ <mark>print("CAT")</mark> }
 Same: print("B")
@@ -198,19 +198,17 @@ Same: print("D")</code></pre>
 
     <h3>Hunks in Git’s merge algorithm</h3>
 
-    
-
-
-    <p>Now we can state Git’s real decision procedure more precisely:</p>
+    <p>Okay, great. Now that we understand the concept of hunks, we can give the real way the Git decides when there's a merge algorithm:</p>
     <ol>
-      <li>Compute patches <code>base → A</code> and <code>base → B</code>.</li>
-      <li>If any hunks from those two patches overlap, Git marks a merge conflict for those regions; otherwise it applies both.</li>
+      <li>It applies changes <code>base → A</code> and <code>base → B</code>.</li>
+      <li>It checks to see if the patches <code>base → A</code> and <code>base → B</code> have any overlapping hunks.</li>
     </ol>
+    <p>Here's an example:</p>
 
-    <p>Example:</p>
-    <div class="code-block">
-      <div class="code-caption">Overlapping hunks example</div>
-      <pre><code class="language-diff"># Base
+    <div class="code-comparison">
+      <div class="code-block">
+        <div class="code-caption">Patch A</div>
+        <pre><code class="language-diff"># Base
 print("hello world")
 print("A")
 print("B")
@@ -222,7 +220,7 @@ print("hello world")
 print("B")
 print("C")
 
-diff A (e.g. `git diff base..A`):
+diff A (ie `git diff base A`):
 @@ -1,4 +1,5 @@
  print("hello world")
  print("A")
@@ -230,6 +228,15 @@ diff A (e.g. `git diff base..A`):
  print("B")
  print("C")
  \ No newline at end of file
+</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-caption">Patch B</div>
+        <pre><code class="language-diff"># Base
+print("hello world")
+print("A")
+print("B")
+print("C")
 
 # Commit B
 print("hello world")
@@ -237,7 +244,7 @@ print("hello world")
 print("B")
 print("C")
 
-diff B:
+diff B (ie `git diff base B`):
 @@ -1,4 +1,5 @@
  print("hello world")
  print("A")
@@ -246,51 +253,62 @@ diff B:
  print("C")
  \ No newline at end of file
 </code></pre>
+      </div>
     </div>
 
     <p>Here the hunks overlap, so Git reports a conflict.</p>
 
     <h3>Wait, but what does it mean for hunks to overlap?</h3>
 
-    <p>Each hunk can be represented as <code>(old_start, old_length, new_start, new_length)</code> — this is the <code>@@ -a,b +c,d @@</code> header you see in unified diffs. To compare A and B, use their coordinates relative to the <em>base</em> (the “old” ranges), since the base is a common reference. Two hunks overlap if their old-range intervals intersect.</p>
+    <p>Each hunk's length can be measured by (old_start, old_length, new_start, new_length). That's what notation like @@ -1,4 +1,5 @@ that you see in git diff  is! (Here, we see that the lengths here are 4 and 5 rather than 0 and 1 because git includes 2 lines of context on either side for human readability)</p>
 
-    <p>One subtlety: the printed hunk windows include a couple lines of <em>context</em> for human readability (configurable in Git). Even if two printed hunk windows visually touch or overlap due to context, the <em>actual change ranges</em> may not, in which case Git can still auto-merge.</p>
+    <p>So, hunks A and B overlap iff the ranges (a.old_start, a.old_length) (b.old_start, b.old_length) intersect. <u>Why use old rather than new?</u> Because the base file is a convenient common reference point between A and B. This is one of the fundamental reasons why using a 3-way merge is helpful.</p>
 
-    <p>Concrete illustration (non-overlapping actual changes even though context suggests proximity):</p>
-    <div class="code-block">
-      <div class="code-caption">Non-overlapping hunks example</div>
-      <pre><code class="language-diff">@@ -1,4 +1,5 @@
-print("hello world")
-print("A")
-+<mark>print("DOG")</mark>
-print("B")
-print("C")
-\ No newline at end of file
+    <h3>But wait, those hunks DO overlap!</h3>
+    
+    <p>Okay, I was lying to you again. Remember when I said "hunks A and B overlap if the ranges (a.old_start, a.old_length) (b.old_start, b.old_length)"? This is not quite true. The window in these hunks include 2 lines of context on either side for human readability (this can be tweaked in git TODO how to do this).</p>
 
-@@ -1,4 +1,5 @@
-print("hello world")
-print("A")
-print("B")
-+<mark>print("CAT")</mark>
-print("C")
-\ No newline at end of file
+    <p>So, consider these diffs:</p>
 
-Base:
-print("hello world")
-print("A")
-print("B")
-print("C")
-</code></pre>
-    </div>
+    <pre><code>@@ -1,4 +1,5 @@ 
+print("hello world") 
+print("A") 
++print("DOG") 
+print("B") 
+print("C") 
+\ No newline at end of file 
 
-    <p>Here, the true change ranges don’t intersect (one inserts between A and B; the other between B and C), so Git can merge automatically even though the displayed context might make them look adjacent.</p>
+@@ -1,4 +1,5 @@ 
+print("hello world") 
+print("A") 
+print("B") 
++print("CAT") 
+print("C") 
+\ No newline at end of file</code></pre>
 
-    <h3>Special cases</h3>
+    <p>And this base:</p>
+    <pre><code>print("hello world") 
+print("A") 
+print("B") 
+print("C")</code></pre>
+
+    <p>We can make this merge with no conflicts, since the actual hunks do not intersect, although when you include the surrounding context that git adds for human readability, it appears that they do! DOG clearly appears between A and B whereas CAT appears between B and C.</p>
+    
+    <h3>Conclusion</h3>
+    <p>So the real algorithm is this:<br>
     <ul>
-      <li>File rename conflicts</li>
-      <li>Deleting + editing a file</li>
+        <li> It applies changes base→A and base→B</li>
+        <li> It checks to see if the patches base→A and base→B have any overlapping hunks. If they do, then those lines are marked as a merge conflict and manually added to the merge tree.</li>
     </ul>
-    <p>These follow additional rules and are less interesting for the basic overlapping-hunks intuition.</p>
+    
+    <p><u>And that's it!</u> This is how Git can tell if there is a merge conflict. Except for these special cases:</p>
+    <ul>
+        <li>File rename conflicts </li>
+        <li>Deleting + editing a file</li>
+    </ul>
+
+
+    <p>Those are less interesting so I won't cover them.</p>
 
     <hr>
     <section id="footnotes" aria-label="Footnotes">
