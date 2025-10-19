@@ -84,7 +84,7 @@ print("C")
 
 # A
 print("hello world")
-print("DOG")
+<mark>print("DOG")</mark>
 print("B")
 print("C")
 
@@ -105,13 +105,13 @@ print("C")
 
 # A
 print("hello world")
-print("DOG")
+<mark>print("DOG")</mark>
 print("B")
 print("C")
 
 # B
 print("hello world")
-print("CAT")
+<mark>print("CAT")</mark>
 print("B")
 print("C")
 </code></pre>
@@ -139,35 +139,43 @@ print("C")
     We call the second term—each of the discrete blocks where the files differ—<em>hunks</em>. Here’s an example: </p>
 
     <p>For example:</p>
-    <pre><code class="language-plaintext">File A:
+    <div class="code-block">
+      <div class="code-caption">File comparison example</div>
+      <pre><code class="language-python">File A:
 print("A")
-print("DOG")
+<mark>print("DOG")</mark>
 print("C")
 
 File B:
 print("A")
-print("CAT")
+<mark>print("CAT")</mark>
 print("C")
 
 Diff (conceptually):
 Same: print("A")
-Hunk: { print("DOG") ↔ print("CAT") }
+Hunk: { <mark>print("DOG")</mark> ↔ <mark>print("CAT")</mark> }
 Same: print("C")
 </code></pre>
+    </div>
 
 
     <p>I said earlier that hunks are dependent on diff algorithms. Here’s an example of something surprising: two different diff algorithms can yield two different sets of hunks for a given diff (the following example is quoted from https://www.gnu.org/software/diffutils/manual/html_node/Hunks.html)</p>
 
-    <p>Suppose the file F contains the three lines ‘a’, ‘b’, ‘c’, and the file G contains the same three lines in reverse order ‘c’, ‘b’, ‘a’. If diff finds the line ‘c’ as common, then the command ‘diff F G’ produces this output:</p>
-    <pre><code class="language-diff">1,2d0
+    <p>Suppose the file F contains the three lines 'a', 'b', 'c', and the file G contains the same three lines in reverse order 'c', 'b', 'a'. If diff finds the line 'c' as common, then the command 'diff F G' produces this output:</p>
+    <div class="code-block">
+      <div class="code-caption">Diff output (common line 'c')</div>
+      <pre><code class="language-diff">1,2d0
 &lt; a
 &lt; b
 3a2,3
 &gt; b
 &gt; a
 </code></pre>
-    <p>But if diff notices the common line ‘b’ instead, it produces this output:</p>
-    <pre><code class="language-diff">1c1
+    </div>
+    <p>But if diff notices the common line 'b' instead, it produces this output:</p>
+    <div class="code-block">
+      <div class="code-caption">Diff output (common line 'b')</div>
+      <pre><code class="language-diff">1c1
 &lt; a
 ---
 &gt; c
@@ -176,6 +184,7 @@ Same: print("C")
 ---
 &gt; a
     </code></pre>
+    </div>
 
     <p>There are many different ways for a diff algorithm to decide on which hunks to use to represent the diff between two files, and it’s up to the diff algorithm to make hunks minimal and readable to make life easier for the reviewer<sup id="fnref1"><a href="#fn1">1</a></sup>.</p>
 
@@ -187,7 +196,9 @@ Same: print("C")
     </ol>
 
     <p>Example:</p>
-    <pre><code class="language-diff"># Base
+    <div class="code-block">
+      <div class="code-caption">Overlapping hunks example</div>
+      <pre><code class="language-diff"># Base
 print("hello world")
 print("A")
 print("B")
@@ -195,7 +206,7 @@ print("C")
 
 # Commit A
 print("hello world")
-print("DOG")
+<mark>print("DOG")</mark>
 print("B")
 print("C")
 
@@ -203,14 +214,14 @@ diff A (e.g. `git diff base..A`):
 @@ -1,4 +1,5 @@
  print("hello world")
  print("A")
-+print("DOG")
++<mark>print("DOG")</mark>
  print("B")
  print("C")
  \ No newline at end of file
 
 # Commit B
 print("hello world")
-print("CAT")
+<mark>print("CAT")</mark>
 print("B")
 print("C")
 
@@ -218,11 +229,12 @@ diff B:
 @@ -1,4 +1,5 @@
  print("hello world")
  print("A")
-+print("CAT")
++<mark>print("CAT")</mark>
  print("B")
  print("C")
  \ No newline at end of file
 </code></pre>
+    </div>
 
     <p>Here the hunks overlap, so Git reports a conflict.</p>
 
@@ -232,10 +244,12 @@ diff B:
     <p>One subtlety: the printed hunk windows include a couple lines of <em>context</em> for human readability (configurable in Git). Even if two printed hunk windows visually touch or overlap due to context, the <em>actual change ranges</em> may not, in which case Git can still auto-merge.</p>
 
     <p>Concrete illustration (non-overlapping actual changes even though context suggests proximity):</p>
-    <pre><code class="language-diff">@@ -1,4 +1,5 @@
+    <div class="code-block">
+      <div class="code-caption">Non-overlapping hunks example</div>
+      <pre><code class="language-diff">@@ -1,4 +1,5 @@
 print("hello world")
 print("A")
-+print("DOG")
++<mark>print("DOG")</mark>
 print("B")
 print("C")
 \ No newline at end of file
@@ -244,7 +258,7 @@ print("C")
 print("hello world")
 print("A")
 print("B")
-+print("CAT")
++<mark>print("CAT")</mark>
 print("C")
 \ No newline at end of file
 
@@ -254,6 +268,7 @@ print("A")
 print("B")
 print("C")
 </code></pre>
+    </div>
 
     <p>Here, the true change ranges don’t intersect (one inserts between A and B; the other between B and C), so Git can merge automatically even though the displayed context might make them look adjacent.</p>
 
