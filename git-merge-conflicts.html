@@ -50,7 +50,7 @@
         gap: 10px;
       }
     }
-    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.85em; }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
 </head>
@@ -124,7 +124,7 @@ print("C")
     <p> Okay, I’ve been slightly lying to you so far. The actual thing that git checks isn’t whether two edits are made to the <em>same line</em>, but whether the patches A and B have any <mark><em>overlapping hunks</em></mark>. </p>
 
     <h3>Hunks</h3>
-    <p>Now we need to introduce the concept of <em>hunks</em>. Hunks actually come from <em>diff algorithms</em>, not Git itself. By default Git uses the <a href=https://blog.jcoglan.com/2017/02/12/the-myers-diff-algorithm-part-1/>Myers' algorithm</a>.<sup id="fnref2"><a href="#fn2">2</a></sup></p> 
+    <p>Now we need to introduce the concept of <em>hunks</em>. Hunks actually come from <em>diff algorithms</em>, not Git itself. By default Git uses the <a href=https://blog.jcoglan.com/2017/02/12/the-myers-diff-algorithm-part-1/>Myers' algorithm</a>.<sup id="fnref1"><a href="#fn1">1</a></sup></p> 
     <p>See <a href=https://www.gnu.org/software/diffutils/manual/html_node/Hunks.html>here</a> for a great explanation of what a hunk is. A <em>hunk</em> is a contiguous group of changed lines in a diff, optionally surrounded by some context lines for human readability.</p>
 
     <p>We can write the diff between any two files as:
@@ -167,7 +167,7 @@ Same: print("D")</code></pre>
     </div>
 
     <h3>Hunks depend on diff algorithm</h3>
-    <p>I said earlier that hunks come from diff algorithms. Here's something surprising: two different diff algorithms can yield <u>two different sets of hunks</u> for a given set of files.<sup id="fnref3"><a href="#fn3">3</a></sup></p>
+    <p>I said earlier that hunks come from diff algorithms. Here's something surprising: two different diff algorithms can yield <u>two different sets of hunks</u> for a given set of files.<sup id="fnref2"><a href="#fn2">2</a></sup></p>
 
     <p>Suppose the file F contains the three lines 'a', 'b', 'c', and the file G contains the same three lines in reverse order: 'c', 'b', 'a'. If diff finds the line 'c' as common, then the command 'diff F G' produces this output:</p>
     <div class="code-block">
@@ -194,7 +194,7 @@ Same: print("D")</code></pre>
     </code></pre>
     </div>
 
-    <p>There are many different ways for a diff algorithm to decide on which hunks to use to represent the diff between two files, and it’s up to the diff algorithm to make hunks minimal and readable to make life easier for the reviewer.<sup id="fnref1"><a href="#fn1">1</a></sup></p>
+    <p>There are many different ways for a diff algorithm to decide on which hunks to use to represent the diff between two files, and it's up to the diff algorithm to make hunks minimal and readable to make life easier for the reviewer.<sup id="fnref3"><a href="#fn3">3</a></sup></p>
 
     <h3>Hunks in Git’s merge algorithm</h3>
 
@@ -264,9 +264,9 @@ diff B (ie `git diff base B`):
 
     <p>So, hunks A and B overlap iff the ranges (a.old_start, a.old_length) (b.old_start, b.old_length) intersect. <u>Why use old rather than new?</u> Because the base file is a convenient common reference point between A and B. This is one of the fundamental reasons why using a 3-way merge is helpful.</p>
 
-    <h3>But wait, those hunks DO overlap!</h3>
+    <h3>Aside: contextual lines</h3>
     
-    <p>Okay, I was lying to you again. Remember when I said "hunks A and B overlap if the ranges (a.old_start, a.old_length) (b.old_start, b.old_length)"? This is not quite true. The window in these hunks include 2 lines of context on either side for human readability (this can be tweaked in git TODO how to do this).</p>
+    <p>Okay, I was lying to you again. Remember when I said "hunks A and B overlap if the ranges (a.old_start, a.old_length) (b.old_start, b.old_length) intersect"? This is not quite true. The window in these hunks that  include 2 lines of context on either side for human readability.<sup id="fnref4"><a href="#fn4">4</a></sup> The context lines are not considered as part of the hunks for the purposes of determining merge conflicts.</p> see
 
     <p>So, consider these diffs:</p>
 
@@ -313,9 +313,10 @@ print("C")</code></pre>
     <hr>
     <section id="footnotes" aria-label="Footnotes">
       <ol style="font-size:0.95em; color:#555; padding-left: 1.2em; margin-top: 1em;">
-        <li id="fn1">This has implications for codebase analytics too- your PR that GitHub says was +124 -28 lines may not actually be +124 -28 when using a different diff algorithm! <a href="#fnref1" aria-label="Back to content">↩</a></li>
-        <li id="fn2">if you're a nerd you can manually choose which diff algorithm you want Git to use in .gitattributes. <a href="#fnref2" aria-label="Back to content">↩</a></li>
-        <li id="fn3">This example is taken from <a href="https://www.gnu.org/software/diffutils/manual/html_node/Hunks.html">the GNU diffutils docs</a>. <a href="#fnref3" aria-label="Back to content">↩</a></li>
+        <li id="fn1">If you're a nerd you can manually choose which diff algorithm you want Git to use in .gitattributes. <a href="#fnref1" aria-label="Back to content">↩</a></li>
+        <li id="fn2">This example is taken from <a href="https://www.gnu.org/software/diffutils/manual/html_node/Hunks.html">the GNU diffutils docs</a>. <a href="#fnref2" aria-label="Back to content">↩</a></li>
+        <li id="fn3">This has implications for codebase analytics too- your PR that GitHub says was +124 -28 lines may not actually be +124 -28 when using a different diff algorithm! <a href="#fnref3" aria-label="Back to content">↩</a></li>
+        <li id="fn4">You can configure the number of context lines globally with <code>git config --global diff.context &lt;number&gt;</code> or for individual commands using <code>git diff -U&lt;number&gt;</code>. <a href="#fnref4" aria-label="Back to content">↩</a></li>
       </ol>
     </section>
 
