@@ -51,6 +51,7 @@
       }
     }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 0.85em; }
+    .blue-text { color: blue; }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
 </head>
@@ -198,11 +199,10 @@ Same: print("D")</code></pre>
 
     <h3>Hunks in Git’s merge algorithm</h3>
 
-    <p>Okay, great. Now that we understand the concept of hunks, we can give the real way the Git decides when there's a merge algorithm:</p>
+    <p>Okay, great. Now that we understand the concept of hunks, we can give the <em>real</em> way the Git decides when there's a merge conflict:</p>
     <ol>
       <li>It applies changes <code>base → A</code> and <code>base → B</code>.</li>
-      <li>It checks to see if the patches <code>base → A</code> and <code>base → B</code> have any overlapping hunks.</li>
-    </ol>
+      <li>It checks to see if the patches <code>base → A</code> and <code>base → B</code> have any overlapping hunks. If there are, that's a merge conflict. </ol>
     <p>Here's an example:</p>
 
     <div class="code-comparison">
@@ -221,7 +221,7 @@ print("B")
 print("C")
 
 diff A (ie `git diff base A`):
-@@ -1,4 +1,5 @@
+<span class="blue-text">@@ -1,4 +1,5 @@</span>
  print("hello world")
  print("A")
 +<mark>print("DOG")</mark>
@@ -245,7 +245,7 @@ print("B")
 print("C")
 
 diff B (ie `git diff base B`):
-@@ -1,4 +1,5 @@
+<span class="blue-text">@@ -1,4 +1,5 @@</span>
  print("hello world")
  print("A")
 +<mark>print("CAT")</mark>
@@ -260,17 +260,17 @@ diff B (ie `git diff base B`):
 
     <h3>Wait, but what does it mean for hunks to overlap?</h3>
 
-    <p>Each hunk's length can be measured by (old_start, old_length, new_start, new_length). That's what notation like @@ -1,4 +1,5 @@ is that you see in git diff! (Here, we see that the lengths here are 4 and 5 rather than 0 and 1 because git includes 2 lines of context on either side for human readability)</p>
+    <p>Each hunk's length can be measured by (old_start, old_length, new_start, new_length). That's what notation like <span class="blue-text">@@ -1,4 +1,5 @@</span> is that you see in git diff! (Here, we see that the lengths are 4 and 5 rather than 0 and 1 because git includes 2 lines of context on either side for human readability)</p>
 
     <p>So, hunks A and B overlap iff the ranges (a.old_start, a.old_length) (b.old_start, b.old_length) intersect. <u>Why use old rather than new?</u> Because the base file is a convenient common reference point between A and B. This is one of the fundamental reasons why using a 3-way merge is helpful.</p>
 
     <h3>Aside: contextual lines</h3>
     
-    <p>Okay, I was lying to you again. Remember when I said "hunks A and B overlap if the ranges (a.old_start, a.old_length) (b.old_start, b.old_length) intersect"? This is not quite true. The window in these hunks that  include 2 lines of context on either side for human readability.<sup id="fnref4"><a href="#fn4">4</a></sup> The context lines are not considered as part of the hunks for the purposes of determining merge conflicts.</p>
+    <p>Okay, I was lying to you again. Remember when I said "hunks A and B overlap if the ranges (a.old_start, a.old_length) (b.old_start, b.old_length) intersect"? This is not quite true. The window we see when we run git diff includes 2 lines of context on either side for human readability.<sup id="fnref4"><a href="#fn4">4</a></sup> The context lines are not considered as part of the hunks for the purposes of determining merge conflicts.</p>
 
     <p>So, consider these diffs:</p>
 
-    <pre><code>@@ -1,4 +1,5 @@ 
+    <pre><code><span class="blue-text">@@ -1,4 +1,5 @@</span> 
 print("hello world") 
 print("A") 
 +print("DOG") 
@@ -278,7 +278,7 @@ print("B")
 print("C") 
 \ No newline at end of file 
 
-@@ -1,4 +1,5 @@ 
+<span class="blue-text">@@ -1,4 +1,5 @@</span> 
 print("hello world") 
 print("A") 
 print("B") 
@@ -307,7 +307,7 @@ print("C")</code></pre>
         <li>Deleting + editing a file</li>
         <li>Binary file conflicts</li>
         <li>Directory / file name conflicts</li>
-        <li>Whitespace only conlicts</li>
+        <li>Whitespace-only conlicts</li>
         <li>...and many more</li>
     </ul>
 
