@@ -26,6 +26,7 @@
     }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
 </head>
 <body>
   <header>
@@ -46,7 +47,7 @@
     </ul>
 
     <p>Here's an examplw where we keep A’s change:</p>
-    <pre><code># Base
+    <pre><code class="language-python"># Base
 print("hello world")
 print("A")
 print("B")
@@ -66,7 +67,7 @@ print("C")
 </code></pre>
 
     <p>And here's an example where Git declares a conflict (both sides edit the same line):</p>
-    <pre><code># Base
+    <pre><code class="language-python"># Base
 print("hello world")
 print("A")
 print("B")
@@ -106,7 +107,7 @@ print("C")
     We call the second term-- each of the discrete blocks where the files differ-- <em>hunks</em>. Here’s an example: </p>
 
     <p>For example:</p>
-    <pre><code>File A:
+    <pre><code class="language-plaintext">File A:
 print("A")
 print("DOG")
 print("C")
@@ -126,7 +127,7 @@ Same: print("C")
     <p>I said earlier that hunks are dependent on diff algorithms. Here’s an example of something surprising: two different diff algorithms can yield two different sets of hunks for a given diff (the following example is quoted from https://www.gnu.org/software/diffutils/manual/html_node/Hunks.html)</p>
 
     <p>Suppose the file F contains the three lines ‘a’, ‘b’, ‘c’, and the file G contains the same three lines in reverse order ‘c’, ‘b’, ‘a’. If diff finds the line ‘c’ as common, then the command ‘diff F G’ produces this output:</p>
-    <pre><code>1,2d0
+    <pre><code class="language-diff">1,2d0
 &lt; a
 &lt; b
 3a2,3
@@ -134,7 +135,7 @@ Same: print("C")
 &gt; a
 </code></pre>
     <p>But if diff notices the common line ‘b’ instead, it produces this output:</p>
-    <pre><code>1c1
+    <pre><code class="language-diff">1c1
 &lt; a
 ---
 &gt; c
@@ -154,7 +155,7 @@ Same: print("C")
     </ol>
 
     <p>Example:</p>
-    <pre><code># Base
+    <pre><code class="language-diff"># Base
 print("hello world")
 print("A")
 print("B")
@@ -199,7 +200,7 @@ diff B:
     <p>One subtlety: the printed hunk windows include a couple lines of <em>context</em> for human readability (configurable in Git). Even if two printed hunk windows visually touch or overlap due to context, the <em>actual change ranges</em> may not, in which case Git can still auto-merge.</p>
 
     <p>Concrete illustration (non-overlapping actual changes even though context suggests proximity):</p>
-    <pre><code>@@ -1,4 +1,5 @@
+    <pre><code class="language-diff">@@ -1,4 +1,5 @@
 print("hello world")
 print("A")
 +print("DOG")
@@ -239,6 +240,10 @@ print("C")
     </section>
 
   </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/diff.min.js" defer></script>
+  <script>document.addEventListener('DOMContentLoaded',function(){ if (window.hljs) { hljs.highlightAll(); } });</script>
 </body>
 </html>
 
