@@ -24,6 +24,32 @@
       border: 1px solid #e0e0e0;
       border-radius: 4px;
     }
+    .code-comparison {
+      display: flex;
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .code-comparison pre {
+      flex: 1;
+      margin: 0;
+    }
+    .code-block {
+      display: flex;
+      flex-direction: column;
+    }
+    .code-caption {
+      font-size: 0.9em;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    @media (max-width: 768px) {
+      .code-comparison {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
@@ -46,8 +72,11 @@
       <li><strong>If both A and B change the line</strong>, declare a merge conflict.</li>
     </ul>
 
-    <p>Here's an examplw where we keep A’s change:</p>
-    <pre><code class="language-python"># Base
+    <p>Here's an example where we keep A's change (left) versus where Git declares a conflict (right):</p>
+    <div class="code-comparison">
+      <div class="code-block">
+        <div class="code-caption">Take A's changes</div>
+        <pre><code class="language-python"># Base
 print("hello world")
 print("A")
 print("B")
@@ -65,9 +94,10 @@ print("A")
 print("B")
 print("C")
 </code></pre>
-
-    <p>And here's an example where Git declares a conflict (both sides edit the same line):</p>
-    <pre><code class="language-python"># Base
+      </div>
+      <div class="code-block">
+        <div class="code-caption">Merge conflict :(</div>
+        <pre><code class="language-python"># Base
 print("hello world")
 print("A")
 print("B")
@@ -85,6 +115,8 @@ print("CAT")
 print("B")
 print("C")
 </code></pre>
+      </div>
+    </div>
 
     <p>And that's it! Pretty simple. </p>
 
