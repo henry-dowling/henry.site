@@ -7,7 +7,7 @@
     <language>en-us</language>
     <lastBuildDate>Sat, 18 Oct 2025 12:00:00 +0000</lastBuildDate>
     <item>
-      <title>How can Git tell if there's a merge conflict?</title>
+      <title>How does Git decide when there's a merge conflict?</title>
       <link>https://henrydowling.com/git-merge-conflicts.html</link>
       <description>An intuitive explanation of Git's merge behavior: three-way merges, hunks, and how overlapping patches produce conflicts.</description>
       <pubDate>Sat, 18 Oct 2025 12:00:00 +0000</pubDate>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>How can Git tell if there's a merge conflict? – Henry Dowling</title>
+  <title>How does Git decide when there's a merge conflict? – Henry Dowling</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/jpeg" href="favicon.jpg">
   <style>
@@ -60,7 +60,7 @@
     <h2><a href="index.html" style="color: inherit; text-decoration: none;">Henry Dowling</a>'s <a href="blog.html">Blog</a></h2>
   </header>
   <main>
-    <h2>How can Git tell if there's a merge conflict?</h2>
+    <h2>How does Git decide when there's a merge conflict?</h2>
     <p style="color:#666; margin-top:-10px;">October 18, 2025</p>
 
     <p>After working through a merge conflict, Sam asked me “how does Git decide when there’s a merge conflict versus just automerging anyway?” I was annoyed that I couldn’t give a simple answer, so I looked it up and here it is:</p>
@@ -295,13 +295,13 @@ print("C")</code></pre>
     <p>We can make this merge with no conflicts, since the Git-readable hunks do not intersect, although when you include the surrounding context that Git adds for human readability, it appears that they do! DOG clearly appears between A and B whereas CAT appears between B and C.</p>
     
     <h3>Conclusion</h3>
-    <p>So the real algorithm is this:<br>
+    <p>So the real procedure is this:<br>
     <ul>
         <li> It applies changes base→A and base→B</li>
         <li> It checks to see if the patches base→A and base→B have any overlapping hunks. If they do, then those lines are marked as a merge conflict and manually added to the merge tree.</li>
     </ul>
     
-    <p><u>And that's it!</u> 🎉 This is how Git can tell if there is a merge conflict. Except for a number of special cases:</p>
+    <p><u>And that's it!</u> 🎉 This is how Git can tell if there is a merge conflict. Except for a number of additional cases:</p>
     <ul>
         <li>File rename conflicts </li>
         <li>Deleting + editing a file</li>
