@@ -168,9 +168,9 @@ Same: print("D")</code></pre>
     </div>
 
     <h3>Hunks depend on diff algorithm</h3>
-    <p>I said earlier that hunks come from diff algorithms. Here's something surprising: two different diff algorithms can yield <u>two different sets of hunks</u> for a given set of files.<sup id="fnref2"><a href="#fn2">2</a></sup></p>
+    <p>I said earlier that hunks come from diff algorithms. Here's something surprising: two different diff algorithms can yield <u>two different sets of hunks</u> for a given set of files.</p>
 
-    <p>Suppose the file F contains the three lines 'a', 'b', 'c', and the file G contains the same three lines in reverse order: 'c', 'b', 'a'. If diff finds the line 'c' as common, then the command 'diff F G' produces this output:</p>
+    <p>Suppose the file F contains the three lines 'a', 'b', 'c', and the file G contains the same three lines in reverse order: 'c', 'b', 'a'. If diff finds the line 'c' as common, then the command 'diff F G' produces this output:<sup id="fnref2"><a href="#fn2">2</a></sup></p>
     <div class="code-block">
       <div class="code-caption">Diff output (common line 'c')</div>
       <pre><code class="language-diff">1,2d0
