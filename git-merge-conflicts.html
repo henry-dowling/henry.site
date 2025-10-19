@@ -35,16 +35,17 @@
     <h2>How Git decides when there's a merge conflict</h2>
     <p style="color:#666; margin-top:-10px;">October 18, 2025</p>
 
-    <p>After working through a merge conflict, Sam asked me “how does Git decide when there’s a merge conflict versus just automerging anyway?” I was annoyed that I couldn’t give a simple answer, so I looked it up and here it is.</p>
+    <p>After working through a merge conflict, Sam asked me “how does Git decide when there’s a merge conflict versus just automerging anyway?” I was annoyed that I couldn’t give a simple answer, so I looked it up and here it is:</p>
 
     <h3>The basics</h3>
-    <p>When you merge two branches, Git performs a three-way merge. It constructs a new merge-specific working tree by walking three trees in parallel: branch A, branch B, and their common ancestor (the base). Whenever it reaches a file where the blob hashes differ between any of the three trees, it applies this rule of thumb:</p>
+    <p>When you merge two branches, Git performs a three-way merge. This just means it constructs a new merge-specific working tree by walking three trees in parallel: branch A, branch B, and their common ancestor (the base). Whenever it reaches a file where the blob hashes differ between any of the three trees, it applies this rule of thumb:</p>
+    <p>For every line in the base... </p> 
     <ul>
-      <li><strong>If exclusively A or B changes a line relative to the base</strong>, keep that side’s change (no conflict).</li>
-      <li><strong>If both A and B change the same line relative to the base</strong>, declare a merge conflict.</li>
+      <li><strong>If exclusively A or B changes the line</strong>, keep that side’s change (no conflict).</li>
+      <li><strong>If both A and B change the line</strong>, declare a merge conflict.</li>
     </ul>
 
-    <p>Example where we keep A’s change:</p>
+    <p>Here's an examplw where we keep A’s change:</p>
     <pre><code># Base
 print("hello world")
 print("A")
@@ -64,7 +65,7 @@ print("B")
 print("C")
 </code></pre>
 
-    <p>Example where Git declares a conflict (both sides edit the same line):</p>
+    <p>And here's an example where Git declares a conflict (both sides edit the same line):</p>
     <pre><code># Base
 print("hello world")
 print("A")
@@ -87,7 +88,7 @@ print("C")
     <p>And that's it! Pretty simple. </p>
 
     <b> But wait, what about adding new lines? Deleting lines? Moving blocks?</b>
-    <p> Okay, I’ve been slightly lying to you so far. The actual thing that git checks isn’t whether two edits are made to the <em>same line</em>, but whether the patches A and B have any <em>overlapping hunks</em>. </p>
+    <p> Okay, I’ve been slightly lying to you so far. The actual thing that git checks isn’t whether two edits are made to the <em>same line</em>, but whether the patches A and B have any <mark><em>overlapping hunks</em></mark>. </p>
 
     <h3>Hunks</h3>
     <p>Now we need to introduce the concept of <em>hunks</em>. Hunks are actually a concept from diff algorithms, not Git itself. Git doesn't implement its own diff algorithm, and and if you’re a nerd you can manually choose which diff algorithm git uses in .gitattributes. By default git uses the <a href=https://blog.jcoglan.com/2017/02/12/the-myers-diff-algorithm-part-1/>Myers’ diff algorithm</a>.</p> 
