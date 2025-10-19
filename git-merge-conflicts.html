@@ -124,7 +124,7 @@ print("C")
     <p> Okay, I’ve been slightly lying to you so far. The actual thing that git checks isn’t whether two edits are made to the <em>same line</em>, but whether the patches A and B have any <mark><em>overlapping hunks</em></mark>. </p>
 
     <h3>Hunks</h3>
-    <p>Now we need to introduce the concept of <em>hunks</em>. Hunks are actually a concept from diff algorithms, not Git itself. Git doesn't implement its own diff algorithm, and and if you’re a nerd you can manually choose which diff algorithm git uses in .gitattributes. By default git uses the <a href=https://blog.jcoglan.com/2017/02/12/the-myers-diff-algorithm-part-1/>Myers’ diff algorithm</a>.</p> 
+    <p>Now we need to introduce the concept of <em>hunks</em>. Hunks are actually a concept from diff algorithms, not Git itself. Git doesn't implement its own diff algorithm, and there are many great diff algorithms to choose from. By default Git uses the <a href=https://blog.jcoglan.com/2017/02/12/the-myers-diff-algorithm-part-1/>Myers' diff algorithm</a>.<sup id="fnref2"><a href="#fn2">2</a></sup></p> 
     <p>See <a href=https://www.gnu.org/software/diffutils/manual/html_node/Hunks.html>here</a> for a great explanation of what a hunk is. A <em>hunk</em> is a contiguous group of changed lines in a diff, optinally surrounded by some context lines for human readability.</p>
 
     <p>When comparing the diff between two files, we can represent their diff as:
@@ -136,7 +136,7 @@ print("C")
           </ul>
         
     
-    We call the second term-- each of the discrete blocks where the files differ-- <em>hunks</em>. Here’s an example: </p>
+    We call the second term—each of the discrete blocks where the files differ—<em>hunks</em>. Here’s an example: </p>
 
     <p>For example:</p>
     <pre><code class="language-plaintext">File A:
@@ -268,6 +268,7 @@ print("C")
     <section id="footnotes" aria-label="Footnotes">
       <ol style="font-size:0.95em; color:#555; padding-left: 1.2em; margin-top: 1em;">
         <li id="fn1">So your PR that was +124 -28 lines may not actually be +124 -28 when using a different diff algorithm! <a href="#fnref1" aria-label="Back to content">↩</a></li>
+        <li id="fn2">if you're a nerd you can manually choose which diff algorithm you want Git to use in .gitattributes. <a href="#fnref2" aria-label="Back to content">↩</a></li>
       </ol>
     </section>
 
