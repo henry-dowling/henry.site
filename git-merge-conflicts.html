@@ -120,14 +120,14 @@ print("C")
 
     <p>And that's it! Pretty simple. </p>
 
-    <b> But wait, what about adding new lines? Deleting lines? Moving blocks?</b>
+    <b> But wait, what about adding new lines? Deleting lines? Moving lines?</b>
     <p> Okay, I’ve been slightly lying to you so far. The actual thing that git checks isn’t whether two edits are made to the <em>same line</em>, but whether the patches A and B have any <mark><em>overlapping hunks</em></mark>. </p>
 
     <h3>Hunks</h3>
-    <p>Now we need to introduce the concept of <em>hunks</em>. Hunks are actually a concept from diff algorithms, not Git itself. Git doesn't implement its own diff algorithm, and there are many great diff algorithms to choose from. By default Git uses the <a href=https://blog.jcoglan.com/2017/02/12/the-myers-diff-algorithm-part-1/>Myers' diff algorithm</a>.<sup id="fnref2"><a href="#fn2">2</a></sup></p> 
-    <p>See <a href=https://www.gnu.org/software/diffutils/manual/html_node/Hunks.html>here</a> for a great explanation of what a hunk is. A <em>hunk</em> is a contiguous group of changed lines in a diff, optinally surrounded by some context lines for human readability.</p>
+    <p>Now we need to introduce the concept of <em>hunks</em>. Hunks actually come from <em>diff algorithms</em>, not Git itself. By default Git uses the <a href=https://blog.jcoglan.com/2017/02/12/the-myers-diff-algorithm-part-1/>Myers' algorithm</a>.<sup id="fnref2"><a href="#fn2">2</a></sup></p> 
+    <p>See <a href=https://www.gnu.org/software/diffutils/manual/html_node/Hunks.html>here</a> for a great explanation of what a hunk is. A <em>hunk</em> is a contiguous group of changed lines in a diff, optionally surrounded by some context lines for human readability.</p>
 
-    <p>When comparing the diff between two files, we can represent their diff as:
+    <p>We can write the diff between any two files as:
         
         <ul>
             <li>
@@ -136,32 +136,40 @@ print("C")
           </ul>
         
     
-    We call the second term—each of the discrete blocks where the files differ—<em>hunks</em>. Here’s an example: </p>
+    We call the second term—each of the discrete blocks where the files differ—<em>hunks</em>. The example below has two hunks: </p>
 
-    <p>For example:</p>
-    <div class="code-block">
-      <div class="code-caption">File comparison example</div>
-      <pre><code class="language-python">File A:
-print("A")
+    <div class="code-comparison">
+      <div class="code-block">
+        <div class="code-caption">File A</div>
+        <pre><code class="language-python">print("A")
 <mark>print("DOG")</mark>
-print("C")
-
-File B:
-print("A")
+print("B")
+<mark>print("RED")</mark>
+print("D")</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-caption">File B</div>
+        <pre><code class="language-python">print("A")
 <mark>print("CAT")</mark>
-print("C")
-
-Diff (conceptually):
-Same: print("A")
-Hunk: { <mark>print("DOG")</mark> ↔ <mark>print("CAT")</mark> }
-Same: print("C")
-</code></pre>
+print("B")
+<mark>print("BLUE")</mark>
+print("D")</code></pre>
+      </div>
+    </div>
+    
+    <div class="code-block">
+      <div class="code-caption">Diff (conceptually)</div>
+      <pre><code class="language-plaintext">Same: print("A")
+Hunk 1: { <mark>print("DOG")</mark> ↔ <mark>print("CAT")</mark> }
+Same: print("B")
+Hunk 2: { <mark>print("RED")</mark> ↔ <mark>print("BLUE")</mark> }
+Same: print("D")</code></pre>
     </div>
 
+    <h3>Hunks depend on diff algorithm</h3>
+    <p>I said earlier that hunks come from diff algorithms. Here's something surprising: two different diff algorithms can yield <u>two different sets of hunks</u> for a given set of files.<sup id="fnref3"><a href="#fn3">3</a></sup></p>
 
-    <p>I said earlier that hunks are dependent on diff algorithms. Here’s an example of something surprising: two different diff algorithms can yield two different sets of hunks for a given diff (the following example is quoted from https://www.gnu.org/software/diffutils/manual/html_node/Hunks.html)</p>
-
-    <p>Suppose the file F contains the three lines 'a', 'b', 'c', and the file G contains the same three lines in reverse order 'c', 'b', 'a'. If diff finds the line 'c' as common, then the command 'diff F G' produces this output:</p>
+    <p>Suppose the file F contains the three lines 'a', 'b', 'c', and the file G contains the same three lines in reverse order: 'c', 'b', 'a'. If diff finds the line 'c' as common, then the command 'diff F G' produces this output:</p>
     <div class="code-block">
       <div class="code-caption">Diff output (common line 'c')</div>
       <pre><code class="language-diff">1,2d0
@@ -186,9 +194,13 @@ Same: print("C")
     </code></pre>
     </div>
 
-    <p>There are many different ways for a diff algorithm to decide on which hunks to use to represent the diff between two files, and it’s up to the diff algorithm to make hunks minimal and readable to make life easier for the reviewer<sup id="fnref1"><a href="#fn1">1</a></sup>.</p>
+    <p>There are many different ways for a diff algorithm to decide on which hunks to use to represent the diff between two files, and it’s up to the diff algorithm to make hunks minimal and readable to make life easier for the reviewer.<sup id="fnref1"><a href="#fn1">1</a></sup></p>
 
     <h3>Hunks in Git’s merge algorithm</h3>
+
+    
+
+
     <p>Now we can state Git’s real decision procedure more precisely:</p>
     <ol>
       <li>Compute patches <code>base → A</code> and <code>base → B</code>.</li>
@@ -238,7 +250,8 @@ diff B:
 
     <p>Here the hunks overlap, so Git reports a conflict.</p>
 
-    <h4>Aside: How do we tell if hunks overlap?</h4>
+    <h3>Wait, but what does it mean for hunks to overlap?</h3>
+
     <p>Each hunk can be represented as <code>(old_start, old_length, new_start, new_length)</code> — this is the <code>@@ -a,b +c,d @@</code> header you see in unified diffs. To compare A and B, use their coordinates relative to the <em>base</em> (the “old” ranges), since the base is a common reference. Two hunks overlap if their old-range intervals intersect.</p>
 
     <p>One subtlety: the printed hunk windows include a couple lines of <em>context</em> for human readability (configurable in Git). Even if two printed hunk windows visually touch or overlap due to context, the <em>actual change ranges</em> may not, in which case Git can still auto-merge.</p>
@@ -282,8 +295,9 @@ print("C")
     <hr>
     <section id="footnotes" aria-label="Footnotes">
       <ol style="font-size:0.95em; color:#555; padding-left: 1.2em; margin-top: 1em;">
-        <li id="fn1">So your PR that was +124 -28 lines may not actually be +124 -28 when using a different diff algorithm! <a href="#fnref1" aria-label="Back to content">↩</a></li>
+        <li id="fn1">This has implications for codebase analytics too- your PR that GitHub says was +124 -28 lines may not actually be +124 -28 when using a different diff algorithm! <a href="#fnref1" aria-label="Back to content">↩</a></li>
         <li id="fn2">if you're a nerd you can manually choose which diff algorithm you want Git to use in .gitattributes. <a href="#fnref2" aria-label="Back to content">↩</a></li>
+        <li id="fn3">This example is taken from <a href="https://www.gnu.org/software/diffutils/manual/html_node/Hunks.html">the GNU diffutils docs</a>. <a href="#fnref3" aria-label="Back to content">↩</a></li>
       </ol>
     </section>
 
