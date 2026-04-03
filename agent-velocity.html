@@ -83,8 +83,13 @@
 
     <p>Here's an example of this in practice: to get up to speed as Sam and I were pairing on a memory leak bug, claude code reads his transcripts from earlier in the debugging session.</p>
 
-    <!-- TODO: add transcript screenshot -->
-    <img src="images/agent-velocity-transcript.png" alt="Claude Code reading shared transcripts from a teammate's debugging session" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
+    <div class="transcript-example">
+      <span class="tool">→ boozle - query_history (MCP)</span>(workspace_id: "b30dc7c5-...", store_id: "34699bf7-...", question: "What did Sam conclude about the memory leak? What was his smoking gun finding about build() calls and file_cache messages? What hypothesis did he have about why production is still leaking after his fix?")<br><br>
+      <span class="result">→ "Based on the activity logs, here's what Sam concluded about the memory leak:\n\n## The Smoking Gun Finding [2026-03-31 23:48:35]\nSam identified that **in a single minute (23:40:00-23:40:03), there were 10 `file_cache` messages = 10 `build()` calls**, but there were NO webhook handler logs, +15 lines (ctrl+o to expand)"</span><br><br>
+      <span class="role">Agent:</span> Now I have the picture. Sam identified the <code>_draft_refresh_loop</code> as a key source of build() calls, and moved GmailClient to build-once-in-<code>__init__</code>. But the metrics show <strong>the leak is still active and actually worse</strong> — monotonic growth at 4.5-7.1 MB/min across all post-fix instances.<br><br>
+      The reason is clear: Sam fixed GmailClient close() in <code>_get_new_message_ids</code> and <code>_process_messages</code>, but <strong>CalendarClient has no close() in any of those paths</strong>, and <code>_refresh_stale_drafts</code> creates both clients per draft with no close() on either.<br><br>
+      Let me re-apply my <code>__del__</code> fix on top of Sam's commits.
+    </div>
 
     <p><em>(quantitative eval goes here)</em></p>
 
@@ -178,8 +183,12 @@
 
     <p>Here's an example of this technique in practice:</p>
 
-    <!-- TODO: add audit screenshot(s) -->
-    <img src="images/agent-velocity-audit.png" alt="Automated transcript audit example" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
+    <div class="transcript-example">
+      1. <strong>a6cd000</strong> — Analyzed the main conversation transcript (<a href="#">b97a07fd-...</a>). Found it ran cleanly: 18 subagents dispatched in 3 waves, all slides updated with sourced climate data, saved to Many graphs_v1_20260213_1506.pptx.<br>
+      2. <strong>abe224f</strong> — Scanned all 18 subagent transcripts for errors. Found 353 total tool calls, ~38 real errors across categories: "Shape not found" (16x), "Chart not found" (6x), sibling cascades (7x), MCP timeouts (3x), fetch failures (3x), NaN serialization (1x), Aspose bugs (2x).<br>
+      3. <strong>ad33413</strong> — Deep-dived into confusion/wasted effort. Ranked all 18 agents by confusion score. Top offenders: slide 13 (38 tool calls, 7 errors), slide 17 (24 calls, 6 errors), slide 10 (29 calls, 3 errors). Identified 6 systemic issues.<br>
+      4. <strong>acfe8f8</strong> — Investigated the worst agent (<a href="#">a12fc6e</a>, slide 17) specifically. Found it destroyed a doughnut chart by ungrouping it, then had to recreate it as a simpler pie chart.
+    </div>
 
     <br>
 
