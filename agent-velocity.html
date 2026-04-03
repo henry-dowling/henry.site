@@ -91,7 +91,7 @@
       Let me re-apply my <code>__del__</code> fix on top of Sam's commits.
     </div>
 
-    <p><em>(quantitative eval goes here)</em></p>
+    <p><strong>Eval:</strong> We measured the impact of transcript sharing on a real 4-session memory leak investigation. In the final debugging session (272 tool calls, 123 agent turns), <strong>48.6% of work was wasted</strong> re-investigating application-level fixes that earlier sessions had already tried and ruled out. With access to prior transcripts, the agent could have skipped straight to framework-level profiling — an estimated <strong>~50% reduction in tool calls and ~42% fewer turns</strong>.</p>
 
     <h3>Remove blockers to autonomous action</h3>
 
@@ -171,7 +171,7 @@
       <span class="role">Agent:</span> It's set in your shell environment (not <code>.env</code>). Now adding the note to CLAUDE.md.
     </div>
 
-    <p><em>(quantitative eval goes here)</em></p>
+    <p><strong>Eval:</strong> Across 738 transcripts, <strong>11.4% ended with a preventable stop</strong> — the agent asking the user for something instead of completing autonomously. Breakdown: 54% were "needs permission" (fixable with auto mode + prompting), 18% were UI feedback requests (fixable with Playwright MCP), 11% needed prod access (fixable with Render/Neon MCP), and 5% needed real-world testing capabilities. Roughly 30% of all stops are directly addressable by adding tools.</p>
 
     <h3>Automatically auditing prod agent transcripts</h3>
 
@@ -189,6 +189,8 @@
       3. <strong>ad33413</strong> — Deep-dived into confusion/wasted effort. Ranked all 18 agents by confusion score. Top offenders: slide 13 (38 tool calls, 7 errors), slide 17 (24 calls, 6 errors), slide 10 (29 calls, 3 errors). Identified 6 systemic issues.<br>
       4. <strong>acfe8f8</strong> — Investigated the worst agent (<a href="#">a12fc6e</a>, slide 17) specifically. Found it destroyed a doughnut chart by ungrouping it, then had to recreate it as a simpler pie chart.
     </div>
+
+    <p><strong>Eval:</strong> To test reproducibility, we independently re-audited 5 of the 18 subagent transcripts (2 "significant", 1 "moderate", 1 "minor", 1 "clean") and compared to the original audit's labels. Result: <strong>100% agreement on confusion severity</strong> across all 5 transcripts, and <strong>100% precision and recall</strong> on error detection within the sample. The severity classification turns out to be highly reproducible — tool call count, error count, and retry loop presence are unambiguous signals.</p>
 
     <br>
 
