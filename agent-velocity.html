@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Techniques to improve coding agent velocity – Henry Dowling</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/jpeg" href="favicon.jpg">
+  <style>
+    body {
+      line-height: 1.4;
+      font-size: 16px;
+      padding: 0 10px;
+      margin: 50px auto;
+      max-width: 650px;
+    }
+    #maincontent {
+      max-width: 42em;
+      margin: 15 auto;
+    }
+    figure {
+      margin: 0;
+    }
+    figcaption {
+      color: #555;
+      font-size: 0.9em;
+      text-align: center;
+      margin-top: 4px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1em 0;
+      font-size: 0.95em;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #f5f5f5;
+      font-weight: 700;
+    }
+    .transcript-example {
+      background: #f8f8f8;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 10px 12px;
+      margin: 10px 0;
+      font-size: 0.9em;
+      line-height: 1.5;
+      overflow-x: auto;
+    }
+    .transcript-example .role {
+      font-weight: 700;
+      color: #333;
+    }
+    .transcript-example .tool {
+      color: #666;
+      font-family: monospace;
+      font-size: 0.9em;
+    }
+    .transcript-example .result {
+      color: #888;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2><a href="index.html" style="color: inherit; text-decoration: none;">Henry Dowling</a>'s <a href="blog.html">Blog</a></h2>
+  </header>
+  <main>
+    <h2>Techniques to improve coding agent velocity</h2>
+    <p style="color:#666; margin-top:-10px;">April 3, 2026</p>
+
+    <p>This post is a grab bag of techniques to improve engineering velocity that I haven't seen discussed much online. Improving coding agent autonomy is integral to your engineering velocity, and therefore your company's success. As a friend of mine once said, "we're all just playing factorio now".</p>
+
+    <h3>Share transcripts across your team</h3>
+
+    <p>Context about why certain design decisions were made is often available from past agent transcripts. As your team scales, most of this context is not readily available on your machine. We built an internal tool that uploads past chat transcripts to a shared MCP server and gave our coding agents a tool to query historical conversations.</p>
+
+    <p>Here's an example of this in practice: to get up to speed as Sam and I were pairing on a memory leak bug, claude code reads his transcripts from earlier in the debugging session.</p>
+
+    <!-- TODO: add transcript screenshot -->
+    <img src="images/agent-velocity-transcript.png" alt="Claude Code reading shared transcripts from a teammate's debugging session" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
+
+    <p><em>(quantitative eval goes here)</em></p>
+
+    <h3>Remove blockers to autonomous action</h3>
+
+    <p>Here are good reasons for a coding agent to stop looping:</p>
+    <ul>
+      <li>It's done with the task</li>
+      <li>It needs clarification on the scope of the task</li>
+    </ul>
+
+    <p>Here are bad reasons for stopping:</p>
+    <ul>
+      <li>It needs the user to unblock it</li>
+    </ul>
+
+    <p>A general principle that I've found to be helpful is "if the agent asks me for something that it could theoretically know the answer to, make sure it has access to it next time". Here is a summary of common "preventable" reasons that the coding agent stops prematurely and how we've addressed them:</p>
+
+    <table>
+      <tr>
+        <th>Reason for stopping</th>
+        <th>Fix</th>
+      </tr>
+      <tr>
+        <td>Finishes designing UI and asks me how it looks</td>
+        <td>We give it playwright mcp / chrome devtools mcp so that it can test UI autonomously</td>
+      </tr>
+      <tr>
+        <td>Needs access to production resources</td>
+        <td>Render / Neon MCP</td>
+      </tr>
+      <tr>
+        <td>Needs to test a "real-world" capability</td>
+        <td>Give it access to the real world (eg give it an email)</td>
+      </tr>
+      <tr>
+        <td>Needs permission to do something dangerous (eg reading env vars)</td>
+        <td>Use auto mode, prompt it to never ask for permission</td>
+      </tr>
+    </table>
+
+    <p>Here are some examples of these fixes in practice:</p>
+
+    <p><strong>Autonomous UI testing with Playwright MCP</strong> — instead of asking "how does this look?", the agent takes screenshots and iterates:</p>
+    <div class="transcript-example">
+      <span class="role">Agent:</span> Dev server is already running. Let me take a mobile screenshot to see the current state.<br>
+      <span class="tool">→ mcp__playwright__browser_navigate({"url": "http://localhost:3000"})</span><br>
+      <span class="tool">→ mcp__playwright__browser_take_screenshot({"filename": "mobile-before.png"})</span><br>
+      <em>...agent edits CSS...</em><br>
+      <span class="tool">→ mcp__playwright__browser_take_screenshot({"filename": "mobile-after.png"})</span><br>
+      <span class="role">Agent:</span> Much better. The empty space is gone and the email card demo is now visible on mobile. Let me also check tablet and desktop breakpoints.<br>
+      <span class="tool">→ mcp__playwright__browser_take_screenshot({"filename": "desktop-after.png"})</span><br>
+      <span class="tool">→ mcp__playwright__browser_take_screenshot({"filename": "tablet-after.png"})</span>
+    </div>
+
+    <p><strong>Production access via Render MCP</strong> — instead of asking me to check prod, the agent pulls live metrics and logs directly:</p>
+    <div class="transcript-example">
+      <span class="role">Agent:</span> Let me check the current memory situation on Render and read the key source files.<br>
+      <span class="tool">→ mcp__render__select_workspace({"ownerID": "tea-d1vru795pdvs73edkhi0"})</span><br>
+      <span class="tool">→ mcp__render__get_metrics({"resourceId": "srv-d6s55t1j16oc73eih6i0", "metricTypes": ["memory_usage", "memory_limit"], "startTime": "2026-03-31T00:00:00Z"})</span><br>
+      <span class="result">→ {"metrics": [{"type": "memory_usage", "data": [...]}]}</span><br>
+      <span class="tool">→ mcp__render__list_logs({"serviceId": "...", "filter": "draft_composer"})</span>
+    </div>
+
+    <p><strong>Real-world testing via Gmail API</strong> — instead of asking me to send a test email, the agent does it itself:</p>
+    <div class="transcript-example">
+      <span class="role">User:</span> Can you send the email for me?<br>
+      <span class="role">Agent:</span> Watch is renewed. No webhook yet — let me send the test email for you. I'll need to use a session token to access the Gmail API through the control plane.<br>
+      <em>...agent restarts local server, registers auth session, queries Gmail API...</em><br>
+      <span class="result">→ Returns real inbox emails: "wanna hang tmrw?" from htdowling@gmail.com</span><br>
+      <span class="role">Agent:</span> There are two test scheduling emails already in your inbox. The webhooks hit the old server and returned 200, but the background task ran on that process.
+    </div>
+
+    <p><strong>Auto mode for dangerous operations</strong> — instead of asking permission to read env vars, the agent just checks:</p>
+    <div class="transcript-example">
+      <span class="role">Agent:</span> So <code>ANTHROPIC_API_KEY</code> is not in <code>.env</code>. Let me check further.<br>
+      <span class="tool">→ Bash: env | grep ANTHROPIC_API_KEY | head -c 30</span><br>
+      <span class="result">→ ANTHROPIC_API_KEY=sk-ant-api03...</span><br>
+      <span class="role">Agent:</span> It's set in your shell environment (not <code>.env</code>). Now adding the note to CLAUDE.md.
+    </div>
+
+    <p><em>(quantitative eval goes here)</em></p>
+
+    <h3>Automatically auditing prod agent transcripts</h3>
+
+    <p>Evaluating transcripts as well as agent outputs is important, since coding agents can arrive at a correct output despite legitimate blockers. For example, if you ask an agent to edit a powerpoint, and it's unable to make effective edits to the powerpoint .xml file, it may resort to recreating the powerpoint using html and then converting the html to .pptx.</p>
+
+    <p>To facilitate this kind of evaluation, we persist production transcripts and run coding agents that automatically audit every transcript generated by our product and check to see if the agent got blocked or confused. Then it makes a list for us to audit.</p>
+
+    <p>You might wonder why not to close the loop completely and automatically improve the product in this way. The answer is that this can lead to the agent getting confused and suggesting un-useful changes. I'd estimate that sometime this year this issue will disappear and autonomous improvement in this way will be reliable.</p>
+
+    <p>Here's an example of this technique in practice:</p>
+
+    <!-- TODO: add audit screenshot(s) -->
+    <img src="images/agent-velocity-audit.png" alt="Automated transcript audit example" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
+
+    <br>
+
+    <em>At <a href="https://ferganalabs.com/">Fergana Labs</a>, we're helping coding agents to do great knowledge work, like creating and editing presentations. If this sounds interesting to you, please do reach out and say hi to me at <a href="mailto:henry@ferganalabs.com">henry@ferganalabs.com</a>.</em>
+  </main>
+</body>
+</html>

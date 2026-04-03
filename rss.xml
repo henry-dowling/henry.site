@@ -5,7 +5,14 @@
     <link>https://henrydowling.com/blog.html</link>
     <description>Blog posts by Henry Dowling</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 18 Oct 2025 12:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 03 Apr 2026 12:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Techniques to improve coding agent velocity</title>
+      <link>https://henrydowling.com/agent-velocity.html</link>
+      <description>A grab bag of techniques to improve engineering velocity with coding agents: sharing transcripts, removing blockers to autonomy, and automatically auditing production transcripts.</description>
+      <pubDate>Fri, 03 Apr 2026 12:00:00 +0000</pubDate>
+      <guid>https://henrydowling.com/agent-velocity.html</guid>
+    </item>
     <item>
       <title>How does Git decide when there's a merge conflict?</title>
       <link>https://henrydowling.com/git-merge-conflicts.html</link>
