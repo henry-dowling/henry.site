@@ -43,27 +43,35 @@
       font-weight: 700;
     }
     .transcript-example {
-      background: #f8f8f8;
+      background: #fdfdfd;
       border: 1px solid #e0e0e0;
-      border-radius: 4px;
-      padding: 10px 12px;
-      margin: 10px 0;
-      font-size: 0.9em;
-      line-height: 1.5;
+      border-left: 3px solid #ccc;
+      border-radius: 2px;
+      padding: 14px 16px;
+      margin: 16px 0;
+      font-size: 0.88em;
+      line-height: 1.6;
       overflow-x: auto;
     }
     .transcript-example .role {
       font-weight: 700;
-      color: #333;
+      color: #222;
     }
     .transcript-example .tool {
-      color: #666;
-      font-family: monospace;
-      font-size: 0.9em;
+      color: #556;
+      font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+      font-size: 0.88em;
+      background: #f0f0f0;
+      padding: 1px 4px;
+      border-radius: 2px;
     }
     .transcript-example .result {
-      color: #888;
+      color: #777;
       font-style: italic;
+      display: block;
+      margin: 4px 0;
+      padding-left: 12px;
+      border-left: 2px solid #e0e0e0;
     }
   </style>
 </head>
@@ -94,42 +102,36 @@
     <p><strong>Eval:</strong> We measured the impact of transcript sharing on a real 4-session memory leak investigation. In the final debugging session, <strong>48.6% of work was wasted</strong> re-investigating application-level fixes that earlier sessions had already tried and ruled out.</p>
 
     <figure>
-      <svg viewBox="0 0 500 220" style="max-width:500px; width:100%; height:auto; font-family:system-ui,sans-serif;">
+      <svg viewBox="0 0 520 230" style="max-width:520px; width:100%; height:auto; font-family:system-ui,sans-serif;">
         <!-- Title -->
-        <text x="250" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#333">Session 4: Without vs. With Transcript Sharing</text>
+        <text x="260" y="22" text-anchor="middle" font-size="13" font-weight="600" fill="#333">Session 4: Without vs. With Transcript Sharing</text>
 
         <!-- Tool calls bars -->
-        <text x="95" y="58" text-anchor="end" font-size="11" fill="#555">Tool calls</text>
-        <!-- Without -->
-        <rect x="100" y="42" width="272" height="14" rx="2" fill="#e74c3c" opacity="0.8"/>
-        <text x="377" y="54" font-size="10" fill="#666">272</text>
-        <!-- With -->
-        <rect x="100" y="60" width="137" height="14" rx="2" fill="#27ae60" opacity="0.8"/>
-        <text x="242" y="72" font-size="10" fill="#666">~137</text>
+        <text x="105" y="60" text-anchor="end" font-size="11" fill="#555">Tool calls</text>
+        <rect x="112" y="46" width="272" height="12" rx="2" fill="#d95b5b"/>
+        <text x="390" y="56" font-size="10" fill="#666">272</text>
+        <rect x="112" y="62" width="137" height="12" rx="2" fill="#4caf7c"/>
+        <text x="255" y="72" font-size="10" fill="#666">~137</text>
 
         <!-- Agent turns bars -->
-        <text x="95" y="108" text-anchor="end" font-size="11" fill="#555">Agent turns</text>
-        <!-- Without (scaled: 123/272 * 272 ≈ 123, scale to fit) -->
-        <rect x="100" y="92" width="184" height="14" rx="2" fill="#e74c3c" opacity="0.8"/>
-        <text x="289" y="104" font-size="10" fill="#666">123</text>
-        <!-- With -->
-        <rect x="100" y="110" width="106" height="14" rx="2" fill="#27ae60" opacity="0.8"/>
-        <text x="211" y="122" font-size="10" fill="#666">~71</text>
+        <text x="105" y="110" text-anchor="end" font-size="11" fill="#555">Agent turns</text>
+        <rect x="112" y="96" width="184" height="12" rx="2" fill="#d95b5b"/>
+        <text x="302" y="106" font-size="10" fill="#666">123</text>
+        <rect x="112" y="112" width="106" height="12" rx="2" fill="#4caf7c"/>
+        <text x="224" y="122" font-size="10" fill="#666">~71</text>
 
         <!-- Wasted actions bars -->
-        <text x="95" y="158" text-anchor="end" font-size="11" fill="#555">Wasted actions</text>
-        <!-- Without -->
-        <rect x="100" y="142" width="192" height="14" rx="2" fill="#e74c3c" opacity="0.8"/>
-        <text x="297" y="154" font-size="10" fill="#666">192</text>
-        <!-- With -->
-        <rect x="100" y="160" width="5" height="14" rx="2" fill="#27ae60" opacity="0.8"/>
-        <text x="110" y="172" font-size="10" fill="#666">~5</text>
+        <text x="105" y="160" text-anchor="end" font-size="11" fill="#555">Wasted actions</text>
+        <rect x="112" y="146" width="192" height="12" rx="2" fill="#d95b5b"/>
+        <text x="310" y="156" font-size="10" fill="#666">192</text>
+        <rect x="112" y="162" width="5" height="12" rx="2" fill="#4caf7c"/>
+        <text x="123" y="172" font-size="10" fill="#666">~5</text>
 
         <!-- Legend -->
-        <rect x="140" y="195" width="10" height="10" rx="1" fill="#e74c3c" opacity="0.8"/>
-        <text x="154" y="205" font-size="10" fill="#666">Without shared transcripts</text>
-        <rect x="300" y="195" width="10" height="10" rx="1" fill="#27ae60" opacity="0.8"/>
-        <text x="314" y="205" font-size="10" fill="#666">With shared transcripts</text>
+        <rect x="150" y="202" width="10" height="10" rx="1" fill="#d95b5b"/>
+        <text x="164" y="211" font-size="10" fill="#666">Without shared transcripts</text>
+        <rect x="320" y="202" width="10" height="10" rx="1" fill="#4caf7c"/>
+        <text x="334" y="211" font-size="10" fill="#666">With shared transcripts</text>
       </svg>
       <figcaption>With access to prior transcripts, the agent could skip straight to framework-level profiling — ~50% fewer tool calls, 97% reduction in wasted work.</figcaption>
     </figure>
@@ -215,44 +217,38 @@
     <p><strong>Eval:</strong> Across 738 transcripts, <strong>11.4% ended with a preventable stop</strong>. Roughly 30% of stops are directly addressable by adding tools.</p>
 
     <figure>
-      <svg viewBox="0 0 500 280" style="max-width:500px; width:100%; height:auto; font-family:system-ui,sans-serif;">
+      <svg viewBox="0 0 520 270" style="max-width:520px; width:100%; height:auto; font-family:system-ui,sans-serif;">
         <!-- Title -->
-        <text x="250" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#333">Why Agents Stop: 738 Transcripts Analyzed</text>
+        <text x="260" y="22" text-anchor="middle" font-size="13" font-weight="600" fill="#333">Why Agents Stop: 738 Transcripts Analyzed</text>
 
         <!-- Big number -->
-        <text x="250" y="60" text-anchor="middle" font-size="28" font-weight="700" fill="#e74c3c">11.4%</text>
-        <text x="250" y="78" text-anchor="middle" font-size="11" fill="#888">of sessions ended with a preventable stop (84 / 738)</text>
+        <text x="260" y="60" text-anchor="middle" font-size="26" font-weight="700" fill="#d95b5b">11.4%</text>
+        <text x="260" y="76" text-anchor="middle" font-size="11" fill="#888">of sessions ended with a preventable stop (84 / 738)</text>
 
         <!-- Horizontal bar chart of stop reasons -->
-        <!-- Needs permission: 45/84 = 53.6% -->
-        <text x="155" y="112" text-anchor="end" font-size="11" fill="#555">Needs permission</text>
-        <rect x="160" y="100" width="268" height="18" rx="2" fill="#e67e22" opacity="0.85"/>
-        <text x="168" y="114" font-size="10" fill="white" font-weight="600">45 stops (54%)</text>
+        <text x="155" y="108" text-anchor="end" font-size="11" fill="#555">Needs permission</text>
+        <rect x="162" y="97" width="268" height="16" rx="2" fill="#d4853e"/>
+        <text x="170" y="109" font-size="10" fill="white" font-weight="600">45 stops (54%)</text>
 
-        <!-- UI feedback: 15/84 = 17.9% -->
-        <text x="155" y="142" text-anchor="end" font-size="11" fill="#555">UI feedback</text>
-        <rect x="160" y="130" width="90" height="18" rx="2" fill="#3498db" opacity="0.85"/>
-        <text x="168" y="144" font-size="10" fill="white" font-weight="600">15 (18%)</text>
+        <text x="155" y="136" text-anchor="end" font-size="11" fill="#555">UI feedback</text>
+        <rect x="162" y="125" width="90" height="16" rx="2" fill="#4a90c4"/>
+        <text x="170" y="137" font-size="10" fill="white" font-weight="600">15 (18%)</text>
 
-        <!-- Prod access: 9/84 = 10.7% -->
-        <text x="155" y="172" text-anchor="end" font-size="11" fill="#555">Prod access</text>
-        <rect x="160" y="160" width="54" height="18" rx="2" fill="#9b59b6" opacity="0.85"/>
-        <text x="168" y="174" font-size="10" fill="white" font-weight="600">9</text>
+        <text x="155" y="164" text-anchor="end" font-size="11" fill="#555">Prod access</text>
+        <rect x="162" y="153" width="54" height="16" rx="2" fill="#8a6aad"/>
+        <text x="170" y="165" font-size="10" fill="white" font-weight="600">9</text>
 
-        <!-- Other: 9/84 = 10.7% -->
-        <text x="155" y="202" text-anchor="end" font-size="11" fill="#555">Other</text>
-        <rect x="160" y="190" width="54" height="18" rx="2" fill="#95a5a6" opacity="0.85"/>
-        <text x="168" y="204" font-size="10" fill="white" font-weight="600">9</text>
+        <text x="155" y="192" text-anchor="end" font-size="11" fill="#555">Other</text>
+        <rect x="162" y="181" width="54" height="16" rx="2" fill="#95a5a6"/>
+        <text x="170" y="193" font-size="10" fill="white" font-weight="600">9</text>
 
-        <!-- Real-world test: 4/84 = 4.8% -->
-        <text x="155" y="232" text-anchor="end" font-size="11" fill="#555">Real-world test</text>
-        <rect x="160" y="220" width="24" height="18" rx="2" fill="#1abc9c" opacity="0.85"/>
-        <text x="188" y="234" font-size="10" fill="#666">4</text>
+        <text x="155" y="220" text-anchor="end" font-size="11" fill="#555">Real-world test</text>
+        <rect x="162" y="209" width="24" height="16" rx="2" fill="#3d9e84"/>
+        <text x="190" y="221" font-size="10" fill="#666">4</text>
 
-        <!-- Scope clarification: 2/84 = 2.4% -->
-        <text x="155" y="262" text-anchor="end" font-size="11" fill="#555">Scope clarification</text>
-        <rect x="160" y="250" width="12" height="18" rx="2" fill="#bdc3c7" opacity="0.85"/>
-        <text x="176" y="264" font-size="10" fill="#666">2</text>
+        <text x="155" y="248" text-anchor="end" font-size="11" fill="#555">Scope clarification</text>
+        <rect x="162" y="237" width="12" height="16" rx="2" fill="#bdc3c7"/>
+        <text x="178" y="249" font-size="10" fill="#666">2</text>
       </svg>
       <figcaption>Stop reasons across 738 agent sessions. "Needs permission" is a prompting fix; UI feedback, prod access, and real-world test are fixable by adding MCP tools.</figcaption>
     </figure>
@@ -277,66 +273,70 @@
     <p><strong>Eval:</strong> To test reproducibility, we independently re-audited 5 of the 18 subagent transcripts and compared to the original audit's labels.</p>
 
     <figure>
-      <svg viewBox="0 0 500 260" style="max-width:500px; width:100%; height:auto; font-family:system-ui,sans-serif;">
+      <svg viewBox="0 0 520 270" style="max-width:520px; width:100%; height:auto; font-family:system-ui,sans-serif;">
         <!-- Title -->
-        <text x="250" y="20" text-anchor="middle" font-size="13" font-weight="700" fill="#333">Audit Reproducibility: 5 Transcripts Re-audited</text>
+        <text x="260" y="22" text-anchor="middle" font-size="13" font-weight="600" fill="#333">Audit Reproducibility: 5 Transcripts Re-audited</text>
 
-        <!-- Severity agreement table as SVG -->
         <!-- Header -->
-        <rect x="30" y="40" width="440" height="24" rx="2" fill="#f5f5f5"/>
-        <text x="80" y="57" text-anchor="middle" font-size="10" font-weight="700" fill="#333">Slide</text>
-        <text x="190" y="57" text-anchor="middle" font-size="10" font-weight="700" fill="#333">Ground Truth</text>
-        <text x="310" y="57" text-anchor="middle" font-size="10" font-weight="700" fill="#333">Fresh Audit</text>
-        <text x="420" y="57" text-anchor="middle" font-size="10" font-weight="700" fill="#333">Match?</text>
+        <rect x="30" y="42" width="460" height="24" rx="2" fill="#f5f5f5"/>
+        <text x="82" y="58" text-anchor="middle" font-size="10.5" font-weight="700" fill="#333">Slide</text>
+        <text x="200" y="58" text-anchor="middle" font-size="10.5" font-weight="700" fill="#333">Ground Truth</text>
+        <text x="330" y="58" text-anchor="middle" font-size="10.5" font-weight="700" fill="#333">Fresh Audit</text>
+        <text x="440" y="58" text-anchor="middle" font-size="10.5" font-weight="700" fill="#333">Match?</text>
 
         <!-- Row 1 - Slide 13 -->
-        <text x="80" y="80" text-anchor="middle" font-size="11" fill="#555">Slide 13</text>
-        <rect x="140" y="70" width="100" height="16" rx="8" fill="#e74c3c" opacity="0.2"/>
-        <text x="190" y="82" text-anchor="middle" font-size="10" fill="#c0392b" font-weight="600">SIGNIFICANT</text>
-        <rect x="260" y="70" width="100" height="16" rx="8" fill="#e74c3c" opacity="0.2"/>
-        <text x="310" y="82" text-anchor="middle" font-size="10" fill="#c0392b" font-weight="600">SIGNIFICANT</text>
-        <text x="420" y="82" text-anchor="middle" font-size="13" fill="#27ae60">&#10003;</text>
+        <line x1="30" y1="72" x2="490" y2="72" stroke="#eee" stroke-width="0.5"/>
+        <text x="82" y="88" text-anchor="middle" font-size="11" fill="#555">Slide 13</text>
+        <rect x="147" y="78" width="106" height="17" rx="8" fill="#d95b5b" opacity="0.15"/>
+        <text x="200" y="90" text-anchor="middle" font-size="10" fill="#c0392b" font-weight="600">SIGNIFICANT</text>
+        <rect x="277" y="78" width="106" height="17" rx="8" fill="#d95b5b" opacity="0.15"/>
+        <text x="330" y="90" text-anchor="middle" font-size="10" fill="#c0392b" font-weight="600">SIGNIFICANT</text>
+        <text x="440" y="91" text-anchor="middle" font-size="14" fill="#4caf7c">&#10003;</text>
 
         <!-- Row 2 - Slide 17 -->
-        <text x="80" y="106" text-anchor="middle" font-size="11" fill="#555">Slide 17</text>
-        <rect x="140" y="96" width="100" height="16" rx="8" fill="#e74c3c" opacity="0.2"/>
-        <text x="190" y="108" text-anchor="middle" font-size="10" fill="#c0392b" font-weight="600">SIGNIFICANT</text>
-        <rect x="260" y="96" width="100" height="16" rx="8" fill="#e74c3c" opacity="0.2"/>
-        <text x="310" y="108" text-anchor="middle" font-size="10" fill="#c0392b" font-weight="600">SIGNIFICANT</text>
-        <text x="420" y="108" text-anchor="middle" font-size="13" fill="#27ae60">&#10003;</text>
+        <line x1="30" y1="100" x2="490" y2="100" stroke="#eee" stroke-width="0.5"/>
+        <text x="82" y="116" text-anchor="middle" font-size="11" fill="#555">Slide 17</text>
+        <rect x="147" y="106" width="106" height="17" rx="8" fill="#d95b5b" opacity="0.15"/>
+        <text x="200" y="118" text-anchor="middle" font-size="10" fill="#c0392b" font-weight="600">SIGNIFICANT</text>
+        <rect x="277" y="106" width="106" height="17" rx="8" fill="#d95b5b" opacity="0.15"/>
+        <text x="330" y="118" text-anchor="middle" font-size="10" fill="#c0392b" font-weight="600">SIGNIFICANT</text>
+        <text x="440" y="119" text-anchor="middle" font-size="14" fill="#4caf7c">&#10003;</text>
 
         <!-- Row 3 - Slide 9 -->
-        <text x="80" y="132" text-anchor="middle" font-size="11" fill="#555">Slide 9</text>
-        <rect x="140" y="122" width="100" height="16" rx="8" fill="#e67e22" opacity="0.2"/>
-        <text x="190" y="134" text-anchor="middle" font-size="10" fill="#d35400" font-weight="600">MODERATE</text>
-        <rect x="260" y="122" width="100" height="16" rx="8" fill="#e67e22" opacity="0.2"/>
-        <text x="310" y="134" text-anchor="middle" font-size="10" fill="#d35400" font-weight="600">MODERATE</text>
-        <text x="420" y="134" text-anchor="middle" font-size="13" fill="#27ae60">&#10003;</text>
+        <line x1="30" y1="128" x2="490" y2="128" stroke="#eee" stroke-width="0.5"/>
+        <text x="82" y="144" text-anchor="middle" font-size="11" fill="#555">Slide 9</text>
+        <rect x="147" y="134" width="106" height="17" rx="8" fill="#d4853e" opacity="0.15"/>
+        <text x="200" y="146" text-anchor="middle" font-size="10" fill="#d35400" font-weight="600">MODERATE</text>
+        <rect x="277" y="134" width="106" height="17" rx="8" fill="#d4853e" opacity="0.15"/>
+        <text x="330" y="146" text-anchor="middle" font-size="10" fill="#d35400" font-weight="600">MODERATE</text>
+        <text x="440" y="147" text-anchor="middle" font-size="14" fill="#4caf7c">&#10003;</text>
 
         <!-- Row 4 - Slide 4 -->
-        <text x="80" y="158" text-anchor="middle" font-size="11" fill="#555">Slide 4</text>
-        <rect x="140" y="148" width="100" height="16" rx="8" fill="#f39c12" opacity="0.2"/>
-        <text x="190" y="160" text-anchor="middle" font-size="10" fill="#e67e22" font-weight="600">MINOR</text>
-        <rect x="260" y="148" width="100" height="16" rx="8" fill="#f39c12" opacity="0.2"/>
-        <text x="310" y="160" text-anchor="middle" font-size="10" fill="#e67e22" font-weight="600">MINOR</text>
-        <text x="420" y="160" text-anchor="middle" font-size="13" fill="#27ae60">&#10003;</text>
+        <line x1="30" y1="156" x2="490" y2="156" stroke="#eee" stroke-width="0.5"/>
+        <text x="82" y="172" text-anchor="middle" font-size="11" fill="#555">Slide 4</text>
+        <rect x="147" y="162" width="106" height="17" rx="8" fill="#d4a03e" opacity="0.15"/>
+        <text x="200" y="174" text-anchor="middle" font-size="10" fill="#c8850f" font-weight="600">MINOR</text>
+        <rect x="277" y="162" width="106" height="17" rx="8" fill="#d4a03e" opacity="0.15"/>
+        <text x="330" y="174" text-anchor="middle" font-size="10" fill="#c8850f" font-weight="600">MINOR</text>
+        <text x="440" y="175" text-anchor="middle" font-size="14" fill="#4caf7c">&#10003;</text>
 
         <!-- Row 5 - Slide 2 -->
-        <text x="80" y="184" text-anchor="middle" font-size="11" fill="#555">Slide 2</text>
-        <rect x="140" y="174" width="100" height="16" rx="8" fill="#27ae60" opacity="0.2"/>
-        <text x="190" y="186" text-anchor="middle" font-size="10" fill="#27ae60" font-weight="600">CLEAN</text>
-        <rect x="260" y="174" width="100" height="16" rx="8" fill="#27ae60" opacity="0.2"/>
-        <text x="310" y="186" text-anchor="middle" font-size="10" fill="#27ae60" font-weight="600">CLEAN</text>
-        <text x="420" y="186" text-anchor="middle" font-size="13" fill="#27ae60">&#10003;</text>
+        <line x1="30" y1="184" x2="490" y2="184" stroke="#eee" stroke-width="0.5"/>
+        <text x="82" y="200" text-anchor="middle" font-size="11" fill="#555">Slide 2</text>
+        <rect x="147" y="190" width="106" height="17" rx="8" fill="#4caf7c" opacity="0.15"/>
+        <text x="200" y="202" text-anchor="middle" font-size="10" fill="#2e8b57" font-weight="600">CLEAN</text>
+        <rect x="277" y="190" width="106" height="17" rx="8" fill="#4caf7c" opacity="0.15"/>
+        <text x="330" y="202" text-anchor="middle" font-size="10" fill="#2e8b57" font-weight="600">CLEAN</text>
+        <text x="440" y="203" text-anchor="middle" font-size="14" fill="#4caf7c">&#10003;</text>
 
         <!-- Bottom metrics -->
-        <line x1="30" y1="205" x2="470" y2="205" stroke="#ddd" stroke-width="1"/>
-        <text x="130" y="230" text-anchor="middle" font-size="22" font-weight="700" fill="#27ae60">100%</text>
-        <text x="130" y="248" text-anchor="middle" font-size="10" fill="#888">Severity agreement</text>
-        <text x="250" y="230" text-anchor="middle" font-size="22" font-weight="700" fill="#27ae60">100%</text>
-        <text x="250" y="248" text-anchor="middle" font-size="10" fill="#888">Precision</text>
-        <text x="370" y="230" text-anchor="middle" font-size="22" font-weight="700" fill="#27ae60">100%</text>
-        <text x="370" y="248" text-anchor="middle" font-size="10" fill="#888">In-sample recall</text>
+        <line x1="30" y1="220" x2="490" y2="220" stroke="#ddd" stroke-width="1"/>
+        <text x="130" y="246" text-anchor="middle" font-size="22" font-weight="700" fill="#4caf7c">100%</text>
+        <text x="130" y="262" text-anchor="middle" font-size="10" fill="#888">Severity agreement</text>
+        <text x="260" y="246" text-anchor="middle" font-size="22" font-weight="700" fill="#4caf7c">100%</text>
+        <text x="260" y="262" text-anchor="middle" font-size="10" fill="#888">Precision</text>
+        <text x="390" y="246" text-anchor="middle" font-size="22" font-weight="700" fill="#4caf7c">100%</text>
+        <text x="390" y="262" text-anchor="middle" font-size="10" fill="#888">In-sample recall</text>
       </svg>
       <figcaption>The severity classification is highly reproducible — tool call count, error count, and retry loop presence are unambiguous signals.</figcaption>
     </figure>
