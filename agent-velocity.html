@@ -155,6 +155,28 @@
       color: #27272a;
       margin-top: 12px;
     }
+    details.collapsible-example {
+      margin: 16px 0;
+    }
+    details.collapsible-example summary {
+      cursor: pointer;
+      font-size: 1em;
+      padding: 4px 0;
+      list-style: none;
+    }
+    details.collapsible-example summary::-webkit-details-marker {
+      display: none;
+    }
+    details.collapsible-example summary::before {
+      content: '▶ ';
+      font-size: 0.7em;
+      vertical-align: middle;
+      color: #888;
+      margin-right: 4px;
+    }
+    details.collapsible-example[open] summary::before {
+      content: '▼ ';
+    }
   </style>
 </head>
 <body>
@@ -293,109 +315,117 @@
 
     <p>Here are some examples of these fixes in practice:</p>
 
-    <p><strong>Autonomous UI testing with Playwright MCP</strong> — instead of asking "how does this look?", the agent takes screenshots and iterates:</p>
-    <div class="mock-terminal">
-      <div class="mock-terminal-header">
-        <div class="mock-terminal-dots">
-          <span class="mock-terminal-dot-red"></span>
-          <span class="mock-terminal-dot-yellow"></span>
-          <span class="mock-terminal-dot-green"></span>
+    <details class="collapsible-example">
+      <summary><strong>Autonomous UI testing with Playwright MCP</strong> — instead of asking "how does this look?", the agent takes screenshots and iterates</summary>
+      <div class="mock-terminal">
+        <div class="mock-terminal-header">
+          <div class="mock-terminal-dots">
+            <span class="mock-terminal-dot-red"></span>
+            <span class="mock-terminal-dot-yellow"></span>
+            <span class="mock-terminal-dot-green"></span>
+          </div>
+        </div>
+        <div class="mock-terminal-body">
+          <div class="agent-text">Dev server is already running. Let me take a mobile screenshot to see the current state.</div>
+          <div class="bullet-line">
+            <span class="bullet">●</span> <span class="tool-name">playwright</span> <span class="highlight">browser_navigate</span> → <span class="highlight">localhost:3000</span>
+          </div>
+          <div class="bullet-line">
+            <span class="bullet">●</span> <span class="tool-name">playwright</span> <span class="highlight">browser_take_screenshot</span> → mobile-before.png
+          </div>
+          <div class="bullet-line" style="color:#a1a1aa; font-style:italic;">
+            <span class="bullet">●</span> ...edits CSS...
+          </div>
+          <div class="bullet-line">
+            <span class="bullet">●</span> <span class="tool-name">playwright</span> <span class="highlight">browser_take_screenshot</span> → mobile-after.png
+          </div>
+          <div class="agent-text">Much better. The empty space is gone and the email card demo is now visible on mobile. Let me also check tablet and desktop breakpoints.</div>
+          <div class="bullet-line">
+            <span class="bullet">●</span> <span class="tool-name">playwright</span> <span class="highlight">browser_take_screenshot</span> → desktop-after.png
+          </div>
+          <div class="bullet-line">
+            <span class="bullet">●</span> <span class="tool-name">playwright</span> <span class="highlight">browser_take_screenshot</span> → tablet-after.png
+          </div>
         </div>
       </div>
-      <div class="mock-terminal-body">
-        <div class="agent-text">Dev server is already running. Let me take a mobile screenshot to see the current state.</div>
-        <div class="bullet-line">
-          <span class="bullet">●</span> <span class="tool-name">playwright</span> <span class="highlight">browser_navigate</span> → <span class="highlight">localhost:3000</span>
-        </div>
-        <div class="bullet-line">
-          <span class="bullet">●</span> <span class="tool-name">playwright</span> <span class="highlight">browser_take_screenshot</span> → mobile-before.png
-        </div>
-        <div class="bullet-line" style="color:#a1a1aa; font-style:italic;">
-          <span class="bullet">●</span> ...edits CSS...
-        </div>
-        <div class="bullet-line">
-          <span class="bullet">●</span> <span class="tool-name">playwright</span> <span class="highlight">browser_take_screenshot</span> → mobile-after.png
-        </div>
-        <div class="agent-text">Much better. The empty space is gone and the email card demo is now visible on mobile. Let me also check tablet and desktop breakpoints.</div>
-        <div class="bullet-line">
-          <span class="bullet">●</span> <span class="tool-name">playwright</span> <span class="highlight">browser_take_screenshot</span> → desktop-after.png
-        </div>
-        <div class="bullet-line">
-          <span class="bullet">●</span> <span class="tool-name">playwright</span> <span class="highlight">browser_take_screenshot</span> → tablet-after.png
-        </div>
-      </div>
-    </div>
+    </details>
 
-    <p><strong>Production access via Render MCP</strong> — instead of asking me to check prod, the agent pulls live metrics and logs directly:</p>
-    <div class="mock-terminal">
-      <div class="mock-terminal-header">
-        <div class="mock-terminal-dots">
-          <span class="mock-terminal-dot-red"></span>
-          <span class="mock-terminal-dot-yellow"></span>
-          <span class="mock-terminal-dot-green"></span>
+    <details class="collapsible-example">
+      <summary><strong>Production access via Render MCP</strong> — instead of asking me to check prod, the agent pulls live metrics and logs directly</summary>
+      <div class="mock-terminal">
+        <div class="mock-terminal-header">
+          <div class="mock-terminal-dots">
+            <span class="mock-terminal-dot-red"></span>
+            <span class="mock-terminal-dot-yellow"></span>
+            <span class="mock-terminal-dot-green"></span>
+          </div>
+        </div>
+        <div class="mock-terminal-body">
+          <div class="agent-text">Let me check the current memory situation on Render and read the key source files.</div>
+          <div class="bullet-line">
+            <span class="bullet">●</span> <span class="tool-name">render</span> <span class="highlight">select_workspace</span>
+          </div>
+          <div class="bullet-line">
+            <span class="bullet">●</span> <span class="tool-name">render</span> <span class="highlight">get_metrics</span> → memory_usage, memory_limit
+          </div>
+          <div class="result-block">
+            <div>{"metrics": [{"type": "memory_usage", "data": [...]}]}</div>
+          </div>
+          <div class="bullet-line">
+            <span class="bullet">●</span> <span class="tool-name">render</span> <span class="highlight">list_logs</span> → filter: <span class="highlight">"draft_composer"</span>
+          </div>
         </div>
       </div>
-      <div class="mock-terminal-body">
-        <div class="agent-text">Let me check the current memory situation on Render and read the key source files.</div>
-        <div class="bullet-line">
-          <span class="bullet">●</span> <span class="tool-name">render</span> <span class="highlight">select_workspace</span>
-        </div>
-        <div class="bullet-line">
-          <span class="bullet">●</span> <span class="tool-name">render</span> <span class="highlight">get_metrics</span> → memory_usage, memory_limit
-        </div>
-        <div class="result-block">
-          <div>{"metrics": [{"type": "memory_usage", "data": [...]}]}</div>
-        </div>
-        <div class="bullet-line">
-          <span class="bullet">●</span> <span class="tool-name">render</span> <span class="highlight">list_logs</span> → filter: <span class="highlight">"draft_composer"</span>
-        </div>
-      </div>
-    </div>
+    </details>
 
-    <p><strong>Real-world testing via Gmail API</strong> — instead of asking me to send a test email, the agent does it itself:</p>
-    <div class="mock-terminal">
-      <div class="mock-terminal-header">
-        <div class="mock-terminal-dots">
-          <span class="mock-terminal-dot-red"></span>
-          <span class="mock-terminal-dot-yellow"></span>
-          <span class="mock-terminal-dot-green"></span>
+    <details class="collapsible-example">
+      <summary><strong>Real-world testing via Gmail API</strong> — instead of asking me to send a test email, the agent does it itself</summary>
+      <div class="mock-terminal">
+        <div class="mock-terminal-header">
+          <div class="mock-terminal-dots">
+            <span class="mock-terminal-dot-red"></span>
+            <span class="mock-terminal-dot-yellow"></span>
+            <span class="mock-terminal-dot-green"></span>
+          </div>
+        </div>
+        <div class="mock-terminal-body">
+          <div><span class="prompt">&gt;</span> <span class="prompt-text">Can you send the email for me?</span></div>
+          <div class="agent-text">Watch is renewed. No webhook yet — let me send the test email for you.</div>
+          <div class="bullet-line" style="color:#a1a1aa; font-style:italic;">
+            <span class="bullet">●</span> ...restarts local server, registers auth session, queries Gmail API...
+          </div>
+          <div class="result-block">
+            <div>Returns real inbox emails: <span class="highlight">"wanna hang tmrw?"</span> from htdowling@gmail.com</div>
+          </div>
+          <div class="agent-text">There are two test scheduling emails already in your inbox. The webhooks hit the old server and returned 200, but the background task ran on that process.</div>
         </div>
       </div>
-      <div class="mock-terminal-body">
-        <div><span class="prompt">&gt;</span> <span class="prompt-text">Can you send the email for me?</span></div>
-        <div class="agent-text">Watch is renewed. No webhook yet — let me send the test email for you.</div>
-        <div class="bullet-line" style="color:#a1a1aa; font-style:italic;">
-          <span class="bullet">●</span> ...restarts local server, registers auth session, queries Gmail API...
-        </div>
-        <div class="result-block">
-          <div>Returns real inbox emails: <span class="highlight">"wanna hang tmrw?"</span> from htdowling@gmail.com</div>
-        </div>
-        <div class="agent-text">There are two test scheduling emails already in your inbox. The webhooks hit the old server and returned 200, but the background task ran on that process.</div>
-      </div>
-    </div>
+    </details>
 
-    <p><strong>Auto mode for dangerous operations</strong> — instead of asking permission to read env vars, the agent just checks:</p>
-    <div class="mock-terminal">
-      <div class="mock-terminal-header">
-        <div class="mock-terminal-dots">
-          <span class="mock-terminal-dot-red"></span>
-          <span class="mock-terminal-dot-yellow"></span>
-          <span class="mock-terminal-dot-green"></span>
+    <details class="collapsible-example">
+      <summary><strong>Auto mode for dangerous operations</strong> — instead of asking permission to read env vars, the agent just checks</summary>
+      <div class="mock-terminal">
+        <div class="mock-terminal-header">
+          <div class="mock-terminal-dots">
+            <span class="mock-terminal-dot-red"></span>
+            <span class="mock-terminal-dot-yellow"></span>
+            <span class="mock-terminal-dot-green"></span>
+          </div>
+        </div>
+        <div class="mock-terminal-body">
+          <div class="agent-text"><span class="highlight">ANTHROPIC_API_KEY</span> is not in <span class="highlight">.env</span>. Let me check further.</div>
+          <div class="bullet-line">
+            <span class="bullet">●</span> <span class="tool-name">Bash</span> env | grep ANTHROPIC_API_KEY | head -c 30
+          </div>
+          <div class="result-block">
+            <div>ANTHROPIC_API_KEY=sk-ant-api03...</div>
+          </div>
+          <div class="agent-text">It's set in your shell environment (not <span class="highlight">.env</span>). Now adding the note to CLAUDE.md.</div>
         </div>
       </div>
-      <div class="mock-terminal-body">
-        <div class="agent-text"><span class="highlight">ANTHROPIC_API_KEY</span> is not in <span class="highlight">.env</span>. Let me check further.</div>
-        <div class="bullet-line">
-          <span class="bullet">●</span> <span class="tool-name">Bash</span> env | grep ANTHROPIC_API_KEY | head -c 30
-        </div>
-        <div class="result-block">
-          <div>ANTHROPIC_API_KEY=sk-ant-api03...</div>
-        </div>
-        <div class="agent-text">It's set in your shell environment (not <span class="highlight">.env</span>). Now adding the note to CLAUDE.md.</div>
-      </div>
-    </div>
+    </details>
 
-    <p><strong>Eval:</strong> Across 738 transcripts, <strong>11.4% ended with a preventable stop</strong>. Roughly 30% of stops are directly addressable by adding tools.</p>
+    <p> Across 738 transcripts, <strong>11.4% ended with a preventable stop</strong>. 30% of stops are directly addressable by adding tools.</p>
 
     <figure>
       <div style="max-width:480px; margin:0 auto;">
@@ -433,7 +463,7 @@
           </tr>
         </table>
       </div>
-      <figcaption>Figure 2. Stop reasons across 738 agent sessions. "Needs permission" is a prompting fix; UI feedback, prod access, and real-world test are fixable by adding MCP tools.</figcaption>
+      <figcaption>Figure 2. Stop reasons across 738 agent sessions. "Needs permission" should be fixed by running auto mode; UI feedback, prod access, and real-world test are fixable by adding additional tools.<sup><a href="#fn2" id="ref2">2</a></sup></figcaption>
     </figure>
 
     <h3>Automatically auditing prod agent transcripts</h3>
@@ -526,6 +556,7 @@
     <hr style="margin-top:2em;">
     <ol style="font-size:0.9em; color:#666;">
       <li id="fn1">As a friend of mine <a href="https://x.com/amspector100/status/2023691666411143639">once said</a>, "we're all just playing factorio now". <a href="#ref1">↩</a></li>
+      <li id="fn2">"Tools" in the sense described in Anthropic's <a href="https://www.anthropic.com/engineering/managed-agents">managed agents</a> post. <a href="#ref2">↩</a></li>
     </ol>
   </main>
 </body>
