@@ -73,6 +73,76 @@
       padding-left: 12px;
       border-left: 2px solid #e0e0e0;
     }
+    .mock-terminal {
+      border-radius: 12px;
+      border: 1px solid #e4e4e7;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      margin: 16px 0;
+    }
+    .mock-terminal-header {
+      background: #e4e4e4;
+      padding: 10px 16px;
+      border-bottom: 1px solid #d4d4d8;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .mock-terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .mock-terminal-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .mock-terminal-dot-red { background: #ff5f57; }
+    .mock-terminal-dot-yellow { background: #febc2e; }
+    .mock-terminal-dot-green { background: #28c840; }
+    .mock-terminal-body {
+      background: white;
+      font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      padding: 16px;
+    }
+    .mock-terminal-body .prompt {
+      color: #a1a1aa;
+    }
+    .mock-terminal-body .prompt-text {
+      color: #18181b;
+    }
+    .mock-terminal-body .bullet-line {
+      color: #52525b;
+      margin-top: 12px;
+    }
+    .mock-terminal-body .bullet {
+      color: #a1a1aa;
+    }
+    .mock-terminal-body .tool-name {
+      color: #71717a;
+    }
+    .mock-terminal-body .highlight {
+      color: #2563eb;
+    }
+    .mock-terminal-body .result-block {
+      margin: 4px 0 0 12px;
+      padding-left: 12px;
+      border-left: 1px solid #d4d4d8;
+      color: #52525b;
+    }
+    .mock-terminal-body .result-block .result-label {
+      color: #a1a1aa;
+      font-size: 11px;
+    }
+    .mock-terminal-body .agent-text {
+      color: #27272a;
+      margin-top: 12px;
+    }
   </style>
 </head>
 <body>
@@ -91,12 +161,35 @@
 
     <p>Here's an example of this in practice: Sam and I were pairing on a memory leak bug, and I asked Claude Code to read his agent's transcripts to get up to speed.</p>
 
-    <div class="transcript-example">
-      <span class="tool">→ boozle - query_history (MCP)</span>(workspace_id: "b30dc7c5-...", store_id: "34699bf7-...", question: "What did Sam conclude about the memory leak? What was his smoking gun finding about build() calls and file_cache messages? What hypothesis did he have about why production is still leaking after his fix?")<br><br>
-      <span class="result">→ "Based on the activity logs, here's what Sam concluded about the memory leak:\n\n## The Smoking Gun Finding [2026-03-31 23:48:35]\nSam identified that **in a single minute (23:40:00-23:40:03), there were 10 `file_cache` messages = 10 `build()` calls**, but there were NO webhook handler logs, +15 lines (ctrl+o to expand)"</span><br><br>
-      <span class="role">Agent:</span> Now I have the picture. Sam identified the <code>_draft_refresh_loop</code> as a key source of build() calls, and moved GmailClient to build-once-in-<code>__init__</code>. But the metrics show <strong>the leak is still active and actually worse</strong> — monotonic growth at 4.5-7.1 MB/min across all post-fix instances.<br><br>
-      The reason is clear: Sam fixed GmailClient close() in <code>_get_new_message_ids</code> and <code>_process_messages</code>, but <strong>CalendarClient has no close() in any of those paths</strong>, and <code>_refresh_stale_drafts</code> creates both clients per draft with no close() on either.<br><br>
-      Let me re-apply my <code>__del__</code> fix on top of Sam's commits.
+    <div class="mock-terminal">
+      <div class="mock-terminal-header">
+        <div class="mock-terminal-dots">
+          <span class="mock-terminal-dot-red"></span>
+          <span class="mock-terminal-dot-yellow"></span>
+          <span class="mock-terminal-dot-green"></span>
+        </div>
+      </div>
+      <div class="mock-terminal-body">
+        <div><span class="prompt">&gt;</span> <span class="prompt-text">What did Sam conclude about the memory leak?</span></div>
+        <div class="bullet-line">
+          <span class="bullet">●</span> <span class="tool-name">stash history search</span> <span class="highlight">"memory leak build() file_cache"</span>
+        </div>
+        <div class="result-block">
+          <div class="result-label">Sam's session from last night (22 events):</div>
+          <div>Sam identified 10 <span class="highlight">build()</span> calls/min from <span class="highlight">_draft_refresh_loop</span>, not webhooks.</div>
+          <div>Sam fixed <span class="highlight">GmailClient</span> with lazy init + context managers.</div>
+          <div>Leak is still active post-fix: 4.5-7.1 MB/min monotonic growth.</div>
+        </div>
+        <div class="bullet-line">
+          <span class="bullet">●</span> Reading Sam's commits and checking production metrics...
+        </div>
+        <div class="bullet-line">
+          <span class="bullet">●</span> <span class="highlight">CalendarClient</span> has no <span class="highlight">close()</span> in any path — <span class="highlight">_refresh_stale_drafts</span> creates both clients per draft
+        </div>
+        <div class="agent-text">
+          Sam's fix covered <span class="highlight">GmailClient</span>. But <strong>CalendarClient has no close() anywhere</strong>. Let me re-apply my <span class="highlight">__del__</span> fix on top of Sam's commits.
+        </div>
+      </div>
     </div>
 
     <p><strong>Eval:</strong> We measured the impact of transcript sharing on a real 4-session memory leak investigation. In the final debugging session, <strong>48.6% of work was wasted</strong> re-investigating application-level fixes that earlier sessions had already tried and ruled out.</p>
