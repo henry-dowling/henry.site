@@ -155,6 +155,13 @@
       color: #27272a;
       margin-top: 12px;
     }
+    .mock-terminal-footer {
+      padding: 8px 16px 12px;
+      border-top: 1px solid #e4e4e7;
+      color: #a1a1aa;
+      font-size: 12px;
+      font-family: 'SF Mono', 'Menlo', 'Consolas', monospace;
+    }
     details.collapsible-example {
       margin: 16px 0;
     }
@@ -224,6 +231,7 @@
           Sam's fix covered <span class="highlight">GmailClient</span>. But <strong>CalendarClient has no close() anywhere</strong>. Let me re-apply my <span class="highlight">__del__</span> fix on top of Sam's commits.
         </div>
       </div>
+      <div class="mock-terminal-footer">✱ Crunched for 1m 18s</div>
     </div>
 
     <p> We evaluated the effectiveness of this technique informally by asking Claude Code to fix the same (real) bug several times, and comparing trajectories of agents that have access to transcript sharing against agents that don't. The transcripts comprised three previous Claude Code sessions where we had unsuccessfully attempted to fix the bug.</p>
@@ -347,6 +355,7 @@
             <span class="bullet">●</span> <span class="tool-name">playwright</span> <span class="highlight">browser_take_screenshot</span> → tablet-after.png
           </div>
         </div>
+        <div class="mock-terminal-footer">✱ Sautéed for 4m 32s</div>
       </div>
     </details>
 
@@ -375,6 +384,7 @@
             <span class="bullet">●</span> <span class="tool-name">render</span> <span class="highlight">list_logs</span> → filter: <span class="highlight">"draft_composer"</span>
           </div>
         </div>
+        <div class="mock-terminal-footer">✱ Sautéed for 2m 15s</div>
       </div>
     </details>
 
@@ -399,6 +409,7 @@
           </div>
           <div class="agent-text">There are two test scheduling emails already in your inbox. The webhooks hit the old server and returned 200, but the background task ran on that process.</div>
         </div>
+        <div class="mock-terminal-footer">✱ Sautéed for 3m 47s</div>
       </div>
     </details>
 
@@ -422,6 +433,7 @@
           </div>
           <div class="agent-text">It's set in your shell environment (not <span class="highlight">.env</span>). Now adding the note to CLAUDE.md.</div>
         </div>
+        <div class="mock-terminal-footer">✱ Crunched for 22s</div>
       </div>
     </details>
 
@@ -491,6 +503,7 @@
           <span class="bullet">●</span> <span class="highlight">abe224f</span> — Scanned all 18 subagent transcripts. Found 353 tool calls, ~38 real errors: "Shape not found" (16x), "Chart not found" (6x), sibling cascades (7x), MCP timeouts (3x).
         </div>
       </div>
+      <div class="mock-terminal-footer">✱ Sautéed for 8m 11s</div>
     </div>
 
     <em>At <a href="https://ferganalabs.com/">Fergana Labs</a>, we're helping coding agents to do great knowledge work, like maintaining a company knowledge base. If this sounds interesting to you, please do reach out and say hi to me at <a href="mailto:henry@ferganalabs.com">henry@ferganalabs.com</a>.</em>
