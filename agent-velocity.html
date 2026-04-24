@@ -89,7 +89,7 @@
 
     <p>Context about why certain design decisions were made is often available from past session transcripts. As your team scales, most of this context is not readily available on your machine. We built an internal tool that uploads past transcripts to a shared MCP server and gave our coding agents a tool to query historical conversations.</p>
 
-    <p>Here's an example of this in practice: to get up to speed as Sam and I were pairing on a memory leak bug, claude code reads his transcripts from earlier in the debugging session.</p>
+    <p>Here's an example of this in practice: Sam and I were pairing on a memory leak bug, and I asked Claude Code to read his agent's transcripts to get up to speed.</p>
 
     <div class="transcript-example">
       <span class="tool">→ boozle - query_history (MCP)</span>(workspace_id: "b30dc7c5-...", store_id: "34699bf7-...", question: "What did Sam conclude about the memory leak? What was his smoking gun finding about build() calls and file_cache messages? What hypothesis did he have about why production is still leaking after his fix?")<br><br>
