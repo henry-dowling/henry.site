@@ -52,7 +52,7 @@
 
     <h3>Using Accessibility tools to mock grey "ghost" text + replace text</h3>
 
-    <p> Most of the standard autocomplete operations (suggested text, replacing text for "rephrase feature") are not possible without MacOS a11y APIs. </p>
+    <p> Most of the standard autocomplete operations (suggested text, replacing text for "rephrase feature") are not possible without MacOS a11y APIs, and we leaned on them pretty heavily. </p>
 
     <figure style="margin: 0;">
       <img src="images/ghosttext.png" alt="Screenshot showing ghost text appearing in a text field" style="max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; margin: 10px 0;">
@@ -66,8 +66,9 @@
       
       <li>For our "rephrase" feature, to insert a rephrase suggestion, we actually manually highlight text and then overwrite the text by copy-pasting, which yields a surprisingly smooth UX.</li>
 
-      <li> Our liberal use of a11y APIs unfortunately means that Codeswitch can never live on the app store. But that's fine, we can self-sign and put it on a <a href=https://www.getcodeswitch.com/>website</a>.</li>
     </ul>
+
+    <p>Our liberal use of a11y APIs unfortunately means that Codeswitch can never live on the app store. But that's fine, we can self-sign and put it on a <a href=https://www.getcodeswitch.com/>website</a>.</p>
 
     <h3>Hijacking the system clipboard to actually add the suggestion on "tab"</h3>
 
