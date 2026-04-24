@@ -270,41 +270,105 @@
     <p>Here are some examples of these fixes in practice:</p>
 
     <p><strong>Autonomous UI testing with Playwright MCP</strong> — instead of asking "how does this look?", the agent takes screenshots and iterates:</p>
-    <div class="transcript-example">
-      <span class="role">Agent:</span> Dev server is already running. Let me take a mobile screenshot to see the current state.<br>
-      <span class="tool">→ mcp__playwright__browser_navigate({"url": "http://localhost:3000"})</span><br>
-      <span class="tool">→ mcp__playwright__browser_take_screenshot({"filename": "mobile-before.png"})</span><br>
-      <em>...agent edits CSS...</em><br>
-      <span class="tool">→ mcp__playwright__browser_take_screenshot({"filename": "mobile-after.png"})</span><br>
-      <span class="role">Agent:</span> Much better. The empty space is gone and the email card demo is now visible on mobile. Let me also check tablet and desktop breakpoints.<br>
-      <span class="tool">→ mcp__playwright__browser_take_screenshot({"filename": "desktop-after.png"})</span><br>
-      <span class="tool">→ mcp__playwright__browser_take_screenshot({"filename": "tablet-after.png"})</span>
+    <div class="mock-terminal">
+      <div class="mock-terminal-header">
+        <div class="mock-terminal-dots">
+          <span class="mock-terminal-dot-red"></span>
+          <span class="mock-terminal-dot-yellow"></span>
+          <span class="mock-terminal-dot-green"></span>
+        </div>
+      </div>
+      <div class="mock-terminal-body">
+        <div class="agent-text">Dev server is already running. Let me take a mobile screenshot to see the current state.</div>
+        <div class="bullet-line">
+          <span class="bullet">●</span> <span class="tool-name">playwright</span> <span class="highlight">browser_navigate</span> → <span class="highlight">localhost:3000</span>
+        </div>
+        <div class="bullet-line">
+          <span class="bullet">●</span> <span class="tool-name">playwright</span> <span class="highlight">browser_take_screenshot</span> → mobile-before.png
+        </div>
+        <div class="bullet-line" style="color:#a1a1aa; font-style:italic;">
+          <span class="bullet">●</span> ...edits CSS...
+        </div>
+        <div class="bullet-line">
+          <span class="bullet">●</span> <span class="tool-name">playwright</span> <span class="highlight">browser_take_screenshot</span> → mobile-after.png
+        </div>
+        <div class="agent-text">Much better. The empty space is gone and the email card demo is now visible on mobile. Let me also check tablet and desktop breakpoints.</div>
+        <div class="bullet-line">
+          <span class="bullet">●</span> <span class="tool-name">playwright</span> <span class="highlight">browser_take_screenshot</span> → desktop-after.png
+        </div>
+        <div class="bullet-line">
+          <span class="bullet">●</span> <span class="tool-name">playwright</span> <span class="highlight">browser_take_screenshot</span> → tablet-after.png
+        </div>
+      </div>
     </div>
 
     <p><strong>Production access via Render MCP</strong> — instead of asking me to check prod, the agent pulls live metrics and logs directly:</p>
-    <div class="transcript-example">
-      <span class="role">Agent:</span> Let me check the current memory situation on Render and read the key source files.<br>
-      <span class="tool">→ mcp__render__select_workspace({"ownerID": "tea-d1vru795pdvs73edkhi0"})</span><br>
-      <span class="tool">→ mcp__render__get_metrics({"resourceId": "srv-d6s55t1j16oc73eih6i0", "metricTypes": ["memory_usage", "memory_limit"], "startTime": "2026-03-31T00:00:00Z"})</span><br>
-      <span class="result">→ {"metrics": [{"type": "memory_usage", "data": [...]}]}</span><br>
-      <span class="tool">→ mcp__render__list_logs({"serviceId": "...", "filter": "draft_composer"})</span>
+    <div class="mock-terminal">
+      <div class="mock-terminal-header">
+        <div class="mock-terminal-dots">
+          <span class="mock-terminal-dot-red"></span>
+          <span class="mock-terminal-dot-yellow"></span>
+          <span class="mock-terminal-dot-green"></span>
+        </div>
+      </div>
+      <div class="mock-terminal-body">
+        <div class="agent-text">Let me check the current memory situation on Render and read the key source files.</div>
+        <div class="bullet-line">
+          <span class="bullet">●</span> <span class="tool-name">render</span> <span class="highlight">select_workspace</span>
+        </div>
+        <div class="bullet-line">
+          <span class="bullet">●</span> <span class="tool-name">render</span> <span class="highlight">get_metrics</span> → memory_usage, memory_limit
+        </div>
+        <div class="result-block">
+          <div>{"metrics": [{"type": "memory_usage", "data": [...]}]}</div>
+        </div>
+        <div class="bullet-line">
+          <span class="bullet">●</span> <span class="tool-name">render</span> <span class="highlight">list_logs</span> → filter: <span class="highlight">"draft_composer"</span>
+        </div>
+      </div>
     </div>
 
     <p><strong>Real-world testing via Gmail API</strong> — instead of asking me to send a test email, the agent does it itself:</p>
-    <div class="transcript-example">
-      <span class="role">User:</span> Can you send the email for me?<br>
-      <span class="role">Agent:</span> Watch is renewed. No webhook yet — let me send the test email for you. I'll need to use a session token to access the Gmail API through the control plane.<br>
-      <em>...agent restarts local server, registers auth session, queries Gmail API...</em><br>
-      <span class="result">→ Returns real inbox emails: "wanna hang tmrw?" from htdowling@gmail.com</span><br>
-      <span class="role">Agent:</span> There are two test scheduling emails already in your inbox. The webhooks hit the old server and returned 200, but the background task ran on that process.
+    <div class="mock-terminal">
+      <div class="mock-terminal-header">
+        <div class="mock-terminal-dots">
+          <span class="mock-terminal-dot-red"></span>
+          <span class="mock-terminal-dot-yellow"></span>
+          <span class="mock-terminal-dot-green"></span>
+        </div>
+      </div>
+      <div class="mock-terminal-body">
+        <div><span class="prompt">&gt;</span> <span class="prompt-text">Can you send the email for me?</span></div>
+        <div class="agent-text">Watch is renewed. No webhook yet — let me send the test email for you.</div>
+        <div class="bullet-line" style="color:#a1a1aa; font-style:italic;">
+          <span class="bullet">●</span> ...restarts local server, registers auth session, queries Gmail API...
+        </div>
+        <div class="result-block">
+          <div>Returns real inbox emails: <span class="highlight">"wanna hang tmrw?"</span> from htdowling@gmail.com</div>
+        </div>
+        <div class="agent-text">There are two test scheduling emails already in your inbox. The webhooks hit the old server and returned 200, but the background task ran on that process.</div>
+      </div>
     </div>
 
     <p><strong>Auto mode for dangerous operations</strong> — instead of asking permission to read env vars, the agent just checks:</p>
-    <div class="transcript-example">
-      <span class="role">Agent:</span> So <code>ANTHROPIC_API_KEY</code> is not in <code>.env</code>. Let me check further.<br>
-      <span class="tool">→ Bash: env | grep ANTHROPIC_API_KEY | head -c 30</span><br>
-      <span class="result">→ ANTHROPIC_API_KEY=sk-ant-api03...</span><br>
-      <span class="role">Agent:</span> It's set in your shell environment (not <code>.env</code>). Now adding the note to CLAUDE.md.
+    <div class="mock-terminal">
+      <div class="mock-terminal-header">
+        <div class="mock-terminal-dots">
+          <span class="mock-terminal-dot-red"></span>
+          <span class="mock-terminal-dot-yellow"></span>
+          <span class="mock-terminal-dot-green"></span>
+        </div>
+      </div>
+      <div class="mock-terminal-body">
+        <div class="agent-text"><span class="highlight">ANTHROPIC_API_KEY</span> is not in <span class="highlight">.env</span>. Let me check further.</div>
+        <div class="bullet-line">
+          <span class="bullet">●</span> <span class="tool-name">Bash</span> env | grep ANTHROPIC_API_KEY | head -c 30
+        </div>
+        <div class="result-block">
+          <div>ANTHROPIC_API_KEY=sk-ant-api03...</div>
+        </div>
+        <div class="agent-text">It's set in your shell environment (not <span class="highlight">.env</span>). Now adding the note to CLAUDE.md.</div>
+      </div>
     </div>
 
     <p><strong>Eval:</strong> Across 738 transcripts, <strong>11.4% ended with a preventable stop</strong>. Roughly 30% of stops are directly addressable by adding tools.</p>
@@ -356,11 +420,29 @@
 
     <p>Here's an example of this technique in practice:</p>
 
-    <div class="transcript-example">
-      1. <strong>a6cd000</strong> — Analyzed the main conversation transcript (<a href="#">b97a07fd-...</a>). Found it ran cleanly: 18 subagents dispatched in 3 waves, all slides updated with sourced climate data, saved to Many graphs_v1_20260213_1506.pptx.<br>
-      2. <strong>abe224f</strong> — Scanned all 18 subagent transcripts for errors. Found 353 total tool calls, ~38 real errors across categories: "Shape not found" (16x), "Chart not found" (6x), sibling cascades (7x), MCP timeouts (3x), fetch failures (3x), NaN serialization (1x), Aspose bugs (2x).<br>
-      3. <strong>ad33413</strong> — Deep-dived into confusion/wasted effort. Ranked all 18 agents by confusion score. Top offenders: slide 13 (38 tool calls, 7 errors), slide 17 (24 calls, 6 errors), slide 10 (29 calls, 3 errors). Identified 6 systemic issues.<br>
-      4. <strong>acfe8f8</strong> — Investigated the worst agent (<a href="#">a12fc6e</a>, slide 17) specifically. Found it destroyed a doughnut chart by ungrouping it, then had to recreate it as a simpler pie chart.
+    <div class="mock-terminal">
+      <div class="mock-terminal-header">
+        <div class="mock-terminal-dots">
+          <span class="mock-terminal-dot-red"></span>
+          <span class="mock-terminal-dot-yellow"></span>
+          <span class="mock-terminal-dot-green"></span>
+        </div>
+      </div>
+      <div class="mock-terminal-body">
+        <div><span class="prompt">&gt;</span> <span class="prompt-text">Audit the latest presentation transcript for errors</span></div>
+        <div class="bullet-line">
+          <span class="bullet">●</span> <span class="highlight">a6cd000</span> — Analyzed main transcript. 18 subagents dispatched in 3 waves, all slides updated with sourced climate data.
+        </div>
+        <div class="bullet-line">
+          <span class="bullet">●</span> <span class="highlight">abe224f</span> — Scanned all 18 subagent transcripts. Found 353 tool calls, ~38 real errors: "Shape not found" (16x), "Chart not found" (6x), sibling cascades (7x), MCP timeouts (3x).
+        </div>
+        <div class="bullet-line">
+          <span class="bullet">●</span> <span class="highlight">ad33413</span> — Ranked agents by confusion score. Top offenders: slide 13 (38 calls, 7 errors), slide 17 (24 calls, 6 errors), slide 10 (29 calls, 3 errors). Identified 6 systemic issues.
+        </div>
+        <div class="bullet-line">
+          <span class="bullet">●</span> <span class="highlight">acfe8f8</span> — Investigated worst agent (slide 17). Found it destroyed a doughnut chart by ungrouping it, then had to recreate it as a simpler pie chart.
+        </div>
+      </div>
     </div>
 
     <p><strong>Eval:</strong> To test reproducibility, we independently re-audited 5 of the 18 subagent transcripts and compared to the original audit's labels.</p>
