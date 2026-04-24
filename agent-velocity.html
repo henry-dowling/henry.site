@@ -157,7 +157,7 @@
 
     <h3>Share transcripts across your team</h3>
 
-    <p>Context about why certain design decisions were made is often available from past session transcripts. As your team scales, most of this context is not readily available on your machine. We built an internal tool that uploads past transcripts to a shared MCP server and gave our coding agents a tool to query historical conversations.</p>
+    <p>Context about why certain design decisions were made is often available from past session transcripts. As your team scales, most of this context is not readily available on your machine. We built an <a href="https://github.com/Fergana-Labs/stash">internal tool</a> that uploads past transcripts to a shared MCP server and gave our coding agents a tool to query historical conversations.</p>
 
     <p>Here's an example of this in practice: Sam and I were pairing on a memory leak bug, and I asked Claude Code to read his agent's transcripts to get up to speed.</p>
 
@@ -192,7 +192,8 @@
       </div>
     </div>
 
-    <p><strong>Eval:</strong> We measured the impact of transcript sharing on a real 4-session memory leak investigation. In the final debugging session, <strong>48.6% of work was wasted</strong> re-investigating application-level fixes that earlier sessions had already tried and ruled out.</p>
+    <p> We evaluated the effectiveness of this technique informally by asking Claude Code to fix the same (real) bug several times, and trajectories of agents that have access to transcript sharing against agents that don't. The transcripts comprised three previous Claude Code sessions where we had unsuccessfully attempted to fix the bug.</p>
+    <p>We found that for Claude Code instances without access to transcript sharing,  <strong>48.6% of work was wasted</strong> re-investigating application-level fixes that earlier sessions had already tried and ruled out.</p>
 
     <figure>
       <svg viewBox="0 0 520 230" style="max-width:520px; width:100%; height:auto; font-family:system-ui,sans-serif;">
